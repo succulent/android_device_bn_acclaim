@@ -266,7 +266,7 @@ def BuildBootableImage(sourcedir):
 
   global gvx
 
-  while (x == 1):
+  while (gvx == 1):
     print "prepending irboot to boot.img and recovery.img"
     tempBoot = tempfile.NamedTemporaryFile()
     os.system('cat out/target/product/acclaim/irboot out/target/product/acclaim/boot.img > tempBoot')
