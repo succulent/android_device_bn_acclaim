@@ -26,6 +26,14 @@ on boot
     mkdir /data/misc/wifi/sockets 0770 wifi wifi
     mkdir /data/misc/dhcp 0770 dhcp dhcp
 
+# bluetooth power up/down interface
+    chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
+    chown bluetooth bluetooth /sys/class/rfkill/rfkill0/state
+    chmod 0660 /sys/class/rfkill/rfkill0/state
+# bluetooth uart
+    chmod 0777 /dev/ttyO1
+    chown bluetooth bluetooth /dev/ttyO1
+
 # phone
 #    setprop ro.telephony.call_ring.multiple 0
 
