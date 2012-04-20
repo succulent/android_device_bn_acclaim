@@ -125,6 +125,7 @@ PRODUCT_PACKAGES += \
     libipc \
     libipcutils \
     libnotify \
+    libomap_mm_library_jni \
     librcm \
     libsysmgr \
     libtimemmgr \
@@ -169,7 +170,6 @@ PRODUCT_PACKAGES += \
 
 # Misc
 PRODUCT_PACKAGES += \
-    libomap_mm_library_jni\
     librs_jni \
     libreference-ril \
     libreference-cdma-sms \
