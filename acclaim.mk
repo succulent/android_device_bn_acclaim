@@ -125,7 +125,6 @@ PRODUCT_PACKAGES += \
     libipc \
     libipcutils \
     libnotify \
-    libomap_mm_library_jni \
     librcm \
     libsysmgr \
     libtimemmgr \
@@ -170,14 +169,21 @@ PRODUCT_PACKAGES += \
 
 # Misc
 PRODUCT_PACKAGES += \
+    libomap_mm_library_jni\
     librs_jni \
     libreference-ril \
     libreference-cdma-sms \
     Usb
 
+# Skia HW
 PRODUCT_PACKAGES += \
     libskiahwdec \
     libskiahwenc 
+
+# Filesystem management tools
+PRODUCT_PACKAGES += \
+    make_ext4fs \
+    setup_fs
 
 FRAMEWORKS_BASE_SUBDIRS += \
     $(addsuffix /java, omapmmlib )
