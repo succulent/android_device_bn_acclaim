@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-# Added codes for acclaim (Nook Tablet) on line 261-277. It's not pretty but it work. -succulent
+# Added codes for acclaim (Nook Tablet) on line 259-272. It's not pretty but it work. -succulent
 
 import copy
 import errno
@@ -29,8 +29,6 @@ import tempfile
 import threading
 import time
 import zipfile
-
-gvx = 1
 
 # missing in Python 2.4 and before
 if not hasattr(os, "SEEK_SET"):
@@ -258,23 +256,20 @@ def BuildBootableImage(sourcedir):
 
   img.seek(os.SEEK_SET, 0)
 
-  print "prepending irboot to data"
+  print "Prepending irboot to data. Will create new boot.img in output.zip."
   tempB = open('out/target/product/acclaim/irboot', 'r').read()
   data = tempB + img.read()
   ramdisk_img.close()
   img.close()
 
-  global gvx
-
-  while (gvx == 1):
-    print "prepending irboot to boot.img and recovery.img"
+  if path.exists('out/target/product/acclaim/newboot.img')
+    print "File newboot.img exits"
+  else
     tempBoot = tempfile.NamedTemporaryFile()
+    print "Prepending irboot to boot.img to create newboot.img."
     os.system('cat out/target/product/acclaim/irboot out/target/product/acclaim/boot.img > tempBoot')
-    os.system('cat tempBoot > out/target/product/acclaim/boot.img')
-    os.system('cat out/target/product/acclaim/irboot out/target/product/acclaim/recovery.img > tempBoot')
-    os.system('cat tempBoot > out/target/product/acclaim/recovery.img')
+    os.system('cat tempBoot > out/target/product/acclaim/newboot.img')
     os.system('rm tempBoot')
-    gvx += 1
 
   return data
 
