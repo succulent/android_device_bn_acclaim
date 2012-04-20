@@ -73,12 +73,16 @@ PRODUCT_COPY_FILES += \
     vendor/bn/acclaim/proprietary/etc/wifi/tiwlan.ini:/system/etc/wifi/tiwlan.ini \
     vendor/bn/acclaim/proprietary/etc/wifi/wlan_cu.st:/system/etc/wifi/wlan_cu.st \
 
-# HW Libs
+# HW Libs and miscs
 PRODUCT_PACKAGES += \
-    alsa.omap4 \
     acoustics.default \
+    alsa.omap4 \
+    dspexec \
     hwprops \
-    overlay.omap4
+    libbridge \
+    libLCML \
+    libtiOsLib \
+    overlay.omap4 
 
 # OpenMAX IL configuration
 TI_OMX_POLICY_MANAGER := hardware/ti/omx/system/src/openmax_il/omx_policy_manager
