@@ -15,21 +15,21 @@ other reference bases: android_device_bn_encore, android_device_motorola_targa, 
 Instruction (assuming you have set your cm7 repo and have neccessary packages installed):
 
 In your terminal, redirect to your cm7 build directory.
-$ cd device
-$ mkdir bn
-$ git clone https://github.com/succulent/android_device_bn_acclaim
-$ mv android_device_bn_acclaim acclaim
-$ cd ../..
-$ cd vendor
-$ mkdir bn
-$ git clone https://github.com/succulent/android_vendor_bn_acclaim
-$ mv android_vendor_bn_acclaim acclaim
-$ cd ../..
-$ make clean
-$ . build/envsetup.sh && brunch acclaim
+- $ cd device
+- $ mkdir bn
+- $ git clone https://github.com/succulent/android_device_bn_acclaim
+- $ mv android_device_bn_acclaim acclaim
+- $ cd ../..
+- $ cd vendor
+- $ mkdir bn
+- $ git clone https://github.com/succulent/android_vendor_bn_acclaim
+- $ mv android_vendor_bn_acclaim acclaim
+- $ cd ../..
+- $ make clean
+- $ . build/envsetup.sh && brunch acclaim
 
 When finish,
-cyanogen_acclaim-ota-eng.hd.zip and update-cm-7.2.0-RC1-acclaim-UNOFFICIAL-signed.zip are in out/target/product/acclaim/
+- cyanogen_acclaim-ota-eng.hd.zip and update-cm-7.2.0-RC1-acclaim-UNOFFICIAL-signed.zip are in out/target/product/acclaim/
 
 Initial process,
 - Format micro sdcard with FAT32 LBA Boot (tested with 2GB SanDisk/Kingston microSD)
