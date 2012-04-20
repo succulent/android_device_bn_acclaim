@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-# Added codes for acclaim (Nook Tablet) on line 259-272. It's not pretty but it work. -succulent
+# Added codes for acclaim (Nook Tablet) on line 259-271. It's not pretty but it work. -succulent
 
 import copy
 import errno
@@ -257,14 +257,13 @@ def BuildBootableImage(sourcedir):
   img.seek(os.SEEK_SET, 0)
 
   print "Prepending irboot to data. Will create new boot.img in output.zip."
-  tempB = open('out/target/product/acclaim/irboot', 'r').read()
-  data = tempB + img.read()
+  data = open('out/target/product/acclaim/irboot', 'r').read() + img.read()
   ramdisk_img.close()
   img.close()
 
-  if path.exists('out/target/product/acclaim/newboot.img')
-    print "File newboot.img exits"
-  else
+  if os.path.exists('out/target/product/acclaim/newboot.img'):
+    print "File newboot.img exists"
+  else:
     tempBoot = tempfile.NamedTemporaryFile()
     print "Prepending irboot to boot.img to create newboot.img."
     os.system('cat out/target/product/acclaim/irboot out/target/product/acclaim/boot.img > tempBoot')
