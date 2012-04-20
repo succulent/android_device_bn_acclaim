@@ -31,6 +31,7 @@ PRODUCT_COPY_FILES += \
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/misc/vold.fstab:system/etc/vold.fstab \
+    $(LOCAL_PATH)/misc/recovery.fstab:system/etc/recovery.fstab \
     $(LOCAL_PATH)/misc/vold.conf:system/etc/vold.conf \
     $(LOCAL_PATH)/misc/media_profiles.xml:system/etc/media_profiles.xml
 
@@ -59,23 +60,29 @@ PRODUCT_COPY_FILES += \
     vendor/bn/acclaim/proprietary/bins/install_smc:/system/bin/install_smc \
     vendor/bn/acclaim/proprietary/bins/run_wlancu.sh:/system/bin/run_wlancu.sh \
     vendor/bn/acclaim/proprietary/bins/setup_smc:/system/bin/setup_smc \
+    vendor/bn/acclaim/proprietary/bins/smc_normal_world_android_cfg.ini:/system/bin/smc_normal_world_android_cfg.ini \
+    vendor/bn/acclaim/proprietary/bins/smc_pa_ctrl:/system/bin/smc_pa_ctrl \
+    vendor/bn/acclaim/proprietary/bins/smc_pa.ift:/system/bin/smc_pa.ift \
     vendor/bn/acclaim/proprietary/etc/fwram.ko:/system/etc/fwram.ko \
-    vendor/bn/acclaim/proprietary/modules/gspca_main.ko:/system/lib/modules/gspca_main.ko \
+    vendor/bn/acclaim/proprietary/modules/gspca_main.ko:/system/lib/modules/gspca_main.ko 
 
 # Wifi
 PRODUCT_COPY_FILES += \
     vendor/bn/acclaim/proprietary/etc/wifi/firmware.bin:/system/etc/wifi/firmware.bin \
     vendor/bn/acclaim/proprietary/etc/wifi/softap/firmware_ap.bin:/system/etc/wifi/softap/firmware_ap.bin \
+    vendor/bn/acclaim/proprietary/etc/wifi/softap/hostapd.conf:/system/etc/wifi/softap/hostapd.conf \
     vendor/bn/acclaim/proprietary/etc/wifi/softap/tiap_drv.ko:/system/etc/wifi/softap/tiap_drv.ko \
     vendor/bn/acclaim/proprietary/etc/wifi/softap/tiwlan_ap.ini:/system/etc/wifi/softap/tiwlan_ap.ini \
     vendor/bn/acclaim/proprietary/etc/wifi/tiwlan_drv.ko:/system/etc/wifi/tiwlan_drv.ko \
     vendor/bn/acclaim/proprietary/etc/wifi/tiwlan.ini.activemode:/system/etc/wifi/tiwlan.ini.activemode \
     vendor/bn/acclaim/proprietary/etc/wifi/tiwlan.ini:/system/etc/wifi/tiwlan.ini \
     vendor/bn/acclaim/proprietary/etc/wifi/wlan_cu.st:/system/etc/wifi/wlan_cu.st \
+    vendor/bn/acclaim/proprietary/etc/wifi/wpa_supplicant.conf:/system/etc/wifi/wpa_supplicant.conf
 
 # HW Libs and miscs
 PRODUCT_PACKAGES += \
     acoustics.default \
+    alsa.default \
     alsa.omap4 \
     dspexec \
     hwprops \
@@ -114,7 +121,7 @@ PRODUCT_PACKAGES += \
 # Syslink and Tiler
 PRODUCT_PACKAGES += \
     libcamera \
-    libd2cmap \
+    libklod2cmap \
     libipc \
     libipcutils \
     libnotify \
@@ -148,15 +155,17 @@ PRODUCT_PACKAGES += \
     syslink_daemon.out \
     syslink_tilertest.out \
     syslink_trace_daemon.out \
+    tf_daemon \
     utilsApp.out
 
 # Wifi
 PRODUCT_PACKAGES += \
     libtiOsLib \
     libCustomWifi \
+    tiap_cu \
+    tiap_loader \
     wlan_loader \
     wlan_cu \
-    wpa_supplicant.conf \
     dhcpcd.conf
 
 # Misc
@@ -164,11 +173,11 @@ PRODUCT_PACKAGES += \
     librs_jni \
     libreference-ril \
     libreference-cdma-sms \
-    Usb\
+    Usb
 
 PRODUCT_PACKAGES += \
     libskiahwdec \
-    libskiahwenc \
+    libskiahwenc 
 
 FRAMEWORKS_BASE_SUBDIRS += \
     $(addsuffix /java, omapmmlib )
