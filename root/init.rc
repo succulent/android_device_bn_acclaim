@@ -329,11 +329,11 @@ on boot
 
 # Define TCP buffer sizes for various networks
 #   ReadMin, ReadInitial, ReadMax, WriteMin, WriteInitial, WriteMax,
-    setprop net.tcp.buffersize.default 4096,87380,110208,4096,16384,110208
-    setprop net.tcp.buffersize.wifi    4095,87380,110208,4096,16384,110208
-    setprop net.tcp.buffersize.umts    4094,87380,110208,4096,16384,110208
-    setprop net.tcp.buffersize.edge    4093,26280,35040,4096,16384,35040
-    setprop net.tcp.buffersize.gprs    4092,8760,11680,4096,8760,11680
+    setprop net.tcp.buffersize.default 4096,87380,256960,4096,16384,256960
+    setprop net.tcp.buffersize.wifi    4096,87380,256960,4096,16384,256960
+    setprop net.tcp.buffersize.umts    4096,87380,256960,4096,16384,256960
+    setprop net.tcp.buffersize.edge    4096,87380,256960,4096,16384,256960
+    setprop net.tcp.buffersize.gprs    4096,87380,256960,4096,16384,256960
 
 # Include extra init file
     import /system/etc/init.local.rc
