@@ -9,7 +9,6 @@ com.ti.omap_enhancement=true
 opencore.asmd=1
 keyguard.no_require_sim=1
 wifi.interface=tiwlan0
-wifi.supplicant_scan_interval = 45
 ro.sf.lcd_density=160
 ro.opengles.version=131072
 
