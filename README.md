@@ -9,22 +9,21 @@ Copyright (C) 2011 The CyanogenMod Project
       http://www.apache.org/licenses/LICENSE-2.0
 -----------------------------------------------------------------------------------------------------------
 
-Initial pull and modify from whistlestop repo as a base
-other reference bases: android_device_bn_encore, android_device_motorola_targa, android_device_lge_p920
+Initial pull and modify from whistlestop repo as a base.
+
+Other reference bases: android_device_bn_encore, android_device_motorola_targa, android_device_lge_p920.
 
 Instruction (assuming you have set your cm7 repo and have neccessary packages installed):
 
 In your terminal, redirect to your cm7 build directory.
-- $ cd device
-- $ mkdir bn
+- $ mkdir device/bn
+- $ mkdir device/bn/acclaim
 - $ git clone https://github.com/succulent/android_device_bn_acclaim
-- $ mv android_device_bn_acclaim acclaim
-- $ cd ../..
-- $ cd vendor
-- $ mkdir bn
+- $ mv android_device_bn_acclaim device/bn/acclaim
+- $ mkdir vendor/bn
+- $ mkdir vendor/bn/acclaim
 - $ git clone https://github.com/succulent/android_vendor_bn_acclaim
-- $ mv android_vendor_bn_acclaim acclaim
-- $ cd ../..
+- $ mv android_vendor_bn_acclaim vendor/bn/acclaim
 - $ make clean
 - $ . build/envsetup.sh && brunch acclaim
 
@@ -41,7 +40,7 @@ Initial process,
 -       set status Active
 -       apply patch
 - Copy recovery.img from the out from out/target/product/acclaim/ onto the root of your sdcard
-- Rename recovery.img to boot.img
+- Rename recovery.img to boot.img or use contents here, https://github.com/succulent/acclaim_recovery_sdcard
 - Copy contents (flashing_boot.img, MLO, and u-boot.bin) onto the root of your sdcard
 - Copy update-cm-7.2.0-RC1-acclaim-UNOFFICIAL-signed.zip onto the root of your sdcard
 - Power off device (Nook Tablet)
