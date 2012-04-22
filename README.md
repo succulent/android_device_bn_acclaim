@@ -11,9 +11,9 @@ Copyright (C) 2011 The CyanogenMod Project
 
 Initial pull and modify from whistlestop repo as a base.
 
-Other reference bases: android_device_bn_encore, android_device_motorola_targa, android_device_lge_p920.
+Other reference bases: android_device_bn_encore, android_device_motorola_targa, android_device_lge_p920. 
 
-Instruction (assuming you have set your cm7 repo and have neccessary packages installed):
+Instructions on compiling CM7 for Nook Tablet (assuming you have set your cm7 repo and have neccessary packages installed):
 
 In your terminal, redirect to your cm7 build directory.
 - $ mkdir device/bn
@@ -27,10 +27,12 @@ In your terminal, redirect to your cm7 build directory.
 - $ make clean
 - $ . build/envsetup.sh && brunch acclaim
 
-When finish,
-- cyanogen_acclaim-ota-eng.hd.zip and update-cm-7.2.0-RC1-acclaim-UNOFFICIAL-signed.zip are in out/target/product/acclaim/
+Outputted flashable roms,
+- cyanogen_acclaim-ota-eng.hd.zip
+- update-cm-7.2.0-RC1-acclaim-UNOFFICIAL-signed.zip
+- location, out/target/product/acclaim/
 
-Initial process,
+Setting up sdcard,
 - Format micro sdcard with FAT32 LBA Boot (tested with 2GB SanDisk/Kingston microSD)
 -    For Windows 7, Use EASEUS Partition Master Home Edition (free)
 -    Format sdcard,
@@ -48,7 +50,7 @@ Initial process,
 - hold power button for a couple of seconds to power on
 - wait until device boot into recovery
 
-Installing,
+Installing rom from recovery,
 - install zip from sdcard
 -    navigate with volume keys and select with home button
 - choose zip from sdcard
@@ -64,5 +66,14 @@ First time booting sequence,
 - 2 androids logo (wait up to a minute)
 - CM7 android logo (wait up to a couple minutes)
 
--HD (succulent on XDA)
-http://forum.xda-developers.com/showthread.php?t=1545766
+Other flashable Files
+- flash_recovery.zip (use to flash it. no more sdcard recovery)
+- Hold Power & "n button" down until the device turns on and off again. 
+- Then press Power to turn the device on normally and access the recovery. 
+- You can also boot to recovery by issuing command "reboot recovery" in adb or terminal
+- flash_boot.zip (a backup boot.img if needed to reflash)
+- DO NOT FLASH it with other rom besides the rom created with these source and kernel.
+
+--HD (succulent on XDA)
+- For help go here, http://forum.xda-developers.com/showthread.php?t=1545766
+- Prebuilt rom, http://http://iamafanof.wordpress.com/
