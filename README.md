@@ -67,12 +67,15 @@ First time booting sequence,
 - CM7 android logo (wait up to a couple minutes)
 
 Other flashable Files
-- flash_recovery.zip (use to flash it. no more sdcard recovery)
+- flash_recovery.zip (use recovery to flash it. no more sdcard recovery)
 - Hold Power & "n button" down until the device turns on and off again. 
 - Then press Power to turn the device on normally and access the recovery. 
 - You can also boot to recovery by issuing command "reboot recovery" in adb or terminal
 - flash_boot.zip (a backup boot.img if needed to reflash)
 - DO NOT FLASH it with other rom besides the rom created with these source and kernel.
+- flash_stock_recovery.zip (use it to restore stock recovery.img)
+- flash_u-boot_and_MLO.zip (use it to restore bootloader and xloader)
+- flash this if all you get is a black screen (no 'n' logo screen) when turning your Nook Tablet on. 
 
 --HD (succulent on XDA)
 - For help go here, http://forum.xda-developers.com/showthread.php?t=1545766
