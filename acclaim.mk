@@ -15,6 +15,8 @@
 #
 
 # The gps config appropriate for this device
+$(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
+
 $(call inherit-product, device/common/gps/gps_us_supl.mk)
 
 $(call inherit-product-if-exists, vendor/bn/acclaim/acclaim-vendor.mk)
@@ -33,7 +35,7 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/misc/vold.fstab:system/etc/vold.fstab \
     $(LOCAL_PATH)/misc/recovery.fstab:system/etc/recovery.fstab \
     $(LOCAL_PATH)/misc/vold.conf:system/etc/vold.conf \
-    $(LOCAL_PATH)/misc/media_profiles.xml:system/etc/media_profiles.xml
+    $(LOCAL_PATH)/misc/media_profiles.xml:system/etc/media_profiles.xml 
 
 PRODUCT_LOCALES += mdpi
 
@@ -63,8 +65,8 @@ PRODUCT_COPY_FILES += \
     vendor/bn/acclaim/proprietary/bins/smc_normal_world_android_cfg.ini:/system/bin/smc_normal_world_android_cfg.ini \
     vendor/bn/acclaim/proprietary/bins/smc_pa_ctrl:/system/bin/smc_pa_ctrl \
     vendor/bn/acclaim/proprietary/bins/smc_pa.ift:/system/bin/smc_pa.ift \
-    vendor/bn/acclaim/proprietary/etc/fwram.ko:/system/etc/fwram.ko \
-    vendor/bn/acclaim/proprietary/modules/gspca_main.ko:/system/lib/modules/gspca_main.ko 
+    vendor/bn/acclaim/proprietary/etc/fwram.ko:/system/etc/fwram.ko 
+
 
 # Wifi
 PRODUCT_COPY_FILES += \
@@ -197,18 +199,41 @@ else
     LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
 endif
 
-ifeq ($(TARGET_PREBUILT_2NDBOOTLOADER),)
-    LOCAL_2NDBOOTLOADER := device/bn/acclaim/irboot
+ifeq ($(TARGET_PREBUILT_XLOADER),)
+    LOCAL_XLOADER := device/bn/acclaim/MLO_es2.3_BN
 else
-    LOCAL_2NDBOOTLOADER := $(TARGET_PREBUILT_2NDBOOTLOADER)
+    LOCAL_BOOTLOADER := $(TARGET_PREBUILT_XLOADER)
+endif
+
+ifeq ($(TARGET_PREBUILT_BOOTLOADER),)
+    LOCAL_BOOTLOADER := device/bn/acclaim/u-boot.bin
+else
+    LOCAL_BOOTLOADER := $(TARGET_PREBUILT_BOOTLOADER)
+endif
+
+ifeq ($(TARGET_PREBUILT_IBOOT),)
+    LOCAL_IBOOT := device/bn/acclaim/iboot
+else
+    LOCAL_IBOOT := $(TARGET_PREBUILT_IBOOT)
+endif
+
+ifeq ($(TARGET_PREBUILT_IRECOVERY),)
+    LOCAL_IRECOVERY := device/bn/acclaim/irecovery
+else
+    LOCAL_IRECOVERY := $(TARGET_PREBUILT_IRECOVERY)
 endif
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_KERNEL):kernel \
-    $(LOCAL_2NDBOOTLOADER):irboot
+    $(LOCAL_XLOADER):MLO_es2.3_BN \
+    $(LOCAL_BOOTLOADER):u-boot.bin \
+    $(LOCAL_IBOOT):iboot \
+    $(LOCAL_IRECOVERY):irecovery 
 
 # Set property overrides
 PRODUCT_PROPERTY_OVERRIDES += \
+    alsa.mixer.playback.master=default \
+    alsa.mixer.capture.master=default \
     qemu.sf.lcd_density=160 \
     ro.allow.mock.location=1 \
     ro.com.google.locationfeatures=1 \
