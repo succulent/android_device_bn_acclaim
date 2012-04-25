@@ -403,8 +403,6 @@ def WriteFullOTAPackage(input_zip, output_zip):
   recovery_img = common.File("recovery.img", common.BuildBootableImage(
       os.path.join(OPTIONS.input_tmp, "RECOVERY")))
 
-  recovery_img.data = open('out/target/product/acclaim/newrecovery.img','r').read()
-
   MakeRecoveryPatch(output_zip, recovery_img, boot_img)
 
   Item.GetMetadata(input_zip)

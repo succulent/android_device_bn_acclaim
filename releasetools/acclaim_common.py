@@ -48,6 +48,7 @@ OPTIONS.info_dict = None
 # Values for "certificate" in apkcerts that mean special things.
 SPECIAL_CERT_STRINGS = ("PRESIGNED", "EXTERNAL")
 
+gVar = 1
 
 class ExternalError(RuntimeError): pass
 
@@ -257,31 +258,19 @@ def BuildBootableImage(sourcedir):
 
   img.seek(os.SEEK_SET, 0)
 
-  print "Prepending iboot to data. Will create new boot.img in output.zip."
-  data = open('out/target/product/acclaim/iboot', 'r').read() + img.read()
+  global gVar
+
+  if gVar == 1:
+      print "Prepending iboot to data. Will create new boot.img in output.zip."
+      data = open('out/target/product/acclaim/iboot', 'r').read() + img.read()
+      gVar += 1
+  else:
+      print "Prepending irecovery to data. Will create new recovery.img in output.zip."
+      data = open('out/target/product/acclaim/irecovery', 'r').read() + img.read()
+
   ramdisk_img.close()
   img.close()
 
-  tempBoot = tempfile.NamedTemporaryFile()
-  if os.path.exists('out/target/product/acclaim/newboot.img'):
-    print "File newboot.img exists"
-
-  else:
-    print "Prepending iboot to boot.img to create newboot.img."
-    print "Creating flashable boot image, boot.img."
-    os.system('cat out/target/product/acclaim/iboot out/target/product/acclaim/boot.img > tempBoot')
-    os.system('cat tempBoot > out/target/product/acclaim/newboot.img')
-    os.system('rm tempBoot')
-
-  if os.path.exists('out/target/product/acclaim/newrecovery.img'):
-    print "File newrecovery.img exists"
-
-  else:
-    print "Prepending irecovery to recovery.img to create newrecovery.img."
-    print "Creating flashable recovery image, newrecovery.img."
-    os.system('cat out/target/product/acclaim/irecovery out/target/product/acclaim/recovery.img > tempBoot')
-    os.system('cat tempBoot > out/target/product/acclaim/newrecovery.img')
-    os.system('rm tempBoot')
 
   return data
 
