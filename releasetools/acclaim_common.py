@@ -11,7 +11,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-# Added codes for acclaim (Nook Tablet) on line 259-271. It's not pretty but it work. -succulent
+# Added codes for acclaim (Nook Tablet) to prepend iboot to boot.img.
+# It's not pretty but it work. -succulent
 
 import copy
 import errno
@@ -256,19 +257,31 @@ def BuildBootableImage(sourcedir):
 
   img.seek(os.SEEK_SET, 0)
 
-  print "Prepending irboot to data. Will create new boot.img in output.zip."
-  data = open('out/target/product/acclaim/irboot', 'r').read() + img.read()
+  print "Prepending iboot to data. Will create new boot.img in output.zip."
+  data = open('out/target/product/acclaim/iboot', 'r').read() + img.read()
   ramdisk_img.close()
   img.close()
 
+  tempBoot = tempfile.NamedTemporaryFile()
   if os.path.exists('out/target/product/acclaim/newboot.img'):
     print "File newboot.img exists"
+
   else:
-    tempBoot = tempfile.NamedTemporaryFile()
-    print "Prepending irboot to boot.img to create newboot.img."
-    os.system('cat out/target/product/acclaim/irboot out/target/product/acclaim/boot.img > tempBoot')
+    print "Prepending iboot to boot.img to create newboot.img."
+    print "Creating flashable boot image, boot.img."
+    os.system('cat out/target/product/acclaim/iboot out/target/product/acclaim/boot.img > tempBoot')
     os.system('cat tempBoot > out/target/product/acclaim/newboot.img')
-    os.system('rm tempBoot')
+
+  if os.path.exists('out/target/product/acclaim/newrecovery.img'):
+    print "File newrecovery.img exists"
+
+  else:
+    print "Prepending irecovery to recovery.img to create newrecovery.img."
+    print "Creating flashable recovery image, newrecovery.img."
+    os.system('cat out/target/product/acclaim/irecovery out/target/product/acclaim/recovery.img > tempBoot')
+    os.system('cat tempBoot > out/target/product/acclaim/newrecovery.img')
+
+  os.system('rm tempBoot')
 
   return data
 
@@ -690,6 +703,7 @@ class File(object):
     t = tempfile.NamedTemporaryFile()
     t.write(self.data)
     t.flush()
+
     return t
 
   def AddToZip(self, z):
