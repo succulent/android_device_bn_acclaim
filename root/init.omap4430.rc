@@ -26,14 +26,6 @@ on boot
     mkdir /data/misc/wifi/sockets 0770 wifi wifi
     mkdir /data/misc/dhcp 0770 dhcp dhcp
 
-# bluetooth power up/down interface
-    chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
-    chown bluetooth bluetooth /sys/class/rfkill/rfkill0/state
-    chmod 0660 /sys/class/rfkill/rfkill0/state
-# bluetooth uart
-    chmod 0777 /dev/ttyO1
-    chown bluetooth bluetooth /dev/ttyO1
-
 # phone
 #    setprop ro.telephony.call_ring.multiple 0
 
@@ -111,7 +103,6 @@ on fs
     mkdir /data/media/B\&N\ Downloads/Magazines 0777 media system
     mkdir /data/media/B\&N\ Downloads/Newspapers 0777 media system
     mkdir /data/media/B\&N\ Downloads/Extras 0777 media system
-
      # make sure folder has correct owner and access if the folder exists
     chown media system /data/media
     chown media system /data/media/B\&N\ Downloads
@@ -128,6 +119,41 @@ on fs
     chmod 0777 /data/media/B\&N\ Downloads/Extras
     mount vfat /dev/block/mmcblk0p10 /mnt/media
     #### B&N - End Change
+
+    # change permissions for alsa nodes
+    symlink /dev/snd/pcmC0D1c /dev/snd/pcmC0D0c
+
+    chown system audio /dev/snd/pcmC0D0c
+    chown system audio /dev/snd/pcmC0D0p
+    chown system audio /dev/snd/pcmC0D1c
+    chown system audio /dev/snd/pcmC0D1p
+    chown system audio /dev/snd/pcmC0D2c
+    chown system audio /dev/snd/pcmC0D2p
+    chown system audio /dev/snd/timer
+    chown system audio /dev/snd/controlC0
+
+    chmod 0777 /dev/snd/pcmC0D0c
+    chmod 0777 /dev/snd/pcmC0D0p
+    chmod 0777 /dev/snd/pcmC0D1c
+    chmod 0777 /dev/snd/pcmC0D1p
+    chmod 0777 /dev/snd/pcmC0D2c
+    chmod 0777 /dev/snd/pcmC0D3p
+    chmod 0777 /dev/snd/controlC0
+    chmod 0777 /dev/snd/timer
+   
+    setprop alsa.mixer.playback.master Master
+    setprop alsa.mixer.capture.master Capture
+    setprop alsa.mixer.playback.earpiece Master
+    setprop alsa.mixer.capture.earpiece Capture
+    setprop alsa.mixer.playback.headset Master
+    setprop alsa.mixer.playback.speaker Master
+
+    #change permissions for alsa nodes for audio modem
+    chmod 0777 /dev/snd/pcmC0D5c
+    chmod 0777 /dev/snd/pcmC0D5p
+
+    #change permissions for alsa nodes for HDMI
+    chmod 777  /dev/snd/pcmC0D7p
 
     # change permissions for modem
     chmod 0660 /dev/ttyS0
@@ -200,7 +226,7 @@ on fs
     chmod 0660 /dev/tiler
     chmod 0660 /dev/dmm
 	
-# Enable secondary display on acclaim
+# Enable secondary display on Acclaim
     #write /sys/devices/platform/omapdss/display1/enabled 1
     #write /sys/devices/platform/omapdss/overlay1/enabled 0
     #write /sys/devices/platform/omapdss/overlay1/manager "2lcd"
@@ -247,12 +273,16 @@ service baseimage /system/bin/syslink_daemon.out -f /system/lib/ducati/base_imag
     oneshot
 
 service uim /system/bin/uim-sysfs
-   user root
-   group media bluetooth
-   oneshot
-
-service hciattach /system/bin/hciattach -l
     user root
+    group media bluetooth  
+    oneshot
+
+    service hciattach /system/bin/hciattach -l
+#service hciattach /system/bin/hciattach -l
+    user root
+# changing user to root from bluetooth is a potential security issue
+# service hciattach_legacy is used instead of hciattach because, we dont
+# have nodes named ttyHS0
     group bluetooth net_bt_admin misc
     disabled
     oneshot
@@ -261,7 +291,7 @@ service hciattach /system/bin/hciattach -l
 service wlan_loader /system/bin/wlan_loader \
     -f /system/etc/wifi/firmware.bin \
     -i /system/etc/wifi/tiwlan.ini \
-    -e /rom/DevConf/WiFiBackupCalibration
+    -e /rom/DevConf/WiFiBackupCalibration 
     disabled
     oneshot
 
@@ -312,10 +342,6 @@ service install_smc /system/bin/install_smc
     disabled
     oneshot
 
-service debuglog /system/bin/debuglog.sh
-    user root
-    disabled
-
 on property:ro.secure=0
     chmod 0777 /dev/input/event0
     chmod 0777 /dev/input/event1
@@ -323,3 +349,4 @@ on property:ro.secure=0
     chmod 0777 /dev/input/event3
     chmod 0777 /dev/input/event4
     start debuglog
+
