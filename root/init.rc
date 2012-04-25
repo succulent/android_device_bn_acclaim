@@ -21,6 +21,7 @@ loglevel 3
     export ASEC_MOUNTPOINT /mnt/asec
     export SD_EXT_DIRECTORY /sd-ext
     export LOOP_MOUNTPOINT /mnt/obb
+
     export BOOTCLASSPATH /system/framework/core.jar:/system/framework/bouncycastle.jar:/system/framework/ext.jar:/system/framework/framework.jar:/system/framework/android.policy.jar:/system/framework/services.jar:/system/framework/core-junit.jar
 
 # Backward compatibility
@@ -88,41 +89,16 @@ loglevel 3
     chown system system /dev/cpuctl/tasks
     chmod 0777 /dev/cpuctl/tasks
     write /dev/cpuctl/cpu.shares 1024
-
     mkdir /dev/cpuctl/fg_boost
     chown system system /dev/cpuctl/fg_boost/tasks
     chmod 0777 /dev/cpuctl/fg_boost/tasks
     write /dev/cpuctl/fg_boost/cpu.shares 1024
-
     mkdir /dev/cpuctl/bg_non_interactive
     chown system system /dev/cpuctl/bg_non_interactive/tasks
     chmod 0777 /dev/cpuctl/bg_non_interactive/tasks
 	
     # 5.0 %
     write /dev/cpuctl/bg_non_interactive/cpu.shares 52
-
-    # switch CPUfreq from performance to hotplug
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor ondemand
-    # Enabling write by applications such as Web Browser for Performance Boost
-    chmod 0664 /sys/devices/system/cpu/cpu1/online
-    chmod 0664 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
-
-    # change permissions for alsa nodes
-    symlink /dev/snd/pcmC0D0c /dev/pcmC0D0c
-    symlink /dev/snd/pcmC0D0p /dev/pcmC0D0p
-    symlink /dev/snd/controlC0 /dev/controlC0
-    symlink /dev/snd/timer /dev/timer
-    chmod 0777 /dev/pcmC0D0c
-    chmod 0777 /dev/pcmC0D0p
-    chmod 0777 /dev/controlC0
-    chmod 0777 /dev/timer
-
-    #change permissions for alsa nodes for audio modem
-    chmod 0777 /dev/snd/pcmC0D5c
-    chmod 0777 /dev/snd/pcmC0D5p
-
-    #change permissions for alsa nodes for HDMI
-    chmod 777  /dev/snd/pcmC0D7p
 
 on fs
 # mount mtd partitions
@@ -329,11 +305,14 @@ on boot
 
 # Define TCP buffer sizes for various networks
 #   ReadMin, ReadInitial, ReadMax, WriteMin, WriteInitial, WriteMax,
-    setprop net.tcp.buffersize.default 4096,87380,256960,4096,16384,256960
-    setprop net.tcp.buffersize.wifi    4096,87380,256960,4096,16384,256960
-    setprop net.tcp.buffersize.umts    4096,87380,256960,4096,16384,256960
+    setprop net.tcp.buffersize.default 131072,262144,524288,4096, 16384,256960
+    setprop net.tcp.buffersize.wifi    131072,262144,524288,4096, 16384,256960
+    setprop net.tcp.buffersize.umts    131072,262144,524288,4096, 16384,256960
     setprop net.tcp.buffersize.edge    4096,87380,256960,4096,16384,256960
     setprop net.tcp.buffersize.gprs    4096,87380,256960,4096,16384,256960
+
+# increase read throughput from sd card
+    write /sys/block/mmcblk0/bdi/read_ahead_kb 2048
 
 # Include extra init file
     import /system/etc/init.local.rc
@@ -470,3 +449,4 @@ service dumpstate /system/bin/dumpstate -s
     socket dumpstate stream 0660 shell log
     disabled
     oneshot
+
