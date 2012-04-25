@@ -5,7 +5,7 @@ USE_CAMERA_STUB := true
 BOARD_USES_GENERIC_AUDIO := false
 
 # Board props
-TARGET_NO_BOOTLOADER := false
+TARGET_NO_BOOTLOADER := true
 TARGET_BOARD_PLATFORM := omap4
 TARGET_CPU_ABI := armeabi-v7a
 TARGET_CPU_ABI2 := armeabi
@@ -79,7 +79,9 @@ endif
 BOARD_USES_TI_CAMERA_HAL := false
 
 TARGET_PREBUILT_KERNEL := device/bn/acclaim/kernel
+BOARD_CUSTOM_GRAPHICS := ../../../device/bn/acclaim/recovery/graphics.c
 BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/bn/acclaim/recovery/recovery_ui.c
+TARGET_RECOVERY_PRE_COMMAND := "dd if=/dev/zero of=/bootdata/bcb bs=64 count=1 > /dev/null 2>&1 ; echo 'recovery' >> /bootdata/bcb ; sync"
 
 # Use pre-kernel.35 vold usb mounting
 BOARD_USE_USB_MASS_STORAGE_SWITCH := true
