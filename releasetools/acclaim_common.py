@@ -271,6 +271,7 @@ def BuildBootableImage(sourcedir):
     print "Creating flashable boot image, boot.img."
     os.system('cat out/target/product/acclaim/iboot out/target/product/acclaim/boot.img > tempBoot')
     os.system('cat tempBoot > out/target/product/acclaim/newboot.img')
+    os.system('rm tempBoot')
 
   if os.path.exists('out/target/product/acclaim/newrecovery.img'):
     print "File newrecovery.img exists"
@@ -280,8 +281,7 @@ def BuildBootableImage(sourcedir):
     print "Creating flashable recovery image, newrecovery.img."
     os.system('cat out/target/product/acclaim/irecovery out/target/product/acclaim/recovery.img > tempBoot')
     os.system('cat tempBoot > out/target/product/acclaim/newrecovery.img')
-
-  os.system('rm tempBoot')
+    os.system('rm tempBoot')
 
   return data
 
