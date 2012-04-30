@@ -1,25 +1,18 @@
-<pre style="padding-left: 30px;"><strong>Device configuration for the acclaim (Nook Tablet)</strong>
+<pre><strong> Device configuration for the acclaim (Nook Tablet)</strong>
 
-<strong>Copyright (C) 2011 The Android Open-Source Project</strong>
+<strong> Copyright (C) 2011 The Android Open-Source Project</strong>
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
 
-<strong><code>http://www.apache.org/licenses/LICENSE-2.0</code></strong>
+<strong><code> http://www.apache.org/licenses/LICENSE-2.0</code></strong>
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "<strong>AS IS</strong>" <strong>BASIS</strong>,
-<strong>WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND</strong>, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
-<strong>WARNING:</strong> Everything listed here will be built on 
-ALL platforms, including x86, the emulator, and the SDK. Modules 
-must be uniquely named (liblights.acclaim), and must build everywhere, 
-or limit themselves to only building on ARM if they include assembly. 
-Individual makefiles are responsible for having their own logic, 
-for fine-grained control.</pre>
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "<strong>AS IS</strong>" <strong>BASIS</strong>,
+ <strong>WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND</strong>, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.</pre>
 
 <hr />
 
@@ -71,23 +64,30 @@ for fine-grained control.</pre>
 	<li>hold power button for a couple of seconds to power on</li>
 	<li>wait until device boot into recovery</li>
 </ul>
+<strong><span style="color: #ff6600;">Backup using recovery (If you are coming from stock)</span></strong>
+<ul>
+	<li>At the CWM-based Recovery v5.0.2.8 screen</li>
+	<li><span style="color: #3366ff;">(navigate with volume keys and select with home button)</span></li>
+	<li>&gt; backup and restore</li>
+	<li>&gt; backup (to restore, use restore)</li>
+</ul>
 <span style="color: #ff6600;"><strong>Installing rom from recovery,</strong></span>
 <ul>
-	<li>install zip from sdcard</li>
+	<li><span style="color: #3366ff;">(press power button to go back)</span></li>
+	<li>&gt; install zip from sdcard</li>
 	<li><span style="color: #3366ff;">(navigate with volume keys and select with home button)</span></li>
-	<li>choose zip from sdcard</li>
-	<li><span style="color: #008000;">update-cm-7.2.0-RC1-acclaim-UNOFFICIAL-signed.zip</span> <span style="color: #3366ff;">(wait up to a couple minutes)</span></li>
-	<li>press power button to go back</li>
-	<li>wipe data/factory reset <span style="color: #3366ff;">(1st time installing)</span></li>
-	<li>wipe cache partition <span style="color: #3366ff;">(1st time installing)</span></li>
-	<li>reboot system now <span style="color: #3366ff;">(restart device)</span></li>
+	<li>&gt; choose zip from sdcard</li>
+	<li><span style="color: #008000;">&gt; Yes - update-cm-7.2.0-RC1-acclaim-UNOFFICIAL-signed.zip</span> <span style="color: #3366ff;">(wait up to a couple minutes)</span></li>
+	<li>&gt; wipe data/factory reset <span style="color: #3366ff;">(1st time installing)</span></li>
+	<li>&gt; wipe cache partition <span style="color: #3366ff;">(1st time installing)</span></li>
+	<li>&gt; reboot system now <span style="color: #3366ff;">(restart device)</span></li>
 </ul>
 <span style="color: #ff6600;"><strong>First time booting sequence,</strong></span>
 <ul>
 	<li>Initial BN n logo</li>
 	<li>Custom n logo<span style="color: #3366ff;"> (a couple of seconds)</span></li>
-	<li>2 androids logo <span style="color: #3366ff;">(wait up to a minute)</span></li>
-	<li>CM7 android logo <span style="color: #3366ff;">(wait up to a couple minutes)</span></li>
+	<li><span style="text-decoration: underline;"><span style="color: #ff0000;"><a title="2 Androids Logo" href="http://iamafanof.files.wordpress.com/2012/04/two_androids.png" target="_blank"><span style="color: #ff0000; text-decoration: underline;">2 androids logo</span></a></span></span> <span style="color: #3366ff;">(wait up to a minute)</span></li>
+	<li><span style="text-decoration: underline;"><span style="color: #ff0000;"><a title="CM7 Android Logo" href="http://iamafanof.files.wordpress.com/2012/04/cm7.png" target="_blank"><span style="color: #ff0000; text-decoration: underline;">CM7 android logo</span></a></span></span> <span style="color: #3366ff;">(wait up to a couple minutes)</span></li>
 </ul>
 <span style="color: #ff6600;"><strong>Other flashable Files (Did you messed up your Nook Tablet?)</strong></span>
 <ul>
