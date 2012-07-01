@@ -26,27 +26,35 @@ on boot
     mkdir /data/misc/wifi/sockets 0770 wifi wifi
     mkdir /data/misc/dhcp 0770 dhcp dhcp
 
-# phone
-#    setprop ro.telephony.call_ring.multiple 0
-
 on early-init
     start hwprops
 
 on fs
-    mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/system /system wait ro errors=panic
-    mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/userdata /data wait noatime nosuid nodev errors=panic
-    mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/cache /cache wait noatime nosuid nodev errors=panic
-    #mkdir /bootdata
-    #mount vfat /dev/block/platform/mmci-omap-hs.1/by-name/bootdata /bootdata wait noatime nodiratime uid=1000,gid=1000,fmask=117,dmask=007
+    mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/system /system wait ro errors=continue
+    mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/userdata /data wait noatime nosuid nodev errors=continue
+    mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/cache /cache wait noatime nosuid nodev errors=continue
+    mkdir /bootdata
+    mount vfat /dev/block/platform/mmci-omap-hs.1/by-name/bootdata /bootdata wait noatime nodiratime uid=1000,gid=1000,fmask=117,dmask=007
+
+# permissions for bluetooth.
+#    chown bluetooth bluetooth ro.bt.bdaddr_path
+
+# bluetooth power up/down interface
+#    chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
+#    chown bluetooth bluetooth /sys/class/rfkill/rfkill0/state
+#    chmod 0660 /sys/class/rfkill/rfkill0/state
+# bluetooth uart
+#    chmod 0660 /dev/ttyO1
+#    chown bluetooth bluetooth /dev/ttyO1
 
 # switch CPUfreq from performance to hotplug
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor ondemand
     write /sys/devices/system/cpu/cpufreq/hotplug/down_threshold 30
-
+	
 #Give system ownership and permission to boost clock for specified timeout
 #Note boost_timeout cannot be changed from application because of dynamic sysfs creation. It will have default value of 3 sec.
     chown system system /sys/devices/system/cpu/cpu0/cpufreq/boost_cpufreq
-    chmod 0664  /sys/devices/system/cpu/cpu0/cpufreq/boost_cpufreq
+    chmod 0664 /sys/devices/system/cpu/cpu0/cpufreq/boost_cpufreq
 
 # Boost the CPU for 60 sec for boot optimization
     write /sys/devices/system/cpu/cpufreq/hotplug/boost_timeout 60000000
@@ -55,6 +63,7 @@ on fs
 # We chown/chmod /data again so because mount is run as root + defaults
     chown system system /data
     chmod 0771 /data
+
     chown media media /dev/syslink-proc4430
     chown media media /dev/syslink-procmgr
     chown media media /dev/syslink_ipc
@@ -66,6 +75,7 @@ on fs
     chown media media /dev/omap-devh0
     chown media media /dev/omap-devh1
     chown media media /dev/omap-devh2
+
     chmod 660 /dev/syslink-proc4430
     chmod 660 /dev/syslink-procmgr
     chmod 660 /dev/syslink_ipc
@@ -77,9 +87,11 @@ on fs
     chmod 440 /dev/omap-devh0
     chmod 440 /dev/omap-devh1
     chmod 440 /dev/omap-devh2
+
     chown media media /system/bin/syslink_daemon.out
     chown media media /system/lib/ducati/base_image_sys_m3.xem3
     chown media media /system/lib/ducati/base_image_app_m3.xem3
+
     chmod 750 /system/bin/syslink_daemon.out
     chmod 640 /system/lib/ducati/base_image_sys_m3.xem3
     chmod 640 /system/lib/ducati/base_image_app_m3.xem3
@@ -103,7 +115,7 @@ on fs
     mkdir /data/media/B\&N\ Downloads/Magazines 0777 media system
     mkdir /data/media/B\&N\ Downloads/Newspapers 0777 media system
     mkdir /data/media/B\&N\ Downloads/Extras 0777 media system
-     # make sure folder has correct owner and access if the folder exists
+    # make sure folder has correct owner and access if the folder exists
     chown media system /data/media
     chown media system /data/media/B\&N\ Downloads
     chown media system /data/media/B\&N\ Downloads/Books
@@ -120,33 +132,15 @@ on fs
     mount vfat /dev/block/mmcblk0p10 /mnt/media
     #### B&N - End Change
 
+    # change permissions for Camera
+    chmod 0777 /dev/video5
+    chmod 0777 /dev/video0
+
     # change permissions for alsa nodes
-    symlink /dev/snd/pcmC0D1c /dev/snd/pcmC0D0c
-
-    chown system audio /dev/snd/pcmC0D0c
-    chown system audio /dev/snd/pcmC0D0p
-    chown system audio /dev/snd/pcmC0D1c
-    chown system audio /dev/snd/pcmC0D1p
-    chown system audio /dev/snd/pcmC0D2c
-    chown system audio /dev/snd/pcmC0D2p
-    chown system audio /dev/snd/timer
-    chown system audio /dev/snd/controlC0
-
-    chmod 0777 /dev/snd/pcmC0D0c
-    chmod 0777 /dev/snd/pcmC0D0p
-    chmod 0777 /dev/snd/pcmC0D1c
-    chmod 0777 /dev/snd/pcmC0D1p
-    chmod 0777 /dev/snd/pcmC0D2c
-    chmod 0777 /dev/snd/pcmC0D3p
-    chmod 0777 /dev/snd/controlC0
-    chmod 0777 /dev/snd/timer
-   
-    setprop alsa.mixer.playback.master Master
-    setprop alsa.mixer.capture.master Capture
-    setprop alsa.mixer.playback.earpiece Master
-    setprop alsa.mixer.capture.earpiece Capture
-    setprop alsa.mixer.playback.headset Master
-    setprop alsa.mixer.playback.speaker Master
+    chmod 0777  /dev/snd/pcmC0D0c
+    chmod 0777  /dev/snd/pcmC0D0p
+    chmod 0777  /dev/snd/controlC0
+    chmod 0777  /dev/snd/timer
 
     #change permissions for alsa nodes for audio modem
     chmod 0777 /dev/snd/pcmC0D5c
@@ -156,9 +150,8 @@ on fs
     chmod 777  /dev/snd/pcmC0D7p
 
     # change permissions for modem
-    chmod 0660 /dev/ttyS0
-
-    chown radio radio /dev/ttyS0
+    chmod 0660 /dev/ttyO0
+    chown radio radio /dev/ttyO0
 
     # change permissions for Camera
     chmod 0777 /dev/video5
@@ -178,6 +171,10 @@ on fs
     chown system system /sys/bus/i2c/drivers/hmc5843/4-001e
     chown system system /sys/bus/i2c/drivers/hmc5843/4-001e/enable
     chown system system /sys/bus/i2c/drivers/hmc5843/4-001e/rate
+    chown system system /sys/devices/virtual/input/input0/mode
+    chmod 0770 /sys/devices/virtual/input/input0/mode
+    chown system system /sys/devices/virtual/input/input0/delay
+    chmod 0770 /sys/devices/virtual/input/input0/delay
 
     # change permissions for Overlay
     chown system system /dev/video1
@@ -225,12 +222,6 @@ on fs
     chown media media /dev/tiler
     chmod 0660 /dev/tiler
     chmod 0660 /dev/dmm
-	
-# Enable secondary display on Acclaim
-    #write /sys/devices/platform/omapdss/display1/enabled 1
-    #write /sys/devices/platform/omapdss/overlay1/enabled 0
-    #write /sys/devices/platform/omapdss/overlay1/manager "2lcd"
-    #write /sys/devices/platform/omapdss/overlay1/enabled 1
 
 # Enabel CPR unit with default values
     write /sys/devices/platform/omapdss/manager2/cpr_coef "256 0 0 0 256 0 0 0 256"
@@ -241,7 +232,7 @@ on fs
     write /sys/devices/system/cpu/cpufreq/hotplug/boost_timeout 3000000
 
 # Enable hotplug detection for HDMI
-#    write /sys/devices/platform/omapdss/display2/hpd_enabled 1
+    write /sys/devices/platform/omapdss/display2/hpd_enabled 1
 
 # Change permissions for FB overlays for HDMI UI Cloning
     chown system system /sys/class/graphics/fb0/overlays
@@ -257,28 +248,32 @@ on fs
 
 # SGX driver
     chmod 0666 /dev/pvrsrvkm
+
 # Initialize the SGX driver
 service pvrsrvinit /system/bin/pvrsrvinit
-
 #service pvrsrvinit /system/vendor/bin/pvrsrvinit
     user root
     group root
     oneshot
+
+# Set current permissions for charge protection
+#    chown system system /sys/class/power_supply/usb/device/charge_command
+#    chown system system /sys/class/power_supply/usb/device/charge_current
+#    chown system system /sys/class/power_supply/usb/device/float_voltage
+#    chown system system /sys/class/power_supply/usb/device/bad_battery
 
 #Load IVA firmware
 service baseimage /system/bin/syslink_daemon.out -f /system/lib/ducati/base_image_sys_m3.xem3 /system/lib/ducati/base_image_app_m3.xem3
     critical
     user media
     group media
-    oneshot
 
 service uim /system/bin/uim-sysfs
     user root
-    group media bluetooth  
+    group media bluetooth
     oneshot
 
-    service hciattach /system/bin/hciattach -l
-#service hciattach /system/bin/hciattach -l
+service hciattach /system/bin/hciattach -l
     user root
 # changing user to root from bluetooth is a potential security issue
 # service hciattach_legacy is used instead of hciattach because, we dont
@@ -286,12 +281,12 @@ service uim /system/bin/uim-sysfs
     group bluetooth net_bt_admin misc
     disabled
     oneshot
-
+	
 # WLAN Related services
 service wlan_loader /system/bin/wlan_loader \
     -f /system/etc/wifi/firmware.bin \
     -i /system/etc/wifi/tiwlan.ini \
-    -e /rom/DevConf/WiFiBackupCalibration 
+    -e /rom/DevConf/WiFiBackupCalibration
     disabled
     oneshot
 
@@ -300,15 +295,19 @@ service wpa_supplicant /system/bin/wpa_supplicant -Dtiwlan0 -itiwlan0 -c/data/mi
     disabled
     oneshot
 
-service dhcpcd_tiwlan0 /system/bin/dhcpcd -ABKL -d 
+service dhcpcd_tiwlan0 /system/bin/dhcpcd -ABKL -d
     disabled
     oneshot
+
+service iprenew_tiwlan0 /system/bin/dhcpcd -n
+   disabled
+   oneshot
 
 # HotSpot Related services
 service wlan_ap_loader /system/bin/tiap_loader \
     -f /system/etc/wifi/softap/firmware_ap.bin \
     -i /system/etc/wifi/softap/tiwlan_ap.ini \
-    -e /data/misc/wifi/nvs_map.bin
+    -e /rom/DevConf/WiFiBackupCalibration
     disabled
     oneshot
 
@@ -331,12 +330,15 @@ service bootcnt /system/bin/clrbootcount.sh
     disabled
     oneshot
 
+on post-fs
+    start install_smc
+
 service battery_log /system/bin/battery_log.sh
     disabled
     oneshot
-	
-on post-fs
-    start install_smc
+
+#service fix_mac /system/bin/fix-mac.sh
+#   oneshot
 
 service install_smc /system/bin/install_smc
     disabled
@@ -348,5 +350,3 @@ on property:ro.secure=0
     chmod 0777 /dev/input/event2
     chmod 0777 /dev/input/event3
     chmod 0777 /dev/input/event4
-    start debuglog
-
