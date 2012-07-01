@@ -262,7 +262,7 @@ def BuildBootableImage(sourcedir):
 
   if gVar == 1:
       print "Prepending iboot to data. Will create new boot.img in output.zip."
-      data = open('out/target/product/acclaim/iboot', 'r').read() + img.read()
+      data = open('out/target/product/acclaim/cyanoboot', 'r').read() + img.read()
       gVar += 1
   else:
       print "Prepending irecovery to data. Will create new recovery.img in output.zip."

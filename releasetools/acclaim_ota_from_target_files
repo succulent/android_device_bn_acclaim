@@ -366,6 +366,7 @@ def WriteFullOTAPackage(input_zip, output_zip):
               "post-timestamp": GetBuildProp("ro.build.date.utc", input_zip),
               }
 
+
   device_specific = common.DeviceSpecificParams(
       input_zip=input_zip,
       input_version=OPTIONS.info_dict["recovery_api_version"],
@@ -384,7 +385,7 @@ def WriteFullOTAPackage(input_zip, output_zip):
   if OPTIONS.backuptool:
     script.RunBackup("backup")
 
-  script.ShowProgress(0.5, 0)
+  script.ShowProgress(0.7, 74)
 
   if OPTIONS.wipe_user_data:
     script.FormatPartition("/data")
@@ -412,7 +413,7 @@ def WriteFullOTAPackage(input_zip, output_zip):
 
   print "--------------Tell Output Zip to Include Raw Image ----"
   common.ZipWriteStr(output_zip, "boot.img", boot_img.data)
-  common.ZipWriteStr(output_zip, "MLO_es2.3_BN", open('out/target/product/acclaim/MLO_es2.3_BN','r').read())
+  common.ZipWriteStr(output_zip, "MLO", open('out/target/product/acclaim/MLO','r').read())
   common.ZipWriteStr(output_zip, "u-boot.bin", open('out/target/product/acclaim/u-boot.bin','r').read())
   common.ZipWriteStr(output_zip, "recovery.img", recovery_img.data)
 
@@ -431,7 +432,7 @@ def WriteFullOTAPackage(input_zip, output_zip):
   print "--------------Tell Edify Generator to Write Raw Image ----"
   script.WriteRawImage("/boot", "boot.img")
   script.WriteRawImage("/recovery", "recovery.img")
-  script.WriteRawImage("/xloader", "MLO_es2.3_BN")
+  script.WriteRawImage("/xloader", "MLO")
   script.WriteRawImage("/bootloader", "u-boot.bin")
 
   script.ShowProgress(0.1, 0)
