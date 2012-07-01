@@ -34,23 +34,18 @@
 int main() {
 	FILE *fp;
 	char buf[256];
-	char serial[32];
+	char serial[16];
 
-	if ((fp = fopen("/proc/cpuinfo", "r")) == NULL)
+	if ((fp = fopen("/rom/devconf/SerialNumber", "r")) == NULL)
 		return 0;
 
-	while(fgets(buf, 256, fp) != NULL) {
-		if (strstr(buf, "Serial") != NULL) {
-			strtok(buf, ":");
-			strncpy(serial, strtok(NULL, " "), 32);
-		}
-	}
+        strncpy(serial, fp, 16);
 	fclose(fp);
 
-	if (serial == NULL) 
-		return 0;
-
 	mount("rootfs", "/", "rootfs", MS_REMOUNT|0, NULL);
+
+	if (serial == NULL)
+		return 0;
 
 	if ((fp = fopen("/default.prop", "a")) == NULL) 
 		return 0;
@@ -62,3 +57,4 @@ int main() {
 
 	return 0;
 }
+
