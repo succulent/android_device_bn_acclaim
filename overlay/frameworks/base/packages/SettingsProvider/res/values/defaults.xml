@@ -33,3 +33,4 @@
     <!-- Default for Settings.System.VIBRATE_IN_SILENT -->
     <bool name="def_vibrate_in_silent">false</bool>
 </resources>
+
