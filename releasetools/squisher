@@ -1,8 +1,10 @@
-#!/bin/sh
+#!/bin/bash
 #
-# Squish a CM otapackage for distribution
-# cyanogen
+# Squish an otapackage for distribution
+# cyanogen w/ AOKP changes
 #
+
+. $ANDROID_BUILD_TOP/vendor/cm/tools/functions
 
 OUT_TARGET_HOST=`uname -a | grep Darwin`
 if [ -z "$OUT_TARGET_HOST" ]
@@ -19,53 +21,18 @@ else
 fi
 
 if [ -z "$OUT" -o ! -d "$OUT" ]; then
-	echo "ERROR: $0 only works with a full build environment. $OUT should exist."
+	echo -e $CL_RED"ERROR: $0 only works with a full build environment. $OUT should exist."$CL_RST
 	exit 1
 fi
 
-if [ "$TARGET_BUILD_TYPE" = "debug" ]; then
-    OTAPACKAGE=$OUT/${TARGET_PRODUCT}_debug-ota-$TARGET_BUILD_VARIANT.$USER.zip
-else
-    OTAPACKAGE=$OUT/$TARGET_PRODUCT-ota-$TARGET_BUILD_VARIANT.$USER.zip
-fi
 if [ ! -f "$OTAPACKAGE" ]; then
-	echo "$OTAPACKAGE doesn't exist!";
+	echo -e $CL_RED"$OTAPACKAGE doesn't exist!"$CL_RST;
 	exit 1
 fi
 
-OPTICHARGER=$ANDROID_BUILD_TOP/vendor/cyanogen/tools/opticharger
+OPTICHARGER=$ANDROID_BUILD_TOP/device/bn/acclaim/releasetools/opticharger
 QUIET=-q
 DELETE_BINS="applypatch applypatch_static check_prereq recovery updater"
-
-
-# Some products want a squashfs for xbin for space
-case "$TARGET_PRODUCT" in
-	cyanogen_dream_sapphire) WANT_SQUASHFS=1 ;;
-	*) WANT_SQUASHFS=0 ;;
-esac
-
-if [ "$WANT_SQUASHFS" -eq 1 ]; then
-	fatal=0
-	MKSQUASHFS_VER_REQ=4
-	if type mksquashfs >/dev/null 2>&1; then
-		if mksquashfs -version | grep -q "version $MKSQUASHFS_VER_REQ"; then :; else
-			echo
-			echo "ERROR: mksquashfs must be at least version $MKSQUASHFS_VER_REQ for this build."
-			fatal=1
-		fi
-	else
-		echo
-		echo "ERROR: $TARGET_PRODUCT requires mksquashfs."
-		fatal=1
-	fi
-
-	if [ "$fatal" -ne 0 ]; then
-		echo
-		echo "       Unoptimized package is still available at"
-		echo "         $OTAPACKAGE"
-		exit $fatal
-	fi
-fi
 
 REPACK=$OUT/repack.d
 printf "Sanitizing environment..."
@@ -81,48 +48,33 @@ cd $REPACK/ota
 printf "Unpacking $OTAPACKAGE..."
 unzip $QUIET $OTAPACKAGE
 echo
-cd $REPACK/ota/system/framework
-$OPTICHARGER framework-res.apk
-cd $REPACK/ota/system/app
+
+# Move all apks to the same directory so xargs can
+# use also with framework-res.apk. This allow process
+# framework-res.apk in parallel with other apks
+mkdir -p $REPACK/parallel
+cd $REPACK/parallel
+cp $REPACK/ota/system/framework/framework-res.apk .
+cp $REPACK/ota/system/app/*.apk .
+
+# Do optimization in parallel
 find ./ -name \*.apk | $XARGS $OPTICHARGER
+
+# Move optimized apks to repack directory
+mv -f $REPACK/parallel/framework-res.apk $REPACK/ota/system/framework/framework-res.apk
+mv -f $REPACK/parallel/*.apk $REPACK/ota/system/app/
+
+# Return to directory
+cd $REPACK/ota
+rm -rf $REPACK/parallel
 )
 
-# Remove unwanted apps
-rm $REPACK/ota/system/app/Camera.apk
+rm $REPACK/ota/system/app/DSPManager.apk
 rm $REPACK/ota/system/app/VoiceDialer.apk
-rm $REPACK/ota/system/app/CMStats.apk
-rm $REPACK/ota/system/app/CMUpdateNotify.apk
-rm $REPACK/ota/system/app/FileManager.apk
-rm $REPACK/ota/system/app/RomManager.apk
-
-if [ "$WANT_SQUASHFS" -eq 1 ]; then
-	squash_opts="-force-uid 1000 -force-gid 1000 -no-progress -noappend -no-exports -no-recovery"
-	updater=$REPACK/ota/META-INF/com/google/android/updater-script
-
-	# Relocate su
-	cp -a $REPACK/ota/system/xbin $REPACK/_xbin/
-	rm -f $REPACK/_xbin/su $REPACK/ota/system/bin/su
-	mv $REPACK/ota/system/xbin/su $REPACK/ota/system/bin/su
-	chmod -R 555 $REPACK/_xbin/*
-
-	# Create symlinks for su and busybox (since updater-script can't work on the squashfs filesystem).
-	# Forgive me for the regex hell here. 
-	ln -s ../bin/su $REPACK/_xbin/su
-	for link in `sed -n -e's/,//g' -e'/symlink(.*busybox/,/xbin.*);/p' $updater | tr '"' '\n' | sed -n -e'\,/system/xbin/,s,/system/xbin/,,p'`
-	do
-		ln -s busybox $REPACK/_xbin/$link
-	done
-
-	# Create the squashfs with new and improved symlinkage!
-	mksquashfs $REPACK/_xbin/* $REPACK/_xbin.sqf $squash_opts
-	rm -rf $REPACK/ota/system/xbin/*
-	mv $REPACK/_xbin.sqf $REPACK/ota/system/xbin/xbin.sqf
-	chmod 444 $REPACK/ota/system/xbin/xbin.sqf
-
-	# Remove xbin stuff and fix up updater-script
-	$SED -i -e's,system/xbin/su,system/bin/su,g' -e'/xbin/d' $updater
-fi
-
+rm $REPACK/ota/system/app/MagicSmokeWallpapers.apk
+rm $REPACK/ota/system/app/CMWallpapers.apk
+rm $REPACK/ota/system/app/Phone.apk
+rm $REPACK/ota/system/app/TelephonyProvider.apk
 
 # Fix build.prop
 $SED -i \
@@ -134,9 +86,6 @@ $SED -i \
 # Delete unnecessary binaries
 ( cd $REPACK/ota/system/bin; echo $DELETE_BINS | xargs rm -f; )
 
-# Delete leftover wireless driver
-# rm -rf $REPACK/ota/system/lib/modules/*/kernel/drivers/net
-
 # No need for recovery
 rm -rf $REPACK/ota/recovery
 
@@ -144,10 +93,28 @@ rm -rf $REPACK/ota/recovery
 [ -d $REPACK/ota/system/lib/modules ] && \
 	find $REPACK/ota/system/lib/modules -name "*.ko" -print0 | xargs -0 arm-eabi-strip --strip-unneeded
 
+# Remove wl1271-nvs.bin so that wl1271-nvs_127x.bin can re-write it
+rm $REPACK/ota/system/etc/firmware/ti-connectivity/wl1271-nvs.bin
+
+# Remove camera.omap4.so -- it hangs media server
+#rm $REPACK/ota/system/lib/hw/camera.omap4.so
+
 # Determine what to name the new signed package
-	MODVERSION=`sed -n -e'/ro\.modversion/s/^.*CyanogenMod-//p' $REPACK/ota/system/build.prop`
-	: ${MODVERSION:=nightly}
-	OUTFILE=$OUT/update-cm-$MODVERSION-signed.zip
+REALDATE=`date -u +%Y%m%d`
+
+if [ -f $ANDROID_BUILD_TOP/vendor/cm/LICENSE ];
+then
+MODVERSION=`sed -n -e'/ro\.cm\.version/s/^.*=//p' $REPACK/ota/system/build.prop`
+OUTFILE=$OUT/cm-$MODVERSION.zip
+echo -e $CL_CYN"MODVERSION: $MODVERSION"$CL_RST
+elif [ -f $ANDROID_BUILD_TOP/vendor/aokp/vendorsetup.sh ];
+then
+VERSION=`sed -n -e'/ro.aokp.version/s/^.*=//p' $REPACK/ota/system/build.prop`
+MODVERSION="$VERSION"
+OUTFILE=$OUT/JB-$MODVERSION.zip
+else
+OUTFILE=$OUT/$TARGET_PRODUCT-JB-$REALDATE.zip
+fi
 
 # Pack it up and sign
 printf "Zipping package..."
@@ -155,8 +122,8 @@ printf "Zipping package..."
 echo
 printf "Signing package..."
 SECURITYDIR=$ANDROID_BUILD_TOP/build/target/product/security
-java -Xmx512m \
-	-jar $ANDROID_BUILD_TOP/out/host/$OUT_TARGET_HOST/framework/signapk.jar \
+java -Xmx1024m \
+	-jar $OUT/../../../host/$OUT_TARGET_HOST/framework/signapk.jar \
 	-w $SECURITYDIR/testkey.x509.pem $SECURITYDIR/testkey.pk8 \
 	$REPACK/update.zip $OUTFILE
 echo
@@ -170,7 +137,7 @@ img=`basename $OUTFILE`
 cd `dirname $OUTFILE`
 $MD5 $img >$img.md5sum
 echo
-echo "Package complete: $OUTFILE"
+echo -e $CL_GRN"Package complete: $OUTFILE"$CL_RST
 cat $img.md5sum
 echo
 )

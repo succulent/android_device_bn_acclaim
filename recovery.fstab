@@ -1,24 +1,13 @@
-# mount point	fstype		device
-/xloader	emmc		/dev/block/mmcblk0p1
-/bootloader	emmc		/dev/block/mmcblk0p2
-/recovery	emmc		/dev/block/mmcblk0p3
-/boot		emmc		/dev/block/mmcblk0p4
-/rom		vfat		/dev/block/mmcblk0p5
-/bootdata	vfat		/dev/block/mmcblk0p6
-/factory	ext4		/dev/block/mmcblk0p7
-/system		ext4		/dev/block/mmcblk0p8
-/cache		ext4		/dev/block/mmcblk0p9
-/media          vfat		/dev/block/mmcblk0p10
-/data		ext4		/dev/block/mmcblk0p11
-/sdcard    	vfat            /dev/block/mmcblk1p1
-/system1        ext4            /dev/block/mmcblk1p2
-/data1          ext4            /dev/block/mmcblk1p3
-/sd-ext    	vfat            /dev/block/mmcblk1p4
-/system2        ext4            /dev/block/mmcblk1p5
-/data2          ext4            /dev/block/mmcblk1p6
-/system3        ext4            /dev/block/mmcblk1p7
-/data3          ext4            /dev/block/mmcblk1p8
-/system4        ext4            /dev/block/mmcblk1p9
-/data4          ext4            /dev/block/mmcblk1p10
-/system5        ext4            /dev/block/mmcblk1p11
-/data5          ext4            /dev/block/mmcblk1p12
+# mount point	fstype    device    	[device2]
+/xloader	emmc	  /dev/block/mmcblk0p1
+/bootloader     emmc      /dev/block/mmcblk0p2
+/recovery	emmc	  /dev/block/mmcblk0p3
+/boot		emmc	  /dev/block/mmcblk0p4
+/rom            vfat      /dev/block/mmcblk0p5
+/bootdata       vfat      /dev/block/mmcblk0p6
+/factory	ext4	  /dev/block/mmcblk0p7
+/system		ext4	  /dev/block/mmcblk0p8
+/cache      	ext4      /dev/block/mmcblk0p9
+/emmc  	 	vfat      /dev/block/mmcblk0p10
+/data  	 	ext4      /dev/block/mmcblk0p11
+/sdcard	 	vfat      /dev/block/mmcblk1p1
