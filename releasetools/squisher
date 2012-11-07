@@ -73,8 +73,8 @@ rm $REPACK/ota/system/app/DSPManager.apk
 rm $REPACK/ota/system/app/VoiceDialer.apk
 rm $REPACK/ota/system/app/MagicSmokeWallpapers.apk
 rm $REPACK/ota/system/app/CMWallpapers.apk
-rm $REPACK/ota/system/app/Phone.apk
-rm $REPACK/ota/system/app/TelephonyProvider.apk
+#rm $REPACK/ota/system/app/Phone.apk
+#rm $REPACK/ota/system/app/TelephonyProvider.apk
 
 # Fix build.prop
 $SED -i \

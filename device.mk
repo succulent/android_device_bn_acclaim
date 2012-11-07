@@ -157,9 +157,8 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
         $(DEVICE_FOLDER)/prebuilt/etc/firmware/ft5406-sc3052-1024X768.bin:system/etc/firmware/ft5406-sc3052-1024X768.bin \
         $(DEVICE_FOLDER)/prebuilt/etc/firmware/FTS0019U700_Ver14_app.bin:system/etc/firmware/FTS0019U700_Ver14_app.bin \
-        $(DEVICE_FOLDER)/prebuilt/etc/firmware/ft5406-sc3052-1024X768.bin:system/lib/firmware/ft5406-sc3052-1024X768.bin \
-        $(DEVICE_FOLDER)/prebuilt/etc/firmware/FTS0019U700_Ver14_app.bin:system/lib/firmware/FTS0019U700_Ver14_app.bin \
-        $(DEVICE_FOLDER)/prebuilt/bin/updatefw.sh:system/bin/updatefw.sh
+        $(DEVICE_FOLDER)/prebuilt/bin/updatefw.sh:system/bin/updatefw.sh \
+        $(DEVICE_FOLDER)/prebuilt/bin/restorefw.sh:system/bin/restorefw.sh \
 
 # Prebuilts /system/etc
 PRODUCT_COPY_FILES += \
@@ -242,7 +241,7 @@ PRODUCT_PROPERTY_OVERRIDES := \
 	
 PRODUCT_CHARACTERISTICS := tablet
 
-DEVICE_PACKAGE_OVERLAYS := $(DEVICE_FOLDER)/overlay/
+DEVICE_PACKAGE_OVERLAYS := $(DEVICE_FOLDER)/overlay/aosp
 
 # enable Google-specific location features,
 # like NetworkLocationProvider and LocationCollector
@@ -257,7 +256,6 @@ $(call inherit-product, frameworks/native/build/tablet-dalvik-heap.mk)
 
 $(call inherit-product-if-exists, vendor/bn/acclaim/device-vendor.mk)
 $(call inherit-product-if-exists, vendor/bn/acclaim/device-vendor-blobs.mk)
-$(call inherit-product-if-exists, hardware/ti/omap4xxx/omap4.mk)
 
 #$(call inherit-product, $(DEVICE_FOLDER)/wl12xx/ti-wl12xx-vendor.mk)
 #$(call inherit-product, $(DEVICE_FOLDER)/wl12xx/ti-wpan-products.mk)

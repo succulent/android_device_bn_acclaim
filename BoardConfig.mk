@@ -96,10 +96,13 @@ BOARD_EGL_CFG := device/bn/acclaim/prebuilt/etc/egl.cfg
 USE_OPENGL_RENDERER := true
 
 # Recovery
+BOARD_ALWAYS_INSECURE := true
+BOARD_HAS_LARGE_FILESYSTEM := true
+BOARD_UMS_LUNFILE := "/sys/devices/virtual/android_usb/android0/f_mass_storage/lun%d/file"
 BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/bn/acclaim/recovery/recovery_ui.c
 TARGET_RECOVERY_INITRC := device/bn/acclaim/recovery/init.rc
 TARGET_RECOVERY_PRE_COMMAND := "echo 'recovery' > /bootdata/BCB; sync"
-BOARD_HAS_LARGE_FILESYSTEM := true
+
 
 TARGET_SPECIFIC_HEADER_PATH := device/bn/acclaim/src-headers
 

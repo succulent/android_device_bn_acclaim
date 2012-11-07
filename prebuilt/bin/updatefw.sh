@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/system/bin/sh
 echo Starting
 
 WINTEKPANEL=1

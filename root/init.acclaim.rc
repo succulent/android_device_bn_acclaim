@@ -195,6 +195,12 @@ service pvrsrvinit /vendor/bin/pvrsrvinit
     group root
     oneshot
 
+service updatefw /system/bin/updatefw.sh
+    class core
+    user root
+    group root
+    oneshot
+
 service bootcnt /system/bin/clear_bootcnt.sh
     class core
     user root

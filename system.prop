@@ -28,17 +28,6 @@ ro.media.dec.jpeg.memcap=8000000
 ro.media.enc.hprof.vid.bps=8000000
 ro.media.enc.jpeg.quality=100
 
-# Net Speed Tweaks
-net.tcp.buffersize.default=4096,87380,256960,4096,16384,256960
-net.tcp.buffersize.wifi=4096,87380,256960,4096,16384,256960
-net.tcp.buffersize.umts=4096,87380,256960,4096,16384,256960
-net.tcp.buffersize.gprs=4096,87380,256960,4096,16384,256960
-net.tcp.buffersize.edge=4096,87380,256960,4096,16384,256960
-net.tcp.buffersize.hspa=4096,87380,256960,4096,163 84,256960
-net.tcp.buffersize.lte=524288,1048576,2097152,524288,1048576,2097152
-net.tcp.buffersize.hspda=4096,87380,256960,4096,16 384,256960
-net.tcp.buffersize.evdo_b=6144,87380,1048576,6144,87380,1048576
-
 # Google DNS
 net.ppp0.dns1=8.8.8.8
 net.ppp0.dns2=8.8.4.4
