@@ -27,6 +27,7 @@
 
   <!-- local projects -->
   <project path="kernel/bn/acclaim" name="Kuzma30/kernel3NookTablet" remote="private" revision="jellybean"/>
+  <project path="device/bn/acclaim" name="succulent/android_device_bn_acclaim" revision="CM10.0" />
 
   <!-- SGT7 -->
   <remove-project name="CyanogenMod/android_frameworks_base" />
@@ -37,6 +38,10 @@
   <project path="packages/apps/Email" name="loosethisskin/android_packages_apps_Email" revision="jb" />
   <project path="packages/apps/Settings" name="loosethisskin/android_packages_apps_Settings" revision="jb-sgt7"  />
   <project path="packages/apps/Trebuchet" name="loosethisskin/android_packages_apps_Trebuchet" revision="jb-sgt7-dev"  />
+
+  <!-- TWRP -->
+  <remove-project name="CyanogenMod/android_bootable_recovery" />
+  <project name="TeamWin/Team-Win-Recovery-Project" path="bootable/recovery" remote="github" revision="jb-wip" />
 
   </manifest>
 
