@@ -43,5 +43,13 @@
   <remove-project name="CyanogenMod/android_bootable_recovery" />
   <project name="TeamWin/Team-Win-Recovery-Project" path="bootable/recovery" remote="github" revision="jb-wip" />
 
+  <!-- Linaro -->
+  <remove-project name="CyanogenMod/android_bionic" />
+  <remove-project name="CyanogenMod/android_build" />
+  <project path="bionic" name="loosethisskin/android_bionic" revision="jb-linaro" />
+  <project path="build" name="loosethisskin/android_build" revision="jb" >
+      <copyfile src="core/root.mk" dest="Makefile" />
+  </project>
+
   </manifest>
 
