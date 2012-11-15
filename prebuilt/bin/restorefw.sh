@@ -6,14 +6,6 @@ FILENAME="FTS0019U700_Ver14_app.bin"
 NEWFWVER="14"
 VARX=1
 
-echo "0x00" > /sys/bus/i2c/devices/2-0038/wmreg
-
-FWID=`cat /sys/bus/i2c/devices/2-0038/wmval`
-echo "FWID=$FWID"
-
-VENDORID=`cat /sys/bus/i2c/devices/2-0038/vendorid`
-echo "VENDORID=$VENDORID"
-
 TPFWVER=`cat /sys/bus/i2c/devices/2-0038/tpfwver`
 echo "TPFWVER=$TPFWVER"
 
@@ -34,8 +26,6 @@ do
 	cat /sys/bus/i2c/devices/2-0038/calibrate
 	cat /sys/bus/i2c/devices/2-0038/storecalibrateflash
 	
-	VENDORID=`cat /sys/bus/i2c/devices/2-0038/vendorid`
-	echo "VENDORID=$VENDORID"
 	
 	TPFWVER=`cat /sys/bus/i2c/devices/2-0038/tpfwver`
 	echo "TPFWVER=$TPFWVER"

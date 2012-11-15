@@ -3,16 +3,8 @@ echo Starting
 
 WINTEKPANEL=1
 FILENAME="ft5406-sc3052-1024X768.bin"
-NEWFWVER="0B"
+NEWFWVER="A6"
 VARX=1
-
-echo "0x00" > /sys/bus/i2c/devices/2-0038/wmreg
-
-FWID=`cat /sys/bus/i2c/devices/2-0038/wmval`
-echo "FWID=$FWID"
-
-VENDORID=`cat /sys/bus/i2c/devices/2-0038/vendorid`
-echo "VENDORID=$VENDORID"
 
 TPFWVER=`cat /sys/bus/i2c/devices/2-0038/tpfwver`
 echo "TPFWVER=$TPFWVER"
@@ -33,9 +25,6 @@ do
 	
 	cat /sys/bus/i2c/devices/2-0038/calibrate
 	cat /sys/bus/i2c/devices/2-0038/storecalibrateflash
-	
-	VENDORID=`cat /sys/bus/i2c/devices/2-0038/vendorid`
-	echo "VENDORID=$VENDORID"
 	
 	TPFWVER=`cat /sys/bus/i2c/devices/2-0038/tpfwver`
 	echo "TPFWVER=$TPFWVER"
