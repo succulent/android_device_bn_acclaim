@@ -271,6 +271,8 @@ def BuildBootableImage(sourcedir, fs_config_file):
   global gVar
 
   if gVar == 1:
+      if (os.path.exists('out/target/product/acclaim/boot.img')):	
+          os.unlink('out/target/product/acclaim/boot.img')
       print "Prepending cyanoboot to data. Will create new boot.img in output.zip."
       data = open('out/target/product/acclaim/cyanoboot', 'r').read() + img.read()
       gVar += 1
