@@ -12,9 +12,10 @@ ro.nf.profile=2
 ro.nf.level=512
 ro.sf.hwrotation=270
 
-ro.vold.switchablepair=/mnt/sdcard,/mnt/emmc
+ro.vold.switchablepair=/storage/sdcard0,/storage/sdcard1
+#ro.vold.switchablepair=/mnt/emmc,/mnt/sdcard
+ro.additionalmounts=/storage/sdcard0;/storage/usbdisk0
 persist.sys.usb.config=mtp,adb
-ro.additionalmounts=/mnt/emmc;/mnt/usbdisk
 
 # Faster Streaming
 media.stagefright.enable-player=true 
