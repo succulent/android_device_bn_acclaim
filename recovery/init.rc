@@ -11,7 +11,6 @@ on init
     symlink /system/etc /etc
 
     mkdir /boot
-    mkdir /bootdata
     mkdir /sdcard
     mkdir /sd-ext
     mkdir /datadata
@@ -49,8 +48,8 @@ service adbd /sbin/adbd recovery
 # In recovery, always run adbd as root.
 on property:ro.debuggable=1
     write /sys/class/android_usb/android0/enable 0
-    write /sys/class/android_usb/android0/idVendor 18D1
-    write /sys/class/android_usb/android0/idProduct D001
+    write /sys/class/android_usb/android0/idVendor 2080
+    write /sys/class/android_usb/android0/idProduct 0004
     write /sys/class/android_usb/android0/functions adb
 #    write /sys/class/android_usb/android0/enable 1
     write /sys/class/android_usb/android0/iManufacturer $ro.product.manufacturer
