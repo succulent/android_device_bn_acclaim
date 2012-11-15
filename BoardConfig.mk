@@ -40,7 +40,7 @@ TARGET_ARCH_VARIANT := armv7-a-neon
 ARCH_ARM_HAVE_TLS_REGISTER := true
 
 # Compiler flags
-ifndef BUILD_EXCLUDE_EXTRA_CFLAGS
+ifneq (,$(filter true 1,$(TARGET_INCLUDE_EXTRA_CFLAGS)))
 TARGET_EXTRA_CFLAGS += $(call cc-option,-mtune=cortex-a9) $(call cc-option,-mcpu=cortex-a9)
 endif
 
@@ -48,6 +48,7 @@ endif
 BOARD_KERNEL_BASE := 0x80080000
 BOARD_KERNEL_PAGESIZE := 4096
 BOARD_KERNEL_CMDLINE := androidboot.console=ttyO0 console=ttyO0,115200n8 def_disp=lcd2
+#BOARD_KERNEL_CMDLINE := androidboot.console=ttyO0 console=ttyO0,115200n8 mem=448M@0x80000000 mem=512M@0xA0000000 init=/init rootwait vram=32M omapfb.vram=0:5M
 TARGET_NO_RADIOIMAGE := true
 TARGET_BOARD_PLATFORM := omap4
 TARGET_NO_BOOTLOADER := true
@@ -59,8 +60,9 @@ BOARD_SDCARD_DEVICE_INTERNAL := /dev/block/mmcblk0p10
 
 # Kernel Build
 TARGET_KERNEL_SOURCE := kernel/bn/acclaim
-TARGET_KERNEL_CONFIG := cyanogenmod_acclaim_defconfig
 TARGET_PREBUILT_KERNEL := device/bn/acclaim/kernel
+TARGET_KERNEL_CONFIG := cyanogenmod_acclaim_defconfig
+#TARGET_KERNEL_CONFIG := acclaim_defconfig
 
 # Filesystem
 TARGET_USERIMAGES_USE_EXT4 := true
