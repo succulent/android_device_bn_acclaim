@@ -12,12 +12,12 @@
 
   <!-- omapzoom replacements -->
   <project path="device/ti/common-open" name="device/ti/common-open" remote="omapzoom" revision="jb-release" />
-  <project path="device/ti/proprietary-open" name="device/ti/proprietary-open" remote="omapzoom" revision="jb-release" />
+  <project path="device/ti/proprietary-open" name="device/ti/proprietary-open" remote="omapzoom" revision="d-jb-mr0-release" />
   <project path="hardware/ti/domx" name="platform/hardware/ti/domx" remote="omapzoom" revision="jb-release" />
   <project path="hardware/ti/omap4xxx" name="platform/hardware/ti/omap4xxx" remote="omapzoom" revision="p-jb-release" />
-  <project path="hardware/ti/wlan" name="platform/hardware/ti/wlan" remote="omapzoom" revision="p-jb-release" />
-  <project path="external/wpa_supplicant_8_ti" name="platform/external/wpa_supplicant_8_ti" remote="omapzoom" revision="jb-release">
-    <annotation name="vendor" value="ti" />
+  <project path="hardware/ti/wlan" name="platform/hardware/ti/wlan" remote="omapzoom" revision="d-jb-release" />
+  <project path="external/wpa_supplicant_8_ti" name="platform/external/wpa_supplicant_8_ti" remote="omapzoom" revision="d-jb-release">
+     <annotation name="vendor" value="ti" />
   </project>
 
   <!-- modified CM projects -->
@@ -26,8 +26,8 @@
   <project path="system/core" name="KFire-Android/android_system_core" revision="jellybean" />
 
   <!-- local projects -->
-  <project path="kernel/bn/acclaim" name="Kuzma30/kernel3NookTablet" remote="private" revision="jellybean"/>
-  <project path="device/bn/acclaim" name="succulent/android_device_bn_acclaim" revision="CM10.0" />
+  <project path="kernel/bn/acclaim" name="Kuzma30/kernel3NookTablet" revision="jellybean"/>
+  <!-- <project path="kernel/bn/acclaim" name="succulent/android_kernel_bn_hummingbird_ovation" revision="master"/> -->
 
   <!-- SGT7 -->
   <remove-project name="CyanogenMod/android_frameworks_base" />
@@ -36,8 +36,8 @@
   <remove-project name="CyanogenMod/android_packages_apps_Trebuchet" />
   <project path="frameworks/base" name="loosethisskin/android_frameworks_base" revision="jb-sgt7" />
   <project path="packages/apps/Email" name="loosethisskin/android_packages_apps_Email" revision="jb" />
-  <project path="packages/apps/Settings" name="loosethisskin/android_packages_apps_Settings" revision="jb-sgt7"  />
-  <project path="packages/apps/Trebuchet" name="loosethisskin/android_packages_apps_Trebuchet" revision="jb-sgt7-dev"  />
+  <project path="packages/apps/Settings" name="loosethisskin/android_packages_apps_Settings" revision="jb-sgt7" />
+  <project path="packages/apps/Trebuchet" name="loosethisskin/android_packages_apps_Trebuchet" revision="jb-sgt7-dev" />
 
   <!-- TWRP -->
   <remove-project name="CyanogenMod/android_bootable_recovery" />
