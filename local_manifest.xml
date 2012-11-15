@@ -27,6 +27,7 @@
 
   <!-- local projects -->
   <project path="kernel/bn/acclaim" name="Kuzma30/kernel3NookTablet" revision="jellybean"/>
+  <project path="device/bn/acclaim" name="succulent/android_device_bn_acclaim" revision="CM10.0" />
   <!-- <project path="kernel/bn/acclaim" name="succulent/android_kernel_bn_hummingbird_ovation" revision="master"/> -->
 
   <!-- SGT7 -->
