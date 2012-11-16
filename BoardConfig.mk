@@ -1,17 +1,18 @@
-# Copyright (C) 2007 The Android Open Source Project
-# Copyright (C) 2011 The CyanogenMod Project
+#
+# Copyright (C) 2012 The CyanogenMod Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#      http://www.apache.org/licenses/LICENSE-2.0
+# http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
 
 # BoardConfig.mk
 #
@@ -38,20 +39,17 @@ TARGET_CPU_ABI2 := armeabi
 TARGET_CPU_SMP := true
 TARGET_ARCH_VARIANT := armv7-a-neon
 ARCH_ARM_HAVE_TLS_REGISTER := true
-
-# Compiler flags
-ifneq (,$(filter true 1,$(TARGET_INCLUDE_EXTRA_CFLAGS)))
-TARGET_EXTRA_CFLAGS += $(call cc-option,-mtune=cortex-a9) $(call cc-option,-mcpu=cortex-a9)
-endif
+TARGET_GLOBAL_CFLAGS += -mtune=cortex-a9 -mfpu=neon -mfloat-abi=softfp
+TARGET_GLOBAL_CPPFLAGS += -mtune=cortex-a9 -mfpu=neon -mfloat-abi=softfp
 
 # Kernel/Boot
 BOARD_KERNEL_BASE := 0x80080000
 BOARD_KERNEL_PAGESIZE := 4096
 BOARD_KERNEL_CMDLINE := androidboot.console=ttyO0 console=ttyO0,115200n8 def_disp=lcd2
 #BOARD_KERNEL_CMDLINE := androidboot.console=ttyO0 console=ttyO0,115200n8 mem=448M@0x80000000 mem=512M@0xA0000000 init=/init rootwait vram=32M omapfb.vram=0:5M
+TARGET_NO_BOOTLOADER := true
 TARGET_NO_RADIOIMAGE := true
 TARGET_BOARD_PLATFORM := omap4
-TARGET_NO_BOOTLOADER := true
 TARGET_BOOTLOADER_BOARD_NAME := acclaim
 BOARD_HAS_SDCARD_INTERNAL := true
 BOARD_SDCARD_DEVICE_PRIMARY := /dev/block/mmcblk1p1
@@ -61,8 +59,8 @@ BOARD_SDCARD_DEVICE_INTERNAL := /dev/block/mmcblk0p10
 # Kernel Build
 TARGET_KERNEL_SOURCE := kernel/bn/acclaim
 TARGET_PREBUILT_KERNEL := device/bn/acclaim/kernel
-TARGET_KERNEL_CONFIG := cyanogenmod_acclaim_defconfig
-#TARGET_KERNEL_CONFIG := acclaim_defconfig
+#TARGET_KERNEL_CONFIG := cyanogenmod_acclaim_defconfig
+TARGET_KERNEL_CONFIG := acclaim_defconfig
 
 # Filesystem
 TARGET_USERIMAGES_USE_EXT4 := true
@@ -73,7 +71,8 @@ BOARD_USERDATAIMAGE_PARTITION_SIZE := 12949893120
 BOARD_FLASH_BLOCK_SIZE := 131072
 BOARD_VOLD_MAX_PARTITIONS := 32
 BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
-TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/virtual/android_usb/android0/f_mass_storage/lun%d/file"
+TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/class/android_usb/f_mass_storage/lun%d/file"
+#TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/virtual/android_usb/android0/f_mass_storage/lun%d/file"
 
 # Connectivity - Wi-Fi
 USES_TI_MAC80211 := true
@@ -97,11 +96,13 @@ ADDITIONAL_DEFAULT_PROPERTIES += ro.allow.mock.location=1
 # Graphics
 BOARD_EGL_CFG := device/bn/acclaim/prebuilt/etc/egl.cfg
 USE_OPENGL_RENDERER := true
+COMMON_GLOBAL_CFLAGS += -DSURFACEFLINGER_FORCE_SCREEN_RELEASE
+TARGET_BOOTANIMATION_PRELOAD := true
 
 # Recovery
 BOARD_ALWAYS_INSECURE := true
 BOARD_HAS_LARGE_FILESYSTEM := true
-BOARD_UMS_LUNFILE := "/sys/devices/virtual/android_usb/android0/f_mass_storage/lun%d/file"
+BOARD_UMS_LUNFILE := "/sys/class/android_usb/f_mass_storage/lun%d/file"
 BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/bn/acclaim/recovery/recovery_ui.c
 TARGET_RECOVERY_INITRC := device/bn/acclaim/recovery/init.rc
 TARGET_RECOVERY_PRE_COMMAND := "echo 'recovery' > /bootdata/BCB; sync"
@@ -198,6 +199,3 @@ TARGET_KRAIT_BIONIC_PLDSIZE := 64
 
 # Use linaro optimized string routines
 TARGET_USE_LINARO_STRING_ROUTINES := true
-
-# Bootanimation
-TARGET_BOOTANIMATION_PRELOAD := true
