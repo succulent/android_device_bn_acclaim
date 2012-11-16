@@ -186,6 +186,11 @@ on boot
     # Note this won't affect the prev boost request for boot time reduction
     write /sys/devices/system/cpu/cpufreq/hotplug/boost_timeout 3000000
 
+    write /sys/devices/virtual/bdi/179:0/read_ahead_kb 4096 
+    write /sys/devices/virtual/bdi/default/read_ahead_kb 4096 
+    write /sys/block/mmcblk0/queue/read_ahead_kb 4096
+    write /sys/block/mmcblk1/queue/read_ahead_kb 4096
+
 on property:dev.bootcomplete=1
     start bootcnt
 
