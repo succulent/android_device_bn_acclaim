@@ -1,12 +1,11 @@
 #
-# Copyright (C) 2011 The Android Open-Source Project
-# Copyright (C) 2011 The CyanogenMod Project
+# Copyright (C) 2012 The CyanogenMod Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#      http://www.apache.org/licenses/LICENSE-2.0
+# http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -103,7 +102,8 @@ PRODUCT_PACKAGES += \
 	hwprops \
 	libjni_pinyinime \
 	make_ext4fs \
-	setup_fs
+	setup_fs \
+        TFF
 
 # Audio testing
 PRODUCT_PACKAGES += \
@@ -118,7 +118,8 @@ PRODUCT_COPY_FILES += \
 	$(DEVICE_FOLDER)/root/default.prop:/root/default.prop \
 	$(DEVICE_FOLDER)/root/init.acclaim.rc:root/init.acclaim.rc \
 	$(DEVICE_FOLDER)/root/init.acclaim.usb.rc:root/init.acclaim.usb.rc \
-	$(DEVICE_FOLDER)/root/ueventd.acclaim.rc:root/ueventd.acclaim.rc
+	$(DEVICE_FOLDER)/root/ueventd.acclaim.rc:root/ueventd.acclaim.rc \
+	$(DEVICE_FOLDER)/root/initlogo.rle:root/initlogo.rle
 
 # Permissions
 PRODUCT_COPY_FILES += \
@@ -158,7 +159,7 @@ PRODUCT_COPY_FILES += \
         $(DEVICE_FOLDER)/prebuilt/etc/firmware/ft5406-sc3052-1024X768.bin:system/etc/firmware/ft5406-sc3052-1024X768.bin \
         $(DEVICE_FOLDER)/prebuilt/etc/firmware/FTS0019U700_Ver14_app.bin:system/etc/firmware/FTS0019U700_Ver14_app.bin \
         $(DEVICE_FOLDER)/prebuilt/bin/updatefw.sh:system/bin/updatefw.sh \
-        $(DEVICE_FOLDER)/prebuilt/bin/restorefw.sh:system/bin/restorefw.sh \
+        $(DEVICE_FOLDER)/prebuilt/bin/restorefw.sh:system/bin/restorefw.sh
 
 # Prebuilts /system/etc
 PRODUCT_COPY_FILES += \
@@ -257,5 +258,6 @@ $(call inherit-product, frameworks/native/build/tablet-dalvik-heap.mk)
 $(call inherit-product-if-exists, vendor/bn/acclaim/device-vendor.mk)
 $(call inherit-product-if-exists, vendor/bn/acclaim/device-vendor-blobs.mk)
 
+#$(call inherit-product-if-exists, hardware/ti/omap4xxx/omap4.mk)
 #$(call inherit-product, $(DEVICE_FOLDER)/wl12xx/ti-wl12xx-vendor.mk)
 #$(call inherit-product, $(DEVICE_FOLDER)/wl12xx/ti-wpan-products.mk)
