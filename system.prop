@@ -34,6 +34,8 @@ net.ppp0.dns1=8.8.8.8
 net.ppp0.dns2=8.8.4.4
 net.dns1=8.8.8.8
 net.dns2=8.8.4.4  
+net.rmnet0.dns1 8.8.8.8
+net.rmnet0.dns2 8.8.4.4
 
 # Frees More RAM
 persist.sys.purgeable_assets=1
@@ -43,6 +45,8 @@ persist.sys.shutdown.mode=hibernate
 ro.config.hw_quickpoweron=true
 
 # Better Responsiveness & Speed
+persist.android.strictmode 0
+persist.sys.ui.hw 1
 windowsmgr.max_events_per_sec=500
 ro.max.fling_velocity=12000
 ro.min.fling_velocity=8000
@@ -61,3 +65,5 @@ ro.kernel.checkjni=0
 
 # Enables 270 Degree Rotation
 windowsmgr.support_rotation_270=true;
+
+pm.sleep_mode 1
