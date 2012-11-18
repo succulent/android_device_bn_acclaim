@@ -137,20 +137,13 @@ PRODUCT_COPY_FILES += \
 	frameworks/native/data/etc/tablet_core_hardware.xml:system/etc/permissions/tablet_core_hardware.xml \
 	$(call add-to-product-copy-files-if-exists,packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:system/etc/permissions/android.software.live_wallpaper.xml)
 
-# Prebuilts /system/bin
-PRODUCT_COPY_FILES += \
-	$(DEVICE_FOLDER)/clear_bootcnt.sh:system/bin/clear_bootcnt.sh \
-	$(DEVICE_FOLDER)/prebuilt/bin/fix-mac.sh:system/bin/fix-mac.sh \
-	$(DEVICE_FOLDER)/prebuilt/bin/log_battery_data.sh:system/bin/log_battery_data.sh \
-	$(DEVICE_FOLDER)/prebuilt/bin/strace:system/bin/strace
-
 # postrecoveryboot for recovery
 PRODUCT_COPY_FILES += \
 	$(DEVICE_FOLDER)/recovery/postrecoveryboot.sh:recovery/root/sbin/postrecoveryboot.sh
 
 # TI-Connectivity
 PRODUCT_COPY_FILES += \
-        $(DEVICE_FOLDER)/firmware/wl1271-nvs_127x.bin:system/etc/firmware/ti-connectivity/wl1271-nvs.bin.orig \
+        $(DEVICE_FOLDER)/firmware/wl1271-nvs_127x.bin:system/etc/firmware/ti-connectivity/wl1271-nvs.bin \
         $(DEVICE_FOLDER)/firmware/wl127x-fw-4-mr.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-mr.bin \
         $(DEVICE_FOLDER)/firmware/wl127x-fw-4-sr.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-sr.bin
 
@@ -160,6 +153,13 @@ PRODUCT_COPY_FILES += \
         $(DEVICE_FOLDER)/prebuilt/etc/firmware/FTS0019U700_Ver14_app.bin:system/etc/firmware/FTS0019U700_Ver14_app.bin \
         $(DEVICE_FOLDER)/prebuilt/bin/updatefw.sh:system/bin/updatefw.sh \
         $(DEVICE_FOLDER)/prebuilt/bin/restorefw.sh:system/bin/restorefw.sh
+
+# Prebuilts /system/bin
+PRODUCT_COPY_FILES += \
+	$(DEVICE_FOLDER)/clear_bootcnt.sh:system/bin/clear_bootcnt.sh \
+	$(DEVICE_FOLDER)/prebuilt/bin/fix-mac.sh:system/bin/fix-mac.sh \
+	$(DEVICE_FOLDER)/prebuilt/bin/log_battery_data.sh:system/bin/log_battery_data.sh \
+	$(DEVICE_FOLDER)/prebuilt/bin/strace:system/bin/strace
 
 # Prebuilts /system/etc
 PRODUCT_COPY_FILES += \
@@ -176,17 +176,11 @@ PRODUCT_COPY_FILES += \
 	$(DEVICE_FOLDER)/prebuilt/usr/idc/twl6030_pwrbutton.idc:system/usr/idc/twl6030_pwrbutton.idc \
 	$(DEVICE_FOLDER)/prebuilt/usr/keylayout/twl6030_pwrbutton.kl:system/usr/keylayout/twl6030_pwrbutton.kl
 
-PRODUCT_COPY_FILES += \
-	$(DEVICE_FOLDER)/prebuilt/media/bootanimation.zip:system/media/bootanimation.zip \
-	$(DEVICE_FOLDER)/prebuilt/bin/su:system/xbin/su
-
 PRODUCT_PACKAGES += \
 	librs_jni \
-	com.android.future.usb.accessory
-
-PRODUCT_PACKAGES += \
-	Superuser \
-	su
+	com.android.future.usb.accessory \
+        Superuser \
+        su
 
 # OMX
 PRODUCT_VENDOR_KERNEL_HEADERS := hardware/ti/omap4xxx/kernel-headers
@@ -210,7 +204,6 @@ PRODUCT_PACKAGES += \
 	tf_daemon \
 	libtf_crypto_sst
 
-
 PRODUCT_PACKAGES += \
 	iontest \
 	libaudioutils \
@@ -220,7 +213,7 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_PROPERTY_OVERRIDES := \
 	com.ti.omap_enhancement=true \
-	dalvik.vm.heapgrowthlimit=48m \
+	dalvik.vm.heapgrowthlimit=42m \
 	dalvik.vm.heapsize=128m \
 	dalvik.vm.heapstartsize=5m \
 	debug.composition.type=gpu \
@@ -237,9 +230,8 @@ PRODUCT_PROPERTY_OVERRIDES := \
 	ro.sf.lcd_density=160 \
 	video.accelerate.hw=1 \
 	wifi.interface=wlan0 \
-	wifi.supplicant_scan_interval=180 \
+	wifi.supplicant_scan_interval=180
 
-	
 PRODUCT_CHARACTERISTICS := tablet
 
 DEVICE_PACKAGE_OVERLAYS := $(DEVICE_FOLDER)/overlay/aosp
