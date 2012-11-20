@@ -11,6 +11,8 @@ on init
     symlink /system/etc /etc
 
     mkdir /boot
+    mkdir /bootdata
+    mkdir /rom
     mkdir /sdcard
     mkdir /sd-ext
     mkdir /datadata
@@ -19,7 +21,7 @@ on init
     mkdir /data
     mkdir /cache
     mount /tmp /tmp tmpfs
-    mount vfat /dev/block/mmcblk0p6 /bootdata
+    mount -t vfat /dev/block/mmcblk0p6 /bootdata
     exec /sbin/dd if=/dev/zero of=/bootdata/BootCnt bs=1 count=4
 
     chown root shell /tmp
