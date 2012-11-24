@@ -119,8 +119,7 @@ PRODUCT_COPY_FILES += \
 	$(DEVICE_FOLDER)/root/default.prop:/root/default.prop \
 	$(DEVICE_FOLDER)/root/init.acclaim.rc:root/init.acclaim.rc \
 	$(DEVICE_FOLDER)/root/init.acclaim.usb.rc:root/init.acclaim.usb.rc \
-	$(DEVICE_FOLDER)/root/ueventd.acclaim.rc:root/ueventd.acclaim.rc \
-	$(DEVICE_FOLDER)/root/initlogo.rle:root/initlogo.rle
+	$(DEVICE_FOLDER)/root/ueventd.acclaim.rc:root/ueventd.acclaim.rc
 
 # Permissions
 PRODUCT_COPY_FILES += \
@@ -178,6 +177,12 @@ PRODUCT_COPY_FILES += \
 	$(DEVICE_FOLDER)/prebuilt/usr/keylayout/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl\
 	$(DEVICE_FOLDER)/prebuilt/usr/idc/twl6030_pwrbutton.idc:system/usr/idc/twl6030_pwrbutton.idc \
 	$(DEVICE_FOLDER)/prebuilt/usr/keylayout/twl6030_pwrbutton.kl:system/usr/keylayout/twl6030_pwrbutton.kl
+
+# SMC
+#PRODUCT_COPY_FILES += \
+#	$(DEVICE_FOLDER)/prebuilt/bin/smc_pa_ctrl:system/bin/smc_pa_ctrl \
+#	$(DEVICE_FOLDER)/prebuilt/etc/firmware/smc_pa.ift:system/firmware/smc_pa.ift \
+#	$(DEVICE_FOLDER)/prebuilt/etc/smc_normal_world_android_cfg.ini:system/etc/smc_normal_world_android_cfg.ini
 
 PRODUCT_PACKAGES += \
 	librs_jni \
