@@ -116,7 +116,6 @@ PRODUCT_COPY_FILES += \
 	$(LOCAL_KERNEL):kernel \
     	$(LOCAL_CYANOBOOT):cyanoboot \
     	$(LOCAL_IRECOVERY):irecovery \
-	$(DEVICE_FOLDER)/root/default.prop:/root/default.prop \
 	$(DEVICE_FOLDER)/root/init.acclaim.rc:root/init.acclaim.rc \
 	$(DEVICE_FOLDER)/root/init.acclaim.usb.rc:root/init.acclaim.usb.rc \
 	$(DEVICE_FOLDER)/root/ueventd.acclaim.rc:root/ueventd.acclaim.rc
