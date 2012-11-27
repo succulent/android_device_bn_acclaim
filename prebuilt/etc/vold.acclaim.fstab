@@ -17,4 +17,4 @@ dev_mount sdcard0 /storage/sdcard0 10 /devices/platform/omap/omap_hsmmc.1/mmc_ho
 dev_mount sdcard1 /storage/sdcard1 auto /devices/platform/omap/omap_hsmmc.0/mmc_host/mmc1
 
 ## usb-disk
-dev_mount usbdisk0 /storage/usbdisk0 auto /devices/platform/omap/musb-omap2430/musb-hdrc/usb1
+dev_mount usbdisk0 /storage/usbdisk0 auto /devices/platform/omap/musb-omap2430
