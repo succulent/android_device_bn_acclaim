@@ -15,10 +15,6 @@ ro.sf.hwrotation=270
 ro.vold.switchablepair=/storage/sdcard0,/storage/sdcard1
 ro.additionalmounts=/storage/sdcard0;/storage/usbdisk0
 persist.sys.usb.config=mtp,adb
-#ro.pm.awake_on_usb=1
-
-ro.config.disable.hw_accel=false
-ro.min_pointer_dur=8
 
 # Faster Streaming
 media.stagefright.enable-player=true
@@ -26,28 +22,15 @@ media.stagefright.enable-meta=true
 media.stagefright.enable-scan=true
 media.stagefright.enable-http=true
 media.stagefright.enable-rtsp=true
-media.stagefright.enable-record=false
+media.stagefright.enable-record=true
 
 # Better Image & Audio Quality
 ro.media.dec.jpeg.memcap=8000000
 ro.media.enc.hprof.vid.bps=8000000
 ro.media.enc.jpeg.quality=100
-ro.media.enc.hprof.vid.fps=65
-
-# Google DNS
-net.ppp0.dns1=8.8.8.8
-net.ppp0.dns2=8.8.4.4
-net.dns1=8.8.8.8
-net.dns2=8.8.4.4  
-net.rmnet0.dns1=8.8.8.8
-net.rmnet0.dns2=8.8.4.4
 
 # Frees More RAM
 persist.sys.purgeable_assets=1
-
-# Fast Reboot
-#persist.sys.shutdown.mode=hibernate
-#ro.config.hw_quickpoweron=true
 
 # Better Responsiveness & Speed
 persist.android.strictmode=0
@@ -60,14 +43,6 @@ windowsmgr.max_events_per_sec=275
 ro.max.fling_velocity=12000
 ro.min.fling_velocity=8000
 
-# Other Tweaks
-#ro.media.dec.aud.wma.enabled=1
-#ro.media.dec.vid.wmv.enabled=1
-#ro.media.dec.aud.flac.enabled=1
-#ro.media.dec.vid.avi.enabled=1
-#ro.mot.eri.losalert.delay=1000
-#ro.config.hwfeature_wakeupkey=0
-
 # Disable extended dalvik jni checking
 ro.kernel.android.checkjni=0
 ro.kernel.checkjni=0
@@ -76,31 +51,3 @@ dalvik.vm.checkjni=0
 # Use dalvik JIT compiler
 dalvik.vm.execution-mode=int:jit
 
-# Improve screen quality at the cost of performance (1 enabled 0 disabled)
-persist.sys.use.dithering=1
-
-# Enable more checking for a better performing dalvik cache but may use a little more ram
-dalvik.vm.verify-bytecode=true
-dalvik.vm.dexopt-flags=v=f,u=n,o=v
-
-# Enables 270 Degree Rotation
-windowsmgr.support_rotation_270=true;
-
-# Sleep mode for battery savings. 0 power collapse suspend, 1 power collapse (best),
-#2 apps go to sleep, 3 show clock and wait, 4 wait for interrupt
-#pm.sleep_mode=1
-
-# Disable the zygote loader for performance
-#ro.wmt.blcr.enable=0
-
-# Battery savers
-#ro.ril.disable.power.collapse=0
-
-# Change to 2000 if having issues connecting after signal loss
-#ro.mot.eri.losalert.delay=1000
-
-# Disable sending usage data to google
-ro.config.nocheckin=1
-
-# Stop usb debugging on notification
-#persist.adb.notify=0
