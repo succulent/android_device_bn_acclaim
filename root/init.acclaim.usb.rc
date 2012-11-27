@@ -106,3 +106,4 @@ on property:sys.usb.config=mtp,mass_storage
     start adbd
     setprop sys.usb.state ${sys.usb.config}
 
+
