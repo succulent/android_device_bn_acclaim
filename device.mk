@@ -177,6 +177,12 @@ PRODUCT_COPY_FILES += \
 	$(DEVICE_FOLDER)/prebuilt/usr/idc/twl6030_pwrbutton.idc:system/usr/idc/twl6030_pwrbutton.idc \
 	$(DEVICE_FOLDER)/prebuilt/usr/keylayout/twl6030_pwrbutton.kl:system/usr/keylayout/twl6030_pwrbutton.kl
 
+# AOSP specific
+ifeq ($(TARGET_PRODUCT),full_acclaim)
+PRODUCT_COPY_FILES += \
+    $(DEVICE_FOLDER)/prebuilt/bin/su:/system/xbin/su
+endif
+
 PRODUCT_PACKAGES += \
 	librs_jni \
 	com.android.future.usb.accessory \
