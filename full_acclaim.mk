@@ -35,5 +35,4 @@ PRODUCT_NAME := full_acclaim
 PRODUCT_DEVICE := acclaim
 PRODUCT_BRAND := bn
 PRODUCT_MODEL := Nook Tablet
-PRODUCT_MANUFACTURER := bn
 

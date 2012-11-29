@@ -33,7 +33,7 @@ ENHANCED_DOMX := true
 -include vendor/bn/acclaim/BoardConfigVendor.mk
 
 # Processor 
-
+TARGET_ARCH := arm
 TARGET_CPU_ABI := armeabi-v7a
 TARGET_CPU_ABI2 := armeabi
 TARGET_CPU_SMP := true
@@ -188,12 +188,12 @@ BOARD_USES_SECURE_SERVICES := true
 
 # CodeAurora Optimizations: msm8960: Improve performance of memmove, bcopy, and memmove_words
 # added by twa_priv
-TARGET_USE_KRAIT_BIONIC_OPTIMIZATION := true
-TARGET_USE_KRAIT_PLD_SET := true
-TARGET_KRAIT_BIONIC_PLDOFFS := 10
-TARGET_KRAIT_BIONIC_PLDTHRESH := 10
-TARGET_KRAIT_BIONIC_BBTHRESH := 64
-TARGET_KRAIT_BIONIC_PLDSIZE := 64
+#TARGET_USE_KRAIT_BIONIC_OPTIMIZATION := true
+#TARGET_USE_KRAIT_PLD_SET := true
+#TARGET_KRAIT_BIONIC_PLDOFFS := 10
+#TARGET_KRAIT_BIONIC_PLDTHRESH := 10
+#TARGET_KRAIT_BIONIC_BBTHRESH := 64
+#TARGET_KRAIT_BIONIC_PLDSIZE := 64
 
 # Use linaro optimized string routines
 #TARGET_USE_LINARO_STRING_ROUTINES := true
