@@ -14,9 +14,7 @@
 # limitations under the License.
 #
 
-PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/full_acclaim.mk
-
+PRODUCT_MAKEFILES := $(LOCAL_DIR)/full_acclaim.mk
 ifeq ($(TARGET_PRODUCT),aokp_otter)
     PRODUCT_MAKEFILES += $(LOCAL_DIR)/aokp.mk
 endif
