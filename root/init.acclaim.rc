@@ -1,20 +1,32 @@
 import init.acclaim.usb.rc
 
-on init
-    export SECONDARY_STORAGE /storage/sdcard0
-    export EXTERNAL_STORAGE /storage/sdcard1
+on early-init
     mkdir /storage 0050 system sdcard_r
-    mkdir /storage/sdcard0 0775 system system
+    mkdir /storage/sdcard0 0000 system system
     mkdir /storage/sdcard1 0000 system system
-    mkdir /storage/usbdisk0 0775 system system
 
     # for backwards compatibility
     symlink /storage/sdcard0 /emmc
     symlink /storage/sdcard0 /mnt/emmc
     symlink /storage/sdcard1 /sdcard
     symlink /storage/sdcard1 /mnt/sdcard
-    symlink /storage/usbdisk0 /usbdisk0
-    symlink /storage/usbdisk0 /mnt/usbdisk0
+
+    export EXTERNAL_STORAGE /storage/sdcard1
+    export SECONDARY_STORAGE /storage/sdcard0
+
+on init
+    # setup global environment
+    export PHONE_STORAGE /storage/sdcard0
+    export DSP_PATH /system/lib/dsp
+    export DEFAULT_BASEIMAGE /system/lib/dsp/baseimage.dof
+
+    # create mountpoints
+    mkdir /mnt/emmc 0000 system system
+    mkdir /mnt/sdcard 0000 system system
+    mkdir /mnt/usbdisk 0000 system system
+    symlink /mnt/emmc /emmc
+    symlink /mnt/sdcard /sdcard
+    symlink /mnt/usbdisk /usbdisk
 
     symlink /system/vendor /vendor
 	
@@ -31,10 +43,7 @@ on init
     # Enabling Voltage OFF in idle path
     #write /sys/kernel/debug/pm_debug/voltage_off_while_idle 1
 
-    # setup global environment
-    export PHONE_STORAGE /storage/sdcard0
-    export DSP_PATH /system/lib/dsp
-    export DEFAULT_BASEIMAGE /system/lib/dsp/baseimage.dof
+
 	
     # change permissions for ION driver
     chmod 0777 /dev/ion

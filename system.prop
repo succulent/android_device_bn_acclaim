@@ -12,25 +12,10 @@ ro.nf.profile=2
 ro.nf.level=512
 ro.sf.hwrotation=270
 
-ro.vold.switchablepair=/storage/sdcard0,/storage/sdcard1
-ro.additionalmounts=/storage/sdcard0;/storage/usbdisk0
+ro.additionalmounts=/mnt/emmc;/mnt/usbdisk
+ro.vold.switchablepair=/mnt/sdcard,/mnt/emmc
+ro.pm.awake_on_usb=1
 persist.sys.usb.config=mtp,adb
-
-# Faster Streaming
-media.stagefright.enable-player=true
-media.stagefright.enable-meta=true
-media.stagefright.enable-scan=true
-media.stagefright.enable-http=true
-media.stagefright.enable-rtsp=true
-media.stagefright.enable-record=true
-
-# Better Image & Audio Quality
-ro.media.dec.jpeg.memcap=8000000
-ro.media.enc.hprof.vid.bps=8000000
-ro.media.enc.jpeg.quality=100
-
-# Frees More RAM
-persist.sys.purgeable_assets=1
 
 # Better Responsiveness & Speed
 persist.android.strictmode=0
@@ -42,12 +27,4 @@ windowsmgr.max_events_per_sec=275
 # Improve screen responsiveness/scrolling
 ro.max.fling_velocity=12000
 ro.min.fling_velocity=8000
-
-# Disable extended dalvik jni checking
-ro.kernel.android.checkjni=0
-ro.kernel.checkjni=0
-dalvik.vm.checkjni=0
-
-# Use dalvik JIT compiler
-dalvik.vm.execution-mode=int:jit
 

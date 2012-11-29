@@ -142,10 +142,10 @@ PRODUCT_COPY_FILES += \
 
 # TI-Connectivity
 PRODUCT_COPY_FILES += \
-        $(DEVICE_FOLDER)/firmware/wl1271-nvs_127x.bin:system/etc/firmware/ti-connectivity/wl1271-nvs.bin \
         $(DEVICE_FOLDER)/firmware/wl127x-fw-4-mr.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-mr.bin \
         $(DEVICE_FOLDER)/firmware/wl127x-fw-4-sr.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-sr.bin \
-	$(DEVICE_FOLDER)/firmware/wl127x-fw-4-plt.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-plt.bin
+	$(DEVICE_FOLDER)/firmware/wl127x-fw-4-plt.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-plt.bin \
+        $(DEVICE_FOLDER)/firmware/wl1271-nvs_127x.bin:system/etc/firmware/ti-connectivity/wl1271-nvs.bin
 
 # MT Firmware
 PRODUCT_COPY_FILES += \
@@ -176,12 +176,6 @@ PRODUCT_COPY_FILES += \
 	$(DEVICE_FOLDER)/prebuilt/usr/keylayout/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl\
 	$(DEVICE_FOLDER)/prebuilt/usr/idc/twl6030_pwrbutton.idc:system/usr/idc/twl6030_pwrbutton.idc \
 	$(DEVICE_FOLDER)/prebuilt/usr/keylayout/twl6030_pwrbutton.kl:system/usr/keylayout/twl6030_pwrbutton.kl
-
-# SMC
-#PRODUCT_COPY_FILES += \
-#	$(DEVICE_FOLDER)/prebuilt/bin/smc_pa_ctrl:system/bin/smc_pa_ctrl \
-#	$(DEVICE_FOLDER)/prebuilt/etc/firmware/smc_pa.ift:system/firmware/smc_pa.ift \
-#	$(DEVICE_FOLDER)/prebuilt/etc/smc_normal_world_android_cfg.ini:system/etc/smc_normal_world_android_cfg.ini
 
 PRODUCT_PACKAGES += \
 	librs_jni \
@@ -260,3 +254,4 @@ $(call inherit-product-if-exists, vendor/bn/acclaim/device-vendor-blobs.mk)
 #$(call inherit-product-if-exists, hardware/ti/omap4xxx/omap4.mk)
 #$(call inherit-product, $(DEVICE_FOLDER)/wl12xx/ti-wl12xx-vendor.mk)
 #$(call inherit-product, $(DEVICE_FOLDER)/wl12xx/ti-wpan-products.mk)
+
