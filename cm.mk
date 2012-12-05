@@ -25,7 +25,7 @@ $(call inherit-product, device/bn/acclaim/full_acclaim.mk)
 
 DEVICE_PACKAGE_OVERLAYS += device/bn/acclaim/overlay/cm
 
-TARGET_HAS_CUSTOM_LIBION := true
+#TARGET_HAS_CUSTOM_LIBION := true
 
 PRODUCT_NAME := cm_acclaim
 PRODUCT_DEVICE := acclaim
@@ -36,4 +36,6 @@ PRODUCT_RELEASE_NAME := NookTablet
 
 PRODUCT_PACKAGES += \
     su \
+
+CM_EXTRAVERSION := HD
 
