@@ -226,10 +226,10 @@ on property:ro.secure=0
     chmod 0777 /dev/snd/pcmC0D5p
     chmod 0777 /dev/snd/timer
 	
-    write /sys/devices/virtual/bdi/179:0/read_ahead_kb 1024
-    write /sys/devices/virtual/bdi/default/read_ahead_kb 1024
-    write /sys/block/mmcblk0/queue/read_ahead_kb 1024
-    write /sys/block/mmcblk1/queue/read_ahead_kb 1024
+    write /sys/devices/virtual/bdi/179:0/read_ahead_kb 2048
+    write /sys/devices/virtual/bdi/default/read_ahead_kb 2048
+    write /sys/block/mmcblk0/queue/read_ahead_kb 2048
+    write /sys/block/mmcblk1/queue/read_ahead_kb 2048
 	
     # There's no back seek penalty on MMC
     #write /sys/devices/platform/omap/omap_hsmmc.1/mmc_host/mmc0/mmc0:0001/block/mmcblk0/queue/iosched/back_seek_penalty 0
