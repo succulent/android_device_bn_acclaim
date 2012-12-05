@@ -175,26 +175,26 @@ PRODUCT_PACKAGES += \
         su
 
 # OMX
-#PRODUCT_VENDOR_KERNEL_HEADERS := hardware/ti/omap4xxx/kernel-headers
-#PRODUCT_PACKAGES += \
-#	libdomx \
-#	libOMX_Core \
-#	libOMX.TI.DUCATI1.VIDEO.H264E \
-#	libOMX.TI.DUCATI1.VIDEO.MPEG4E \
-#	libOMX.TI.DUCATI1.VIDEO.DECODER \
-#	libOMX.TI.DUCATI1.VIDEO.DECODER.secure \
-#	libOMX.TI.DUCATI1.VIDEO.CAMERA \
-#	libOMX.TI.DUCATI1.MISC.SAMPLE \
-#	libdrmdecrypt \
-#	libstagefrighthw \
-#	libI420colorconvert \
-#	libtiutils \
-#	libcamera \
-#	libion \
-#	libomxcameraadapter \
-#	smc_pa_ctrl \
-#	tf_daemon \
-#	libtf_crypto_sst
+PRODUCT_VENDOR_KERNEL_HEADERS := hardware/ti/omap4xxx/kernel-headers
+PRODUCT_PACKAGES += \
+	libdomx \
+	libOMX_Core \
+	libOMX.TI.DUCATI1.VIDEO.H264E \
+	libOMX.TI.DUCATI1.VIDEO.MPEG4E \
+	libOMX.TI.DUCATI1.VIDEO.DECODER \
+	libOMX.TI.DUCATI1.VIDEO.DECODER.secure \
+	libOMX.TI.DUCATI1.VIDEO.CAMERA \
+	libOMX.TI.DUCATI1.MISC.SAMPLE \
+	libdrmdecrypt \
+	libstagefrighthw \
+	libI420colorconvert \
+	libtiutils \
+	libcamera \
+	libion \
+	libomxcameraadapter \
+	smc_pa_ctrl \
+	tf_daemon \
+	libtf_crypto_sst
 
 PRODUCT_PROPERTY_OVERRIDES := \
 	com.ti.omap_enhancement=true \
@@ -232,7 +232,7 @@ PRODUCT_TAGS += dalvik.gc.type-precise
 
 $(call inherit-product, frameworks/native/build/tablet-dalvik-heap.mk)
 
-$(call inherit-product-if-exists, hardware/ti/omap4xxx/omap4.mk)
+#$(call inherit-product-if-exists, hardware/ti/omap4xxx/omap4.mk)
 #$(call inherit-product, $(DEVICE_FOLDER)/wl12xx/ti-wl12xx-vendor.mk)
 #$(call inherit-product, $(DEVICE_FOLDER)/wl12xx/ti-wpan-products.mk)
 
