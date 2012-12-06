@@ -22,6 +22,7 @@
 BOARD_USES_GENERIC_AUDIO := false
 USE_CAMERA_STUB := true
 BOARD_HAVE_BLUETOOTH := false
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/bn/acclaim/bluetooth
 TI_OMAP4_CAMERAHAL_VARIANT := false
 
 # OMAP
@@ -108,7 +109,7 @@ TARGET_RECOVERY_INITRC := device/bn/acclaim/recovery/init.rc
 TARGET_RECOVERY_PRE_COMMAND := "echo 'recovery' > /bootdata/BCB; sync"
 
 
-TARGET_SPECIFIC_HEADER_PATH := device/bn/acclaim/src-headers
+#TARGET_SPECIFIC_HEADER_PATH := device/bn/acclaim/src-headers
 
 ifdef ENHANCED_DOMX
     COMMON_GLOBAL_CFLAGS += -DENHANCED_DOMX
