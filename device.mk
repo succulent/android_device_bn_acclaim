@@ -93,10 +93,11 @@ PRODUCT_PACKAGES += \
 	busybox \
 	CMStats \
 	libjni_pinyinime \
-	make_ext4fs \
 	setpropex \
 	setup_fs \
         TFF
+
+#	make_ext4fs \
 
 # Audio testing
 PRODUCT_PACKAGES += \
@@ -195,6 +196,13 @@ PRODUCT_PACKAGES += \
 	smc_pa_ctrl \
 	tf_daemon \
 	libtf_crypto_sst
+
+PRODUCT_PACKAGES += \
+	iontest \
+	libaudioutils \
+	libwvm \
+	Music \
+	sh
 
 PRODUCT_PROPERTY_OVERRIDES := \
 	com.ti.omap_enhancement=true \
