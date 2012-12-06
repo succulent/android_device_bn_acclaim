@@ -37,8 +37,11 @@ ENHANCED_DOMX := true
 TARGET_CPU_ABI := armeabi-v7a
 TARGET_CPU_ABI2 := armeabi
 TARGET_CPU_SMP := true
+TARGET_ARCH := arm
 TARGET_ARCH_VARIANT := armv7-a-neon
 ARCH_ARM_HAVE_TLS_REGISTER := true
+TARGET_GLOBAL_CFLAGS += -mtune=cortex-a9 -mfpu=neon -mfloat-abi=softfp
+TARGET_GLOBAL_CPPFLAGS += -mtune=cortex-a9 -mfpu=neon -mfloat-abi=softfp
 
 # Kernel/Boot
 BOARD_KERNEL_BASE := 0x80080000
@@ -56,7 +59,6 @@ BOARD_SDCARD_DEVICE_INTERNAL := /dev/block/mmcblk0p10
 
 # Kernel Build
 TARGET_KERNEL_SOURCE := kernel/bn/acclaim
-TARGET_PREBUILT_KERNEL := device/bn/acclaim/kernel
 #TARGET_KERNEL_CONFIG := cyanogenmod_acclaim_defconfig
 TARGET_KERNEL_CONFIG := acclaim_defconfig
 
