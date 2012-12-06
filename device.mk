@@ -21,12 +21,6 @@
 
 DEVICE_FOLDER := device/bn/acclaim
 
-ifeq ($(TARGET_PREBUILT_KERNEL),)
-    LOCAL_KERNEL := $(DEVICE_FOLDER)/kernel
-else
-    LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
-endif
-
 ifeq ($(TARGET_PREBUILT_CYANOBOOT),)
     LOCAL_CYANOBOOT := $(DEVICE_FOLDER)/cyanoboot
 else
@@ -99,6 +93,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	busybox \
 	CMStats \
+        evtest \
 	hwprops \
 	libjni_pinyinime \
 	make_ext4fs \
@@ -113,7 +108,6 @@ PRODUCT_PACKAGES += \
 	tinycap
 
 PRODUCT_COPY_FILES += \
-	$(LOCAL_KERNEL):kernel \
     	$(LOCAL_CYANOBOOT):cyanoboot \
     	$(LOCAL_IRECOVERY):irecovery \
 	$(DEVICE_FOLDER)/root/init.acclaim.rc:root/init.acclaim.rc \
@@ -145,14 +139,14 @@ PRODUCT_COPY_FILES += \
         $(DEVICE_FOLDER)/firmware/wl127x-fw-4-mr.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-mr.bin \
         $(DEVICE_FOLDER)/firmware/wl127x-fw-4-sr.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-sr.bin \
 	$(DEVICE_FOLDER)/firmware/wl127x-fw-4-plt.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-plt.bin \
-        $(DEVICE_FOLDER)/firmware/wl1271-nvs_127x.bin:system/etc/firmware/ti-connectivity/wl1271-nvs.bin
+        $(DEVICE_FOLDER)/firmware/wl1271-nvs_127x.bin:system/etc/firmware/ti-connectivity/wl1271-nvs_127x.bin
 
 # MT Firmware
-PRODUCT_COPY_FILES += \
-        $(DEVICE_FOLDER)/prebuilt/etc/firmware/ft5406-sc3052-1024X768.bin:system/etc/firmware/ft5406-sc3052-1024X768.bin \
-        $(DEVICE_FOLDER)/prebuilt/etc/firmware/FTS0019U700_Ver14_app.bin:system/etc/firmware/FTS0019U700_Ver14_app.bin \
-        $(DEVICE_FOLDER)/prebuilt/bin/updatefw.sh:system/bin/updatefw.sh \
-        $(DEVICE_FOLDER)/prebuilt/bin/restorefw.sh:system/bin/restorefw.sh
+#PRODUCT_COPY_FILES += \
+#        $(DEVICE_FOLDER)/prebuilt/etc/firmware/ft5406-sc3052-1024X768.bin:system/etc/firmware/ft5406-sc3052-1024X768.bin \
+#        $(DEVICE_FOLDER)/prebuilt/etc/firmware/FTS0019U700_Ver14_app.bin:system/etc/firmware/FTS0019U700_Ver14_app.bin \
+#        $(DEVICE_FOLDER)/prebuilt/bin/updatefw.sh:system/bin/updatefw.sh \
+#        $(DEVICE_FOLDER)/prebuilt/bin/restorefw.sh:system/bin/restorefw.sh
 
 # Prebuilts /system/bin
 PRODUCT_COPY_FILES += \
