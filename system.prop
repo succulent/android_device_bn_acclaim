@@ -28,3 +28,19 @@ windowsmgr.max_events_per_sec=275
 ro.max.fling_velocity=12000
 ro.min.fling_velocity=8000
 
+# Raise JPG quality to 100%
+ro.media.enc.jpeg.quality=100
+
+# Save battery
+pm.sleep_mode=1
+ro.ril.disable.power.collapse=0
+
+# Disable debugging notify icon on statusbar
+persist.adb.notify=0
+
+# Fix some application issues
+ro.kernel.android.checkjni=0
+
+persist.phone=0
+ro.carrier=wifi-only
+
