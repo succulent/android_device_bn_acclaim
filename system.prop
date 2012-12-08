@@ -14,7 +14,7 @@ ro.sf.hwrotation=270
 
 ro.additionalmounts=/mnt/emmc;/mnt/usbdisk
 ro.vold.switchablepair=/mnt/sdcard,/mnt/emmc
-ro.pm.awake_on_usb=1
+#ro.pm.awake_on_usb=1
 persist.sys.usb.config=mtp,adb
 
 # Better Responsiveness & Speed
@@ -32,8 +32,8 @@ ro.min.fling_velocity=8000
 ro.media.enc.jpeg.quality=100
 
 # Save battery
-pm.sleep_mode=1
-ro.ril.disable.power.collapse=0
+#pm.sleep_mode=1
+#ro.ril.disable.power.collapse=0
 
 # Disable debugging notify icon on statusbar
 persist.adb.notify=0
@@ -41,6 +41,6 @@ persist.adb.notify=0
 # Fix some application issues
 ro.kernel.android.checkjni=0
 
-persist.phone=0
-ro.carrier=wifi-only
+#persist.phone=0
+#ro.carrier=wifi-only
 
