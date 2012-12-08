@@ -23,12 +23,12 @@ BOARD_USES_GENERIC_AUDIO := false
 USE_CAMERA_STUB := true
 BOARD_HAVE_BLUETOOTH := false
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/bn/acclaim/bluetooth
-TI_OMAP4_CAMERAHAL_VARIANT := false
+#TI_OMAP4_CAMERAHAL_VARIANT := false
 
 # OMAP
-OMAP_ENHANCEMENT := true
-OMAP_ENHANCEMENT_MULTIGPU := true
-ENHANCED_DOMX := true
+#OMAP_ENHANCEMENT := true
+#OMAP_ENHANCEMENT_MULTIGPU := true
+#ENHANCED_DOMX := true
 
 # inherit from the proprietary version
 -include vendor/bn/acclaim/BoardConfigVendor.mk
