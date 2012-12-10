@@ -154,6 +154,8 @@ PRODUCT_COPY_FILES += \
 	$(DEVICE_FOLDER)/prebuilt/bin/fix-mac.sh:system/bin/fix-mac.sh \
 	$(DEVICE_FOLDER)/prebuilt/bin/fix-serial-no.sh:system/bin/fix-serial-no.sh \
 	$(DEVICE_FOLDER)/prebuilt/bin/log_battery_data.sh:system/bin/log_battery_data.sh \
+	$(DEVICE_FOLDER)/prebuilt/bin/smc_normal_world_android_cfg.ini:system/bin/smc_normal_world_android_cfg.ini\
+	$(DEVICE_FOLDER)/prebuilt/bin/smc_pa.ift:system/bin/smc_pa.ift \
 	$(DEVICE_FOLDER)/prebuilt/bin/strace:system/bin/strace
 
 # Prebuilts /system/etc

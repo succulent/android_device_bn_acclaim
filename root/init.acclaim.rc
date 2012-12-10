@@ -73,7 +73,12 @@ on post-fs-data
     # we will remap this as /mnt/sdcard with the sdcard fuse tool
     mkdir /data/media 0775 media_rw media_rw
     chown media_rw media_rw /data/media
-	
+    mkdir /data/smc 0770 drmrpc drmrpc
+    chown drmrpc drmrpc /data/smc/counter.bin
+    chown drmrpc drmrpc /data/smc/storage.bin
+    chown drmrpc drmrpc /data/smc/system.bin
+    chown drmrpc drmrpc /data/smc/user.bin
+
     setprop vold.post_fs_data_done 1
 	
 on boot
@@ -260,6 +265,29 @@ service bootcnt /system/bin/clear_bootcnt.sh
     user root
     group root
     disabled
+    oneshot
+
+###################################################
+# MSHIELD SMC Daemon - component required to store persistent data coming
+# from the SMC PA to the device persistent storage
+###################################################
+service tf_daemon /system/bin/tf_daemon \
+    -d -c /systemr/bin/smc_normal_world_android_cfg.ini
+    class main
+    user root
+    group root
+    oneshot
+    disabled
+
+###################################################
+# MSHIELD SMC PA Control - installs the SMC PA into the Secure Environment
+###################################################
+service smc_pa /system/bin/smc_pa_ctrl \
+    -c /system/bin/smc_normal_world_android_cfg.ini \
+    start /system/bin/smc_pa.ift
+    class core
+    user root
+    group root
     oneshot
 
 service p2p_supplicant /system/bin/wpa_supplicant \
