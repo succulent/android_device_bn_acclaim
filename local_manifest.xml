@@ -5,20 +5,20 @@
 
   <!-- CM removals
   <remove-project name="CyanogenMod/android_hardware_libhardware" />
-  <remove-project name="CyanogenMod/android_hardware_libhardware_legacy" /> -->
-  <remove-project name="CyanogenMod/android_hardware_ti_omap4xxx" />
+  <remove-project name="CyanogenMod/android_hardware_libhardware_legacy" /> 
+  <remove-project name="CyanogenMod/android_hardware_ti_omap4xxx" />  -->
   <remove-project name="CyanogenMod/android_hardware_ti_wlan" />
 
 
-  <!-- omapzoom replacements  -->
+  <!-- omapzoom replacements  
   <project path="device/ti/common-open" name="device/ti/common-open" remote="omapzoom" revision="p-jb-mr1-release" /> 
   <project path="hardware/ti/domx" name="platform/hardware/ti/domx" remote="omapzoom" revision="p-jb-mr1-release" />
   <project path="device/ti/proprietary-open" name="device/ti/proprietary-open" remote="omapzoom" revision="p-jb-mr1-release" />
-  <project path="hardware/ti/omap4xxx" name="platform/hardware/ti/omap4xxx" remote="omapzoom" revision="p-jb-mr1-release" />
+  <project path="hardware/ti/omap4xxx" name="platform/hardware/ti/omap4xxx" remote="omapzoom" revision="p-jb-mr1-release" /> -->
   <project path="hardware/ti/wlan" name="platform/hardware/ti/wlan" remote="omapzoom" revision="p-jb-mr1-release" />
   <project path="external/wpa_supplicant_8_ti" name="platform/external/wpa_supplicant_8_ti" remote="omapzoom" revision="p-jb-mr1-release">
-     <annotation name="vendor" value="ti" />
-  </project>
+     <annotation name="vendor" value="ti" /> 
+  </project> 
 
   <!-- modified CM projects
   <remove-project name="CyanogenMod/android_system_core" />
