@@ -272,7 +272,7 @@ service bootcnt /system/bin/clear_bootcnt.sh
 # from the SMC PA to the device persistent storage
 ###################################################
 service tf_daemon /system/bin/tf_daemon \
-    -d -c /systemr/bin/smc_normal_world_android_cfg.ini
+    -d -c /system/bin/smc_normal_world_android_cfg.ini
     class main
     user root
     group root
