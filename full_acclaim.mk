@@ -33,7 +33,7 @@ $(call inherit-product, device/bn/acclaim/device.mk)
 # Discard inherited values and use our own instead.
 PRODUCT_NAME := full_acclaim
 PRODUCT_DEVICE := acclaim
-PRODUCT_BRAND := bn
-PRODUCT_MODEL := Nook Tablet
-PRODUCT_MANUFACTURER := bn
+PRODUCT_BRAND := NOOK
+PRODUCT_MODEL := NookTablet
+PRODUCT_MANUFACTURER := Barnes&Noble
 
