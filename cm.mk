@@ -25,13 +25,13 @@ $(call inherit-product, device/bn/acclaim/full_acclaim.mk)
 
 DEVICE_PACKAGE_OVERLAYS += device/bn/acclaim/overlay/cm
 
-#TARGET_HAS_CUSTOM_LIBION := true
+TARGET_HAS_CUSTOM_LIBION := true
 
 PRODUCT_NAME := cm_acclaim
 PRODUCT_DEVICE := acclaim
-PRODUCT_BRAND := Android
-PRODUCT_MODEL := Barnes & Noble Nook Tablet
-PRODUCT_MANUFACTURER := Barnes & Noble
+PRODUCT_BRAND := NOOK
+PRODUCT_MODEL := NookTablet
+PRODUCT_MANUFACTURER := Barnes&Noble
 PRODUCT_RELEASE_NAME := NookTablet
 
 PRODUCT_PACKAGES += \
