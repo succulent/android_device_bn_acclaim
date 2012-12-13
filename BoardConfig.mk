@@ -19,16 +19,20 @@
 # Product-specific compile-time definitions.
 #
 
+PRODUCT_VENDOR_KERNEL_HEADERS := device/bn/acclaim/kernel-headers
+
 BOARD_USES_GENERIC_AUDIO := false
 USE_CAMERA_STUB := true
 BOARD_HAVE_BLUETOOTH := false
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/bn/acclaim/bluetooth
-#TI_OMAP4_CAMERAHAL_VARIANT := false
+TI_OMAP4_CAMERAHAL_VARIANT := false
 
 # OMAP
-#OMAP_ENHANCEMENT := true
-#OMAP_ENHANCEMENT_MULTIGPU := true
-#ENHANCED_DOMX := true
+OMAP_ENHANCEMENT := true
+OMAP_ENHANCEMENT_MULTIGPU := true
+ENHANCED_DOMX := true
+BOARD_PROVIDES_CUSTOM_DOMX := true
+
 
 # inherit from the proprietary version
 -include vendor/bn/acclaim/BoardConfigVendor.mk
@@ -53,6 +57,7 @@ TARGET_NO_BOOTLOADER := true
 TARGET_NO_RADIOIMAGE := true
 TARGET_BOARD_PLATFORM := omap4
 TARGET_BOOTLOADER_BOARD_NAME := acclaim
+TARGET_OTA_ASSERT_DEVICE := acclaim
 BOARD_HAS_SDCARD_INTERNAL := true
 BOARD_SDCARD_DEVICE_PRIMARY := /dev/block/mmcblk1p1
 BOARD_SDCARD_DEVICE_SECONDARY := /dev/block/mmcblk0p10
@@ -62,6 +67,33 @@ BOARD_SDCARD_DEVICE_INTERNAL := /dev/block/mmcblk0p10
 TARGET_KERNEL_SOURCE := kernel/bn/acclaim
 #TARGET_KERNEL_CONFIG := cyanogenmod_acclaim_defconfig
 TARGET_KERNEL_CONFIG := acclaim_defconfig
+
+#SGX_MODULES:
+#	cp kernel/bn/acclaim/drivers/video/omap2/omapfb/omapfb.h $(KERNEL_OUT)/drivers/video/omap2/omapfb/omapfb.h
+#	make ARCH="arm" -C kernel/bn/acclaim/external/sgx/src/eurasia_km/eurasiacon/build/linux2/omap4430_android CROSS_COMPILE=arm-eabi- TARGET_PRODUCT="blaze_tablet" BUILD=release TARGET_SGX=540 PLATFORM_VERSION=4.0  KERNEL_CROSS_COMPILE=arm-eabi- KERNELDIR=$(KERNEL_OUT)
+#	mv $(KERNEL_OUT)/../../target/kbuild/pvrsrvkm_sgx540_120.ko $(KERNEL_MODULES_OUT)
+
+#WIFI_MODULES:
+#	make -C kernel/bn/acclaim/external/wlan/mac80211/compat_wl12xx KERNEL_DIR=$(KERNEL_OUT) KLIB=$(KERNEL_OUT) KLIB_BUILD=$(KERNEL_OUT) ARCH=arm CROSS_COMPILE=arm-eabi-
+#	mv $(KERNEL_OUT)/lib/crc7.ko $(KERNEL_MODULES_OUT)
+#	mv kernel/bn/acclaim/external/wlan/mac80211/compat_wl12xx/compat/compat.ko $(KERNEL_MODULES_OUT)
+#	mv kernel/bn/acclaim/external/wlan/mac80211/compat_wl12xx/net/mac80211/mac80211.ko $(KERNEL_MODULES_OUT)
+#	mv kernel/bn/acclaim/external/wlan/mac80211/compat_wl12xx/net/wireless/cfg80211.ko $(KERNEL_MODULES_OUT)
+#	mv kernel/bn/acclaim/external/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx.ko $(KERNEL_MODULES_OUT)
+#	mv kernel/bn/acclaim/external/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx_sdio.ko $(KERNEL_MODULES_OUT)
+
+WLAN_MODULES:
+	make clean -C hardware/ti/wlan/mac80211/compat_wl12xx
+	make -j16 -C hardware/ti/wlan/mac80211/compat_wl12xx KERNEL_DIR=$(KERNEL_OUT) KLIB=$(KERNEL_OUT) KLIB_BUILD=$(KERNEL_OUT) ARCH=arm CROSS_COMPILE="arm-eabi-"
+	mv hardware/ti/wlan/mac80211/compat_wl12xx/compat/compat.ko $(KERNEL_MODULES_OUT)
+	mv hardware/ti/wlan/mac80211/compat_wl12xx/net/mac80211/mac80211.ko $(KERNEL_MODULES_OUT)
+	mv hardware/ti/wlan/mac80211/compat_wl12xx/net/wireless/cfg80211.ko $(KERNEL_MODULES_OUT)
+	mv hardware/ti/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx.ko $(KERNEL_MODULES_OUT)
+	mv hardware/ti/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx_spi.ko $(KERNEL_MODULES_OUT)
+	mv hardware/ti/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx_sdio.ko $(KERNEL_MODULES_OUT)
+
+TARGET_KERNEL_MODULES := WLAN_MODULES
+#TARGET_KERNEL_MODULES := SGX_MODULES WLAN_MODULES
 
 # Filesystem
 TARGET_USERIMAGES_USE_EXT4 := true
@@ -78,9 +110,11 @@ TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/class/android_usb/f_mass_storage/lun%d/
 # Connectivity - Wi-Fi
 USES_TI_MAC80211 := true
 ifdef USES_TI_MAC80211
-BOARD_WPA_SUPPLICANT_DRIVER      := NL80211
 WPA_SUPPLICANT_VERSION           := VER_0_8_X_TI
+BOARD_WPA_SUPPLICANT_DRIVER      := NL80211
+BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_wl12xx
 BOARD_HOSTAPD_DRIVER             := NL80211
+BOARD_HOSTAPD_PRIVATE_LIB        := lib_driver_cmd_wl12xx
 PRODUCT_WIRELESS_TOOLS           := true
 BOARD_WLAN_DEVICE                := wl12xx_mac80211
 BOARD_SOFTAP_DEVICE              := wl12xx_mac80211
@@ -108,12 +142,11 @@ BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/bn/acclaim/recovery/recovery_ui
 TARGET_RECOVERY_INITRC := device/bn/acclaim/recovery/init.rc
 TARGET_RECOVERY_PRE_COMMAND := "echo 'recovery' > /bootdata/BCB; sync"
 
-
 #TARGET_SPECIFIC_HEADER_PATH := device/bn/acclaim/src-headers
 
 ifdef ENHANCED_DOMX
     COMMON_GLOBAL_CFLAGS += -DENHANCED_DOMX
-    DOMX_PATH := hardware/ti/domx
+    DOMX_PATH := device/bn/acclaim/domx
 else
     DOMX_PATH := hardware/ti/omap4xxx/domx
 endif
@@ -156,22 +189,6 @@ TARGET_PROVIDES_RELEASETOOLS := true
 TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := ./device/bn/acclaim/releasetools/acclaim_ota_from_target_files
 TARGET_RELEASETOOL_IMG_FROM_TARGET_SCRIPT := ./device/bn/acclaim/releasetools/acclaim_img_from_target_files
 TARGET_CUSTOM_RELEASETOOL := ./device/bn/acclaim/releasetools/squisher
-
-SGX_MODULES:
-	cp kernel/bn/acclaim/drivers/video/omap2/omapfb/omapfb.h $(KERNEL_OUT)/drivers/video/omap2/omapfb/omapfb.h
-	make ARCH="arm" -C kernel/bn/acclaim/external/sgx/src/eurasia_km/eurasiacon/build/linux2/omap4430_android CROSS_COMPILE=arm-eabi- TARGET_PRODUCT="blaze_tablet" BUILD=release TARGET_SGX=540 PLATFORM_VERSION=4.0  KERNEL_CROSS_COMPILE=arm-eabi- KERNELDIR=$(KERNEL_OUT)
-	mv $(KERNEL_OUT)/../../target/kbuild/pvrsrvkm_sgx540_120.ko $(KERNEL_MODULES_OUT)
-
-WIFI_MODULES:
-	make -C kernel/bn/acclaim/external/wlan/mac80211/compat_wl12xx KERNEL_DIR=$(KERNEL_OUT) KLIB=$(KERNEL_OUT) KLIB_BUILD=$(KERNEL_OUT) ARCH=arm CROSS_COMPILE=arm-eabi-
-	mv $(KERNEL_OUT)/lib/crc7.ko $(KERNEL_MODULES_OUT)
-	mv kernel/bn/acclaim/external/wlan/mac80211/compat_wl12xx/compat/compat.ko $(KERNEL_MODULES_OUT)
-	mv kernel/bn/acclaim/external/wlan/mac80211/compat_wl12xx/net/mac80211/mac80211.ko $(KERNEL_MODULES_OUT)
-	mv kernel/bn/acclaim/external/wlan/mac80211/compat_wl12xx/net/wireless/cfg80211.ko $(KERNEL_MODULES_OUT)
-	mv kernel/bn/acclaim/external/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx.ko $(KERNEL_MODULES_OUT)
-	mv kernel/bn/acclaim/external/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx_sdio.ko $(KERNEL_MODULES_OUT)
-
-TARGET_KERNEL_MODULES := SGX_MODULES WIFI_MODULES
 
 # Config for building TWRP
 DEVICE_RESOLUTION := 1024x600
