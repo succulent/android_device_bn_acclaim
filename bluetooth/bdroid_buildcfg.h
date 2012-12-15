@@ -20,4 +20,3 @@
 #define BTM_DEF_LOCAL_NAME   "Nook Tablet"
 
 #endif
-

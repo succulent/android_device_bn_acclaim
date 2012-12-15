@@ -49,12 +49,8 @@ PRODUCT_COPY_FILES += \
 # Hardware HALs
 PRODUCT_PACKAGES += \
 	audio.a2dp.default \
-	audio_policy.default \
 	audio.primary.acclaim \
-        hwcomposer.acclaim \
-	libedid \
-	libinvensense_mpl \
-	liblights.acclaim \
+	hwcomposer.acclaim \
 	lights.acclaim \
 	power.acclaim \
 	sensors.acclaim
@@ -64,27 +60,21 @@ PRODUCT_PACKAGES += \
 	calibrator \
 	crda \
 	dhcpcd.conf \
-	hostapd.conf \
-	lib_driver_cmd_wl12xx \
 	regulatory.bin \
-	ti_wfd_libs \
 	TQS_D_1.7.ini \
 	wpa_supplicant.conf
 
 # Misc
 PRODUCT_PACKAGES += \
-	busybox \
-	CMStats \
 	libjni_pinyinime \
 	setpropex \
-	setup_fs \
         TFF
 
 #	make_ext4fs \
 
 PRODUCT_COPY_FILES += \
-    	$(LOCAL_CYANOBOOT):cyanoboot \
-    	$(LOCAL_IRECOVERY):irecovery \
+	$(LOCAL_CYANOBOOT):cyanoboot \
+	$(LOCAL_IRECOVERY):irecovery \
 	$(DEVICE_FOLDER)/root/init.acclaim.rc:root/init.acclaim.rc \
 	$(DEVICE_FOLDER)/root/init.acclaim.usb.rc:root/init.acclaim.usb.rc \
 	$(DEVICE_FOLDER)/root/ueventd.acclaim.rc:root/ueventd.acclaim.rc
@@ -100,6 +90,7 @@ PRODUCT_COPY_FILES += \
 	frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
 	frameworks/native/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
 	frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
+	frameworks/native/data/etc/android.hardware.wifi.direct.xml:system/etc/permissions/android.hardware.wifi.direct.xml \
 	frameworks/native/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml \
 	frameworks/native/data/etc/tablet_core_hardware.xml:system/etc/permissions/tablet_core_hardware.xml \
 	$(call add-to-product-copy-files-if-exists,packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:system/etc/permissions/android.software.live_wallpaper.xml)
@@ -110,17 +101,11 @@ PRODUCT_COPY_FILES += \
 
 # TI-Connectivity
 PRODUCT_COPY_FILES += \
-        $(DEVICE_FOLDER)/firmware/ti-connectivity/wl127x-fw-4-mr.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-mr.bin \
-        $(DEVICE_FOLDER)/firmware/ti-connectivity/wl127x-fw-4-sr.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-sr.bin \
+	$(DEVICE_FOLDER)/firmware/ti-connectivity/wl127x-fw-4-mr.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-mr.bin \
+	$(DEVICE_FOLDER)/firmware/ti-connectivity/wl127x-fw-4-sr.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-sr.bin \
 	$(DEVICE_FOLDER)/firmware/ti-connectivity/wl127x-fw-4-plt.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-plt.bin \
-        $(DEVICE_FOLDER)/firmware/ti-connectivity/wl1271-nvs_127x.bin:system/etc/firmware/ti-connectivity/wl1271-nvs_127x.bin
+	$(DEVICE_FOLDER)/firmware/ti-connectivity/wl1271-nvs_127x.bin:system/etc/firmware/ti-connectivity/wl1271-nvs_127x.bin
 
-# MT Firmware
-#PRODUCT_COPY_FILES += \
-#        $(DEVICE_FOLDER)/prebuilt/etc/firmware/ft5406-sc3052-1024X768.bin:system/etc/firmware/ft5406-sc3052-1024X768.bin \
-#        $(DEVICE_FOLDER)/prebuilt/etc/firmware/FTS0019U700_Ver14_app.bin:system/etc/firmware/FTS0019U700_Ver14_app.bin \
-#        $(DEVICE_FOLDER)/prebuilt/bin/updatefw.sh:system/bin/updatefw.sh \
-#        $(DEVICE_FOLDER)/prebuilt/bin/restorefw.sh:system/bin/restorefw.sh
 
 # Prebuilts /system/bin
 PRODUCT_COPY_FILES += \
@@ -137,7 +122,7 @@ PRODUCT_COPY_FILES += \
 	$(DEVICE_FOLDER)/prebuilt/etc/media_codecs.xml:system/etc/media_codecs.xml \
 	$(DEVICE_FOLDER)/prebuilt/etc/media_profiles.xml:system/etc/media_profiles.xml \
 	$(DEVICE_FOLDER)/prebuilt/etc/vold.acclaim.fstab:system/etc/vold.fstab \
-        $(DEVICE_FOLDER)/prebuilt/etc/wifi/TQS_S_2.6.ini:system/etc/wifi/TQS_S_2.6.ini 
+	$(DEVICE_FOLDER)/prebuilt/etc/wifi/TQS_S_2.6.ini:system/etc/wifi/TQS_S_2.6.ini 
 
 # Prebuilt /system/usr
 PRODUCT_COPY_FILES += \
@@ -149,11 +134,11 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
 	librs_jni \
 	com.android.future.usb.accessory \
-        Superuser \
-        su
+	Superuser \
+	su
 
 # OMX
-PRODUCT_VENDOR_KERNEL_HEADERS := hardware/ti/omap4xxx/kernel-headers
+#PRODUCT_VENDOR_KERNEL_HEADERS := hardware/ti/omap4xxx/kernel-headers
 PRODUCT_PACKAGES += \
 	libdomx \
 	libOMX_Core \
@@ -163,24 +148,16 @@ PRODUCT_PACKAGES += \
 	libOMX.TI.DUCATI1.VIDEO.DECODER.secure \
 	libOMX.TI.DUCATI1.VIDEO.CAMERA \
 	libOMX.TI.DUCATI1.MISC.SAMPLE \
-	libdrmdecrypt \
 	libstagefrighthw \
 	libI420colorconvert \
 	libtiutils \
 	libcamera \
-	libion \
+	libion_ti \
 	libomxcameraadapter \
 	smc_pa_ctrl \
 	tf_daemon \
-	libtf_crypto_sst
-
-
-PRODUCT_PACKAGES += \
-	iontest \
-	libaudioutils \
-	libwvm \
-	Music \
-	sh
+	libtf_crypto_sst \
+	libdrmdecrypt 
 
 PRODUCT_PROPERTY_OVERRIDES := \
         com.ti.omap_enhancement=true \
@@ -193,8 +170,8 @@ PRODUCT_PROPERTY_OVERRIDES := \
 	debug.performance.tuning=1 \
 	debug.sf.hw=1 \
 	omap.enhancement=true \
-        persist.lab126.chargeprotect=1 \
-        persist.sys.root_access=3 \
+	persist.lab126.chargeprotect=1 \
+	persist.sys.root_access=3 \
 	persist.sys.usb.config=mtp,adb \
 	ro.crypto.state=unencrypted \
 	ro.hwc.legacy_api=true \
@@ -202,7 +179,7 @@ PRODUCT_PROPERTY_OVERRIDES := \
 	ro.sf.lcd_density=160 \
 	video.accelerate.hw=1 \
 	wifi.interface=wlan0 \
-	wifi.supplicant_scan_interval=180 \
+	wifi.supplicant_scan_interval=180
 
 PRODUCT_CHARACTERISTICS := tablet
 
