@@ -39,11 +39,11 @@ Members :
     jt1134
     sbradymobile Scott Brady
 
-repo init -u git://github.com/CyanogenMod/android.git -b cm-10.1
-cp device/bn/acclaim/local_manifest.xml .repo/local_manifest.xml
-./vendor/cm/get-prebuilts
-repo sync -d
- . build/envsetup.sh && brunch acclaim
+~$ repo init -u git://github.com/CyanogenMod/android.git -b cm-10.1
+~$ cp device/bn/acclaim/local_manifest.xml .repo/local_manifest.xml
+~$ ./vendor/cm/get-prebuilts
+~$ repo sync -d
+~$  . build/envsetup.sh && brunch acclaim
 
 Edited by Succulent - HD
 iamafanof.wordpress.com
