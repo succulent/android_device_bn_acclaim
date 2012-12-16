@@ -45,10 +45,10 @@
              android:removable="true"
              android:allowMassStorage="true" />
 
-    <storage android:mountPoint="/mnt/usbdisk0"
+    <storage android:mountPoint="/storage/usbdisk0"
              android:storageDescription="@string/storage_usb"
              android:primary="false"
              android:removable="true"
-             android:allowMassStorage="true" />
+             android:allowMassStorage="false" />
 
 </StorageList>
