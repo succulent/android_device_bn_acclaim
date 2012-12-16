@@ -1,4 +1,3 @@
-#ifdef TARGET_HAS_CUSTOM_HWC
 LOCAL_PATH := $(call my-dir)
 
 # HAL module implementation, not prelinked and stored in
@@ -25,4 +24,4 @@ LOCAL_C_INCLUDES += \
 # LOCAL_CFLAGS += -DLOG_NDEBUG=0
 include $(BUILD_SHARED_LIBRARY)
 
-#endif
+
