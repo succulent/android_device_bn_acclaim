@@ -45,11 +45,11 @@ on fs
     #mount ext4 /dev/block/mmcblk1p2 /system wait ro
     #mount ext4 /dev/block/mmcblk1p3 /data wait noatime nosuid nodev errors=continue discard
 
-    mount ext4 /dev/block/mmcblk0p8 /system wait ro
+    mount ext4 /dev/block/mmcblk0p8  /system wait ro
     mount ext4 /dev/block/mmcblk0p11 /data wait noatime nosuid nodev errors=continue discard
-    mount ext4 /dev/block/mmcblk0p9 /cache wait noatime nosuid nodev errors=continue discard
-    mount vfat /dev/block/mmcblk0p5 /rom ro wait noatime nodiratime uid=1000,gid=1000,fmask=227,dmask=007
-    mount vfat /dev/block/mmcblk0p6 /bootdata wait noatime nodiratime uid=1000,gid=1000,fmask=117,dmask=007
+    mount ext4 /dev/block/mmcblk0p9  /cache wait noatime nosuid nodev errors=continue discard
+    mount vfat /dev/block/mmcblk0p5  /rom ro wait noatime nodiratime uid=1000,gid=1000,fmask=227,dmask=007
+    mount vfat /dev/block/mmcblk0p6  /bootdata wait noatime nodiratime uid=1000,gid=1000,fmask=117,dmask=007
 
     # Load SGX Modules
     insmod /system/lib/modules/pvrsrvkm_sgx540_120.ko
@@ -248,12 +248,6 @@ service bootcnt /system/bin/clear_bootcnt.sh
     group root
     disabled
     oneshot
-
-# create virtual SD card at /storage/sdcard0, based on the /data/media directory
-# daemon will drop to user/group system/media_rw after initializing
-# underlying files in /data/media will be created with user and group media_rw (1023)
-service sdcard /system/bin/sdcard /data/media 1023 1023
-    class main
 
 service p2p_supplicant /system/bin/wpa_supplicant \
     -Dnl80211 -iwlan0 -c/data/misc/wifi/wpa_supplicant.conf
