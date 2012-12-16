@@ -17,40 +17,34 @@
 <device name="Android">
   <!-- All values are in mAh except as noted -->
   <item name="none">0</item>
-  <item name="screen.on">55</item>
-  <item name="bluetooth.active">142</item>
-  <item name="bluetooth.on">1</item>
-  <item name="screen.full">115</item>
-  <item name="wifi.on">4</item>
-  <item name="wifi.active">130</item>
-  <item name="wifi.scan">104</item>
-  <item name="dsp.audio">75</item>
-  <item name="dsp.video">75</item>
-  <item name="radio.active">300</item>
+  <item name="screen.on">30</item>
+  <item name="bluetooth.active">0.4</item>
+  <item name="bluetooth.on">0.8</item>
+  <item name="screen.full">50</item>
+  <item name="wifi.on">0.2</item>
+  <item name="wifi.active">0.1</item>
+  <item name="wifi.scan">0.1</item>
+  <item name="dsp.audio">74</item>
+  <item name="dsp.video">243</item>
+  <item name="radio.active">200</item>
   <!-- The current consumed by the radio when it is scanning for a signal -->
-  <item name="radio.scanning">70</item>
-  <item name="gps.on">170</item>
+  <item name="radio.scanning">30</item>
+  <item name="gps.on">70</item>
   <!-- Current consumed by the radio at different signal strengths, when paging -->
   <array name="radio.on"> <!-- Strength 0 to BINS-1 -->
       <value>3</value>
-      <value>3</value>
+      <value>2</value>
   </array>
   <!-- Different CPU speeds as reported in
        /sys/devices/system/cpu/cpu0/cpufreq/stats/time_in_state -->
   <array name="cpu.speeds">
       <value>1008000</value>
-      <value>800000</value>
-      <value>600000</value>
-      <value>300000</value>
   </array>
   <!-- Power consumption when CPU is idle -->
-  <item name="cpu.idle">4</item>
+  <item name="cpu.idle">1.5</item>
   <!-- Power consumption at different speeds -->
   <array name="cpu.active">
-      <value>300</value>
-      <value>280</value>
-      <value>200</value>
-      <value>160</value>
+      <value>20</value>
   </array>
   <!-- This is the battery capacity in mAh -->
   <item name="battery.capacity">4000</item>
