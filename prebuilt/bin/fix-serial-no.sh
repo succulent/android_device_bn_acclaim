@@ -1,5 +1,4 @@
 #!/system/bin/sh
-# hd
 
 if [ -f /rom/devconf/SerialNumber ] ; then
     fsn=$(cat /rom/devconf/SerialNumber)
