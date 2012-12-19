@@ -20,12 +20,10 @@
 <!-- These resources are around just to allow their values to be customized
      for different hardware and product builds. -->
 <resources>
+
     <!-- LUN file to be used by legacy USB manager.
          The existence of this file will be used to determine in the
          legacy USB manager should be started. -->
     <!-- <string name="config_legacyUmsLunFile">/sys/devices/platform/usb_mass_storage/lun0/file</string> -->
 
-    <!-- Timeout in MS for how long you have to long-press the back key to
-         kill the foreground app. -->
-    <integer name="config_backKillTimeout">1500</integer>
 </resources>
