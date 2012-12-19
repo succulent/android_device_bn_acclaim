@@ -1,25 +1,5 @@
 #
 # system.prop for acclaim
 #
-#define defaults for audio D/A mic and power mode
-omap.audio.mic.main=AMic0    
-omap.audio.mic.sub=AMic1     
-omap.audio.power=PingPong           
-af.resampler.quality=3              
-ro.nf.profile=2                           
-ro.nf.level=512
-ro.sf.hwrotation=270
 
-ro.pm.awake_on_usb=1
-
-# Better Responsiveness & Speed
-persist.android.strictmode=0
-persist.sys.ui.hw=1
-
-# This defines the max event window manager can handle in 1s
-windowsmgr.max_events_per_sec=275
-
-# Improve screen responsiveness/scrolling
-ro.max.fling_velocity=12000
-ro.min.fling_velocity=8000
 
