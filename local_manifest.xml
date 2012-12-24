@@ -1,55 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
   <manifest>
 
-  <remote name="omapzoom" fetch="git://git.omapzoom.org/" />
+    <remote name="omapzoom" fetch="git://git.omapzoom.org/" />
 
-  <!-- CM removals
-  <remove-project name="CyanogenMod/android_hardware_libhardware" />
-  <remove-project name="CyanogenMod/android_hardware_libhardware_legacy" /> -->
-  <remove-project name="CyanogenMod/android_hardware_ti_omap4xxx" />
-  <remove-project name="CyanogenMod/android_hardware_ti_wlan" />
-  <remove-project name="CyanogenMod/android_system_core" />
+    <!-- CM removals -->
+    <remove-project name="CyanogenMod/android_hardware_libhardware" />
+    <remove-project name="CyanogenMod/android_hardware_libhardware_legacy" />
+    <remove-project name="CyanogenMod/android_hardware_ti_omap4xxx" />
+    <remove-project name="CyanogenMod/android_hardware_ti_wlan" />
+    <remove-project name="CyanogenMod/android_system_core" />
+    <remove-project name="CyanogenMod/android_vendor_cm" />
+    <remove-project name="CyanogenMod/android_frameworks_base" />
+    <remove-project name="CyanogenMod/android_packages_apps_Email" />
+    <remove-project name="CyanogenMod/android_packages_apps_Settings" />
+    <remove-project name="CyanogenMod/android_packages_apps_Trebuchet" />
+    <remove-project name="CyanogenMod/android_bionic" />
+    <remove-project name="CyanogenMod/android_build" />
 
-  <!-- omapzoom replacements
-  <project path="device/ti/common-open" name="device/ti/common-open" remote="omapzoom" revision="jb-release" /> -->
-  <project path="device/ti/proprietary-open" name="device/ti/proprietary-open" remote="omapzoom" revision="d-jb-mr0-release" />
-  <project path="hardware/ti/domx" name="platform/hardware/ti/domx" remote="omapzoom" revision="jb-release" />
-  <project path="hardware/ti/omap4xxx" name="platform/hardware/ti/omap4xxx" remote="omapzoom" revision="p-jb-release" />
-  <project path="hardware/ti/wlan" name="platform/hardware/ti/wlan" remote="omapzoom" revision="d-jb-release" />
-  <project path="external/wpa_supplicant_8_ti" name="platform/external/wpa_supplicant_8_ti" remote="omapzoom" revision="d-jb-release">
-     <annotation name="vendor" value="ti" />
-  </project>
+    <!-- omapzoom replacements -->
+    <project path="device/ti/proprietary-open" name="device/ti/proprietary-open" remote="omapzoom" revision="d-jb-mr0-release" />
+    <project path="hardware/ti/domx" name="platform/hardware/ti/domx" remote="omapzoom" revision="jb-release" />
+    <project path="hardware/ti/omap4xxx" name="platform/hardware/ti/omap4xxx" remote="omapzoom" revision="p-jb-release" />
+    <project path="hardware/ti/wlan" name="platform/hardware/ti/wlan" remote="omapzoom" revision="d-jb-release" />
+    <project path="external/wpa_supplicant_8_ti" name="platform/external/wpa_supplicant_8_ti" remote="omapzoom" revision="d-jb-release">
+         <annotation name="vendor" value="ti" />
+    </project>
 
-  <!-- modified CM projects
-  <project path="hardware/libhardware" name="KFire-Android/android_hardware_libhardware" revision="jellybean" />
-  <project path="hardware/libhardware_legacy" name="KFire-Android/android_hardware_libhardware_legacy" revision="jellybean" /> -->
-  <project path="system/core" name="loosethisskin/android_system_core" revision="jb-otter" />
+    <!-- modified CM projects -->
+    <project path="hardware/libhardware" name="KFire-Android/android_hardware_libhardware" revision="jb-otter" />
+    <project path="hardware/libhardware_legacy" name="KFire-Android/android_hardware_libhardware_legacy" revision="jb-otter" />
+    <project path="system/core" name="loosethisskin/android_system_core" revision="jb-otter" />
+    <project path="vendor/cm" name="common/android_vendor_cm" remote="cmdev" revision="jb" />
 
-  <!-- local projects -->
-  <project path="kernel/bn/acclaim" name="succulent/kernel3NookTablet" revision="jellybean"/>
-  <!-- <project path="kernel/bn/acclaim" name="succulent/android_kernel_bn_hummingbird_ovation" revision="master"/> -->
+    <!-- local projects -->
+    <!-- <project path="kernel/bn/acclaim" name="succulent/kernel3NookTablet" revision="jb"/> -->
+    <project path="kernel/bn/acclaim" name="succulent/android_kernel_bn_hummingbird_ovation" revision="master"/>
 
-  <!-- SGT7 -->
-  <remove-project name="CyanogenMod/android_frameworks_base" />
-  <remove-project name="CyanogenMod/android_packages_apps_Email" />
-  <remove-project name="CyanogenMod/android_packages_apps_Settings" />
-  <remove-project name="CyanogenMod/android_packages_apps_Trebuchet" />
-  <project path="frameworks/base" name="loosethisskin/android_frameworks_base" revision="jb-sgt7" />
-  <project path="packages/apps/Email" name="loosethisskin/android_packages_apps_Email" revision="jb" />
-  <project path="packages/apps/Settings" name="loosethisskin/android_packages_apps_Settings" revision="jb-sgt7" />
-  <project path="packages/apps/Trebuchet" name="loosethisskin/android_packages_apps_Trebuchet" revision="jb-sgt7-dev" />
+    <!-- SGT7 -->
+    <project path="frameworks/base" name="loosethisskin/android_frameworks_base" revision="jb-sgt7" />
+    <project path="packages/apps/Email" name="loosethisskin/android_packages_apps_Email" revision="jb" />
+    <project path="packages/apps/Settings" name="loosethisskin/android_packages_apps_Settings" revision="jb-sgt7" />
+    <project path="packages/apps/Trebuchet" name="loosethisskin/android_packages_apps_Trebuchet" revision="jb-sgt7-dev" />
 
-  <!-- TWRP 
-  <remove-project name="CyanogenMod/android_bootable_recovery" />
-  <project name="TeamWin/Team-Win-Recovery-Project" path="bootable/recovery" remote="github" revision="jb-wip" /> -->
+    <!-- TWRP 
+    <remove-project name="CyanogenMod/android_bootable_recovery" />
+    <project name="TeamWin/Team-Win-Recovery-Project" path="bootable/recovery" remote="github" revision="jb-wip" /> -->
 
-  <!-- Linaro -->
-  <remove-project name="CyanogenMod/android_bionic" />
-  <remove-project name="CyanogenMod/android_build" />
-  <project path="bionic" name="loosethisskin/android_bionic" revision="jb-linaro" />
-  <project path="build" name="loosethisskin/android_build" revision="jb" >
-      <copyfile src="core/root.mk" dest="Makefile" />
-  </project>
+    <!-- Linaro -->
+    <project path="bionic" name="loosethisskin/android_bionic" revision="jb-linaro" />
+    <project path="build" name="loosethisskin/android_build" revision="jb" >
+            <copyfile src="core/root.mk" dest="Makefile" />
+    </project>
 
   </manifest>
 
