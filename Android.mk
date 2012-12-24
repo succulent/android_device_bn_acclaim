@@ -1,4 +1,5 @@
 #
+# Copyright (C) 2012 The Android Open Source Project
 # Copyright (C) 2012 The CyanogenMod Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,12 +21,8 @@
 # to only building on ARM if they include assembly. Individual makefiles
 # are responsible for having their own logic, for fine-grained control.
 
+ifeq ($(TARGET_DEVICE),acclaim)
 LOCAL_PATH := $(call my-dir)
 
-ifneq ($(filter acclaim,$(TARGET_DEVICE)),)
-
-ifneq ($(TARGET_SIMULATOR),true)
-include $(call first-makefiles-under,$(LOCAL_PATH))
-endif
-
+include $(call all-makefiles-under,$(LOCAL_PATH))
 endif

@@ -49,4 +49,4 @@
 # ************************************************
 $(call add-clean-step, rm -rf $(PRODUCT_OUT)/root/default.prop)
 $(call add-clean-step, rm -rf $(PRODUCT_OUT)/obj/APPS/Phone_intermediates)
-
+$(call add-clean-step, rm -f $(TARGET_OUT)/build.prop)

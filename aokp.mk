@@ -1,6 +1,5 @@
 #
-# Copyright (C) 2012 The Android Open Source Project
-# Copyright (C) 2012 The CyanogenMod Project
+# Copyright (C) 2012 The AOKP Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,9 +14,18 @@
 # limitations under the License.
 #
 
-PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/full_acclaim.mk
+# Inherit device configuration for BN Acclaim
+$(call inherit-product, device/bn/acclaim/full_acclaim.mk)
 
-ifeq ($(TARGET_PRODUCT),aokp_acclaim)
-    PRODUCT_MAKEFILES += $(LOCAL_DIR)/aokp.mk
-endif
+# Inherit common product files.
+$(call inherit-product, vendor/aokp/configs/common_tablet_small.mk)
+
+DEVICE_PACKAGE_OVERLAYS += device/bn/acclaim/overlay/aokp
+
+# Setup device specific product configuration.
+PRODUCT_NAME := aokp_acclaim
+PRODUCT_DEVICE := acclaim
+PRODUCT_BRAND := NOOK
+PRODUCT_MODEL := NookTablet
+PRODUCT_MANUFACTURER := Barnes&Noble
+PRODUCT_RELEASE_NAME := NookTablet
