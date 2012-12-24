@@ -430,6 +430,7 @@ def WriteFullOTAPackage(input_zip, output_zip):
   Item.Get("system").SetPermissions(script)
 
   common.CheckSize(boot_img.data, "boot.img", OPTIONS.info_dict)
+  common.CheckSize(recovery_img.data, "recovery.img", OPTIONS.info_dict)
   common.ZipWriteStr(output_zip, "boot.img", boot_img.data)
   common.ZipWriteStr(output_zip, "recovery.img", recovery_img.data)
   script.ShowProgress(0.2, 0)

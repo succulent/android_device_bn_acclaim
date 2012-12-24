@@ -1,21 +1,14 @@
 #
 # system.prop for acclaim
 #
-wifi.interface=wlan0
 
 #define defaults for audio D/A mic and power mode
-omap.audio.mic.main=AMic0    
-omap.audio.mic.sub=AMic1     
+omap.audio.mic.main=AMic0
+omap.audio.mic.sub=AMic1
 omap.audio.power=PingPong           
 af.resampler.quality=3              
 ro.nf.profile=2                           
 ro.nf.level=512
-ro.sf.hwrotation=270
-
-ro.additionalmounts=/mnt/emmc;/mnt/usbdisk
-ro.vold.switchablepair=/mnt/sdcard,/mnt/emmc
-#ro.pm.awake_on_usb=1
-persist.sys.usb.config=mtp,adb
 
 # Better Responsiveness & Speed
 persist.android.strictmode=0
@@ -31,16 +24,9 @@ ro.min.fling_velocity=8000
 # Raise JPG quality to 100%
 ro.media.enc.jpeg.quality=100
 
-# Save battery
-#pm.sleep_mode=1
-#ro.ril.disable.power.collapse=0
-
 # Disable debugging notify icon on statusbar
 persist.adb.notify=0
 
 # Fix some application issues
 ro.kernel.android.checkjni=0
-
-#persist.phone=0
-#ro.carrier=wifi-only
 
