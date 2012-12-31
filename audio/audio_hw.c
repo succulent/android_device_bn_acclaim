@@ -131,53 +131,53 @@
 #define MIXER_BT_RIGHT                      "BT Right"
 #define MIXER_AUX_LEFT                      "Aux/FM Left"
 #define MIXER_AUX_RIGHT                     "Aux/FM Right"
-#define MIXER_MMEXTR                        "MMExt Right"
-#define MIXER_MMEXTL                        "MMExt Left"
-#define MIXER_450HZ_HIGH_PASS               "450Hz High-pass"
-#define MIXER_0DB_HIGH_PASS                 "High-pass 0dB"
-#define MIXER_FLAT_RESPONSE                 "Flat response"
-#define MIXER_4KHZ_LPF_0DB                  "4Khz LPF   0dB"
-#define MIXER_VX_RIGHT                      "VX Right"
-#define MIXER_VX_LEFT                       "VX Left"
+#define MIXER_MMEXTR			    "MMExt Right"
+#define MIXER_MMEXTL			    "MMExt Left"
+#define MIXER_450HZ_HIGH_PASS		    "450Hz High-pass"
+#define MIXER_0DB_HIGH_PASS		    "High-pass 0dB"
+#define MIXER_FLAT_RESPONSE		    "Flat response"
+#define MIXER_4KHZ_LPF_0DB		    "4Khz LPF   0dB"
+#define MIXER_VX_RIGHT			    "VX Right"
+#define MIXER_VX_LEFT			    "VX Left"
 
 /* Codec controls */
-#define SP_DRIVER_MUTE 						"SP driver mute"
-#define SP_ANALOG_GAIN						"SP Analog Gain"
-#define DAC_PLAYBACK_VOLUME					"DAC Playback Volume"
-#define RIGHT_DAC_INPUT_SELECTION			"Right DAC input selection"
-#define LEFT_DAC_INPUT_SELECTION			"Left DAC input selection"
-#define DAC_L_TO_LEFT_OUTPUT_MIXER			"Left Output Mixer From DAC_L"
-#define DAC_R_TO_RIGHT_OUTPUT_MIXER			"Right Output Mixer From DAC_R"
-#define HP_DRIVER_MUTE 						"HP driver mute"
-#define HP_ANALOG_GAIN						"HP Analog Gain"
-#define HP_CM_VOLTAGE_CTL					"HP Output common - mode voltage control"
-#define M_INPUT_MIXER						"M_Input_Mixer CM_PGA_CNTL"
-#define P_INPUT_MIXER						"P_Input_Mixer MIC1LM_PGA_CNTL"
-#define MIC_PGA_GAIN						"ADC MIC_PGA GAIN"
-#define ADC_COARSE_GAIN						"ADC COARSE GAIN"
-#define DL1_MM_EXT_SWITCH					"DL1 MM_EXT Switch"
+#define SP_DRIVER_MUTE 			    "SP driver mute"
+#define SP_ANALOG_GAIN			    "SP Analog Gain"
+#define DAC_PLAYBACK_VOLUME		    "DAC Playback Volume"
+#define RIGHT_DAC_INPUT_SELECTION	    "Right DAC input selection"
+#define LEFT_DAC_INPUT_SELECTION	    "Left DAC input selection"
+#define DAC_L_TO_LEFT_OUTPUT_MIXER	    "Left Output Mixer From DAC_L"
+#define DAC_R_TO_RIGHT_OUTPUT_MIXER	    "Right Output Mixer From DAC_R"
+#define HP_DRIVER_MUTE 			    "HP driver mute"
+#define HP_ANALOG_GAIN			    "HP Analog Gain"
+#define HP_CM_VOLTAGE_CTL		    "HP Output common - mode voltage control"
+#define M_INPUT_MIXER			    "M_Input_Mixer CM_PGA_CNTL"
+#define P_INPUT_MIXER			    "P_Input_Mixer MIC1LM_PGA_CNTL"
+#define MIC_PGA_GAIN			    "ADC MIC_PGA GAIN"
+#define ADC_COARSE_GAIN			    "ADC COARSE GAIN"
+#define DL1_MM_EXT_SWITCH		    "DL1 MM_EXT Switch"
 
-#define RIGHT_DATA							"right data"
-#define LEFT_DATA							"left data"
-#define VOLTAGE								"5 V "
+#define RIGHT_DATA			    "right data"
+#define LEFT_DATA			    "left data"
+#define VOLTAGE				    "5 V "
 
 /* ALSA cards for OMAP */
-#define CARD_OMAP_ABE 0
-#define CARD_OMAP_USB 2
+#define CARD_OMAP_ABE 	0
+#define CARD_OMAP_USB 	2
 #define CARD_OMAP_DEFAULT CARD_OMAP_ABE
 
 /* ALSA ports for OMAP */
-#define PORT_MM_LP		0
-#define PORT_MM 		1
+#define PORT_MM_LP	0
+#define PORT_MM 	1
 #define PORT_MM2_UL 	2
 #define PORT_MM_LEGACY 	3
 
-#define PORT_VX 		0
-#define PORT_TONES 		0
-#define PORT_VIBRA 		0
-#define PORT_MODEM 		0
-#define PORT_SPDIF 		0
-#define PORT_HDMI 		0
+#define PORT_VX 	0
+#define PORT_TONES 	0
+#define PORT_VIBRA 	0
+#define PORT_MODEM 	0
+#define PORT_SPDIF 	0
+#define PORT_HDMI 	0
 
 /* constraint imposed by ABE for CBPr mode: all period sizes must be multiples of 24 */
 #define ABE_BASE_FRAME_COUNT 24
@@ -257,8 +257,8 @@
 #define PRODUCT_DEVICE_PROPERTY 	"ro.product.device"
 #define PRODUCT_DEVICE_BLAZE    	"blaze"
 #define PRODUCT_DEVICE_TABLET   	"blaze_tablet"
-#define PRODUCT_DEVICE_OMAP5_SEVM   "omap5sevm"
-#define PRODUCT_DEVICE_ACCLAIM      "acclaim"
+#define PRODUCT_DEVICE_OMAP5_SEVM       "omap5sevm"
+#define PRODUCT_DEVICE_ACCLAIM          "acclaim"
 
 /* fm */
 static bool fm_enable = false;
@@ -1382,7 +1382,8 @@ static void select_output_device(struct omap_audio_device *adev)
     /* select output stage */
     set_route_by_array(adev->mixer, hs_output, headset_on | headphone_on);
     set_route_by_array(adev->mixer, hf_output, speaker_on);
-	set_route_by_array(adev->mixer, codec_output_controls, headset_on | headphone_on | speaker_on);
+    set_route_by_array(adev->mixer, codec_output_controls, headset_on | 
+			headphone_on | speaker_on);
 
 #if 0
     if (fmtx_on)
