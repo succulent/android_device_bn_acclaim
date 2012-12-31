@@ -182,26 +182,26 @@ PRODUCT_PACKAGES += \
 	su
 
 # OMX
-PRODUCT_VENDOR_KERNEL_HEADERS := hardware/ti/omap4xxx/kernel-headers
-PRODUCT_PACKAGES += \
-	libdomx \
-	libOMX_Core \
-	libOMX.TI.DUCATI1.VIDEO.H264E \
-	libOMX.TI.DUCATI1.VIDEO.MPEG4E \
-	libOMX.TI.DUCATI1.VIDEO.DECODER \
-	libOMX.TI.DUCATI1.VIDEO.DECODER.secure \
-	libOMX.TI.DUCATI1.VIDEO.CAMERA \
-	libOMX.TI.DUCATI1.MISC.SAMPLE \
-	libdrmdecrypt \
-	libstagefrighthw \
-	libI420colorconvert \
-	libtiutils \
-	libcamera \
-	libion \
-	libomxcameraadapter \
-	smc_pa_ctrl \
-	tf_daemon \
-	libtf_crypto_sst
+#PRODUCT_VENDOR_KERNEL_HEADERS := hardware/ti/omap4xxx/kernel-headers
+#PRODUCT_PACKAGES += \
+#	libdomx \
+#	libOMX_Core \
+#	libOMX.TI.DUCATI1.VIDEO.H264E \
+#	libOMX.TI.DUCATI1.VIDEO.MPEG4E \
+#	libOMX.TI.DUCATI1.VIDEO.DECODER \
+#	libOMX.TI.DUCATI1.VIDEO.DECODER.secure \
+#	libOMX.TI.DUCATI1.VIDEO.CAMERA \
+#	libOMX.TI.DUCATI1.MISC.SAMPLE \
+#	libdrmdecrypt \
+#	libstagefrighthw \
+#	libI420colorconvert \
+#	libtiutils \
+#	libcamera \
+#	libion \
+#	libomxcameraadapter \
+#	smc_pa_ctrl \
+#	tf_daemon \
+#	libtf_crypto_sst
 
 PRODUCT_PACKAGES += \
 	iontest \
@@ -215,13 +215,7 @@ PRODUCT_PROPERTY_OVERRIDES := \
 	dalvik.vm.heapgrowthlimit=42m \
 	dalvik.vm.heapsize=128m \
 	dalvik.vm.heapstartsize=5m \
-	debug.composition.type=gpu \
-	debug.egl.hw=1 \
-	debug.egl.profiler=1 \
-	debug.performance.tuning=1 \
-	debug.sf.hw=1 \
 	omap.enhancement=true \
-	persist.lab126.chargeprotect=1 \
 	persist.sys.root_access=3 \
 	persist.sys.usb.config=mtp,adb \
 	persist.sys.vold.switchexternal=0 \
@@ -233,7 +227,6 @@ PRODUCT_PROPERTY_OVERRIDES := \
 	ro.sf.lcd_density=160 \
 	ro.vold.switchablepair=/storage/sdcard0,/storage/sdcard1 \
 	softap.interface=wlan0 \
-	video.accelerate.hw=1 \
 	wifi.interface=wlan0 \
 	wifi.supplicant_scan_interval=180 \
 
@@ -251,6 +244,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_TAGS += dalvik.gc.type-precise
 
 $(call inherit-product, frameworks/native/build/tablet-dalvik-heap.mk)
-
+$(call inherit-product-if-exists, hardware/ti/omap4xxx/omap4.mk)
 $(call inherit-product-if-exists, device/ti/proprietary-open/wl12xx/wlan/wl12xx-wlan-fw-products.mk)
 
