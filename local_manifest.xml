@@ -4,10 +4,10 @@
     <remote name="omapzoom" fetch="git://git.omapzoom.org/" />
 
     <!-- CM removals -->
-    <remove-project name="CyanogenMod/android_hardware_libhardware" />
-    <remove-project name="CyanogenMod/android_hardware_libhardware_legacy" />
     <remove-project name="CyanogenMod/android_hardware_ti_omap4xxx" />
     <remove-project name="CyanogenMod/android_hardware_ti_wlan" />
+    <remove-project name="CyanogenMod/android_hardware_libhardware" />
+    <remove-project name="CyanogenMod/android_hardware_libhardware_legacy" />
     <remove-project name="CyanogenMod/android_system_core" />
     <remove-project name="CyanogenMod/android_vendor_cm" />
     <remove-project name="CyanogenMod/android_frameworks_base" />
@@ -27,24 +27,27 @@
     </project>
 
     <!-- modified CM projects -->
-    <project path="hardware/libhardware" name="KFire-Android/android_hardware_libhardware" revision="jb-otter" />
-    <project path="hardware/libhardware_legacy" name="KFire-Android/android_hardware_libhardware_legacy" revision="jb-otter" />
+    <project path="hardware/libhardware" name="loosethisskin/android_hardware_libhardware" revision="jb-otter" />
+    <project path="hardware/libhardware_legacy" name="loosethisskin/android_hardware_libhardware_legacy" revision="jb-otter" />
     <project path="system/core" name="loosethisskin/android_system_core" revision="jb-otter" />
-    <project path="vendor/cm" name="common/android_vendor_cm" remote="cmdev" revision="jb" />
+    <project path="vendor/cm" name="loosethisskin/android_vendor_cm" revision="jb" />
 
-    <!-- local projects -->
-    <!-- <project path="kernel/bn/acclaim" name="succulent/kernel3NookTablet" revision="jb"/> -->
-    <project path="kernel/bn/acclaim" name="succulent/android_kernel_bn_hummingbird_ovation" revision="master"/>
+    <!-- local projects 
+    <project path="kernel/bn/acclaim" name="succulent/android_kernel_bn_hummingbird_ovation" revision="master"/>-->
+    <project path="kernel/bn/acclaim" name="succulent/kernel3NookTablet" revision="jb"/>
 
     <!-- SGT7 -->
     <project path="frameworks/base" name="loosethisskin/android_frameworks_base" revision="jb-sgt7" />
     <project path="packages/apps/Email" name="loosethisskin/android_packages_apps_Email" revision="jb" />
     <project path="packages/apps/Settings" name="loosethisskin/android_packages_apps_Settings" revision="jb-sgt7" />
-    <project path="packages/apps/Trebuchet" name="loosethisskin/android_packages_apps_Trebuchet" revision="jb-sgt7-dev" />
+    <project path="packages/apps/Trebuchet" name="sgt7/android_packages_apps_Trebuchet" revision="jellybean" />
 
     <!-- TWRP 
     <remove-project name="CyanogenMod/android_bootable_recovery" />
     <project name="TeamWin/Team-Win-Recovery-Project" path="bootable/recovery" remote="github" revision="jb-wip" /> -->
+
+    <!-- HWA Settings app -->
+    <project path="packages/apps/HwaSettings" name="loosethisskin/HwaSettings" revision="jellybean" />
 
     <!-- Linaro -->
     <project path="bionic" name="loosethisskin/android_bionic" revision="jb-linaro" />

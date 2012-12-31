@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <manifest>
+
+    <!-- SGT7 Linaro Build - strict aliasing / ISO C++11 -->
+
+    <remote name="linaro" fetch="git://android.git.linaro.org/" />
+    <remote name="linaro-other" fetch="git://git.linaro.org/" />
+    <remote name="omapzoom" fetch="git://git.omapzoom.org/" />
+
+    <!-- CM removals -->
+    <remove-project name="CyanogenMod/android_hardware_ti_omap4xxx" />
+    <remove-project name="CyanogenMod/android_hardware_ti_wlan" />
+    <remove-project name="CyanogenMod/android_hardware_libhardware" />
+    <remove-project name="CyanogenMod/android_hardware_libhardware_legacy" />
+    <remove-project name="CyanogenMod/android_system_core" />
+    <remove-project name="CyanogenMod/android_vendor_cm" />
+    <remove-project name="CyanogenMod/android_build" />
+    <remove-project name="CyanogenMod/android_frameworks_base" />
+    <remove-project name="CyanogenMod/android_packages_apps_Email" />
+    <remove-project name="CyanogenMod/android_packages_apps_Settings" />
+    <remove-project name="CyanogenMod/android_packages_apps_Trebuchet" />
+    <remove-project name="CyanogenMod/android_bionic" />
+    <remove-project name="CyanogenMod/android_external_stlport" />
+    <remove-project name="CyanogenMod/android_frameworks_av" />
+    <remove-project name="CyanogenMod/android_frameworks_native" />
+    <remove-project name="CyanogenMod/android_frameworks_rs" />
+    <remove-project name="CyanogenMod/android_system_security" />
+    <remove-project name="CyanogenMod/android_dalvik" />
+    <remove-project name="CyanogenMod/android_external_icu4c" />
+    <remove-project name="CyanogenMod/android_packages_inputmethods_LatinIME" />
+    <remove-project name="CyanogenMod/android_external_v8" />
+    <remove-project name="CyanogenMod/android_external_jpeg" />
+    <remove-project name="CyanogenMod/android_external_tremolo" />
+    <remove-project name="CyanogenMod/android_external_busybox" />
+    <remove-project name="CyanogenMod/android_external_chromium" />
+    <remove-project name="CyanogenMod/android_external_clang" />
+    <remove-project name="CyanogenMod/android_external_dnsmasq" />
+    <remove-project name="CyanogenMod/android_external_e2fsprogs" />
+    <remove-project name="CyanogenMod/android_external_lsof" />
+    <remove-project name="CyanogenMod/android_external_openssh" />
+    <remove-project name="CyanogenMod/android_external_openssl" />
+    <remove-project name="CyanogenMod/android_external_openvpn" />
+    <remove-project name="CyanogenMod/android_external_ping" />
+    <remove-project name="CyanogenMod/android_external_skia" />
+    <remove-project name="CyanogenMod/android_external_webkit" />
+    <remove-project name="CyanogenMod/android_external_wpa_supplicant_8" />
+    <remove-project name="CyanogenMod/android_frameworks_compile_libbcc" />
+    <remove-project name="CyanogenMod/android_frameworks_compile_slang" />
+    <remove-project name="CyanogenMod/android_frameworks_ex" />
+    <remove-project name="CyanogenMod/android_frameworks_wilhelm" />
+    <remove-project name="CyanogenMod/android_libcore" />
+    <remove-project name="CyanogenMod/android_system_extras" />
+    <remove-project name="CyanogenMod/android_external_oprofile" />
+    <remove-project name="CyanogenMod/android_hardware_ril" />
+    <remove-project name="CyanogenMod/android_packages_apps_Camera" />
+
+    <!-- omapzoom replacements -->
+    <!-- -->
+    <project path="device/ti/proprietary-open" name="loosethisskin/android_device_ti_proprietary-open" revision="d-jb-mr0-release" />
+    <project path="hardware/ti/domx" name="loosethisskin/android_hardware_ti_domx" revision="jb-release-linaro" />
+    <project path="hardware/ti/omap4xxx" name="loosethisskin/android_hardware_ti_omap4xxx" revision="p-jb-release-linaro" />
+    <project path="hardware/ti/wlan" name="platform/hardware/ti/wlan" remote="omapzoom" revision="d-jb-release" />
+    <project path="external/wpa_supplicant_8_ti" name="loosethisskin/android_external_wpa_supplicant_8_ti" revision="d-jb-release-linaro">
+        <annotation name="vendor" value="ti" />
+    </project>
+
+    <!-- modified CM projects -->
+    <project path="hardware/libhardware" name="loosethisskin/android_hardware_libhardware" revision="jb-otter" />
+    <project path="hardware/libhardware_legacy" name="loosethisskin/android_hardware_libhardware_legacy" revision="jb-otter" />
+    <project path="system/core" name="loosethisskin/android_system_core" revision="jb-otter" /> 
+    <project path="vendor/cm" name="loosethisskin/android_vendor_cm" revision="jb" />
+    <project path="build" name="loosethisskin/android_build" revision="jb-gcc7" >
+        <copyfile src="core/root.mk" dest="Makefile" />
+    </project>
+
+    <!-- local projects -->
+  <project path="kernel/bn/acclaim" name="succulent/kernel3NookTablet" revision="jb"/>
+
+    <!-- SGT7 -->
+    <project path="frameworks/base" name="loosethisskin/android_frameworks_base" revision="jb-sgt7-linaro" />
+    <project path="packages/apps/Email" name="loosethisskin/android_packages_apps_Email" revision="jb" />
+    <project path="packages/apps/Settings" name="loosethisskin/android_packages_apps_Settings" revision="jb-sgt7" />
+    <project path="packages/apps/Trebuchet" name="sgt7/android_packages_apps_Trebuchet" revision="jellybean" />
+
+    <!-- HWA Settings app -->
+    <project path="packages/apps/HwaSettings" name="loosethisskin/HwaSettings" revision="jellybean" />
+
+    <!-- Linaro -->
+    <project path="bionic" name="loosethisskin/android_bionic" revision="jb-linaro" />
+
+    <!-- Linaro modifications: gcc 4.7 support -->
+    <project path="external/stlport" name="loosethisskin/android_external_stlport" revision="jb-linaro"/>
+    <project path="frameworks/av" name="loosethisskin/android_frameworks_av" revision="jb-linaro" />
+    <project path="frameworks/native" name="loosethisskin/android_frameworks_native" revision="jb-linaro" />
+    <project path="frameworks/rs" name="loosethisskin/android_frameworks_rs" revision="jb-linaro"/>
+    <project path="system/security" name="loosethisskin/android_system_security" revision="jb-linaro" />
+
+    <!-- Linaro modifications: gcc 4.6+ -Werror support -->
+
+    <project path="dalvik" name="loosethisskin/android_dalvik" revision="jb-linaro" />
+    <project path="external/icu4c" name="loosethisskin/android_external_icu4c" revision="jb-linaro" />
+    <project path="packages/inputmethods/LatinIME" name="loosethisskin/android_packages_inputmethods_LatinIME" revision="jb-linaro" />
+
+    <!-- Linaro modifications: Fix the float ABI check for gcc 4.7+ -->
+    <project path="external/v8" name="loosethisskin/android_external_v8" revision="jb-linaro" />
+
+    <!-- Linaro modifications: Replaced traditional libjpeg with libjpeg-turbo  -->
+    <project path="external/jpeg" name="people/tomgall/libjpeg-turbo/libjpeg-turbo" revision="android" remote="linaro-other" />
+
+    <!-- Linaro: Don't use -fmodulo-sched  -->
+    <project path="external/tremolo" name="loosethisskin/android_external_tremolo" revision="jb-linaro" />
+
+    <!-- strict aliasing and iso-c++ fixes -->
+    <project path="external/busybox" name="loosethisskin/android_external_busybox" revision="jb-linaro" />
+    <project path="external/chromium" name="loosethisskin/android_external_chromium" revision="jb-linaro" />
+    <project path="external/clang" name="loosethisskin/android_external_clang" revision="jb-linaro" />
+    <project path="external/dnsmasq" name="loosethisskin/android_external_dnsmasq" revision="jb-linaro" />
+    <project path="external/e2fsprogs" name="loosethisskin/android_external_e2fsprogs" revision="jb-linaro" />
+    <project path="external/lsof" name="loosethisskin/android_external_lsof" revision="jb-linaro" />
+    <project path="external/openssh" name="loosethisskin/android_external_openssh" revision="jb-linaro" />
+    <project path="external/openssl" name="loosethisskin/android_external_openssl" revision="jb-linaro" />
+    <project path="external/openvpn" name="loosethisskin/android_external_openvpn" revision="jb-linaro" />
+    <project path="external/ping" name="loosethisskin/android_external_ping" revision="jb-linaro" />
+    <project path="external/skia" name="loosethisskin/android_external_skia" revision="jb-linaro" />
+    <project path="external/webkit" name="loosethisskin/android_external_webkit" revision="jb-linaro" />
+    <project path="external/wpa_supplicant_8" name="loosethisskin/android_external_wpa_supplicant_8" revision="jb-linaro" />
+    <project path="frameworks/compile/libbcc" name="loosethisskin/android_frameworks_compile_libbcc" revision="jb-linaro" />
+    <project path="frameworks/compile/slang" name="loosethisskin/android_frameworks_compile_slang" revision="jb-linaro" />
+    <project path="frameworks/ex" name="loosethisskin/android_frameworks_ex" revision="jb-linaro" />
+    <project path="frameworks/wilhelm" name="loosethisskin/android_frameworks_wilhelm" revision="jb-linaro" />
+    <project path="libcore" name="loosethisskin/android_libcore" revision="jb-linaro" />
+    <project path="system/extras" name="loosethisskin/android_system_extras" revision="jb-linaro" />
+    <!-- iso-c++ fixes -->
+    <project path="external/oprofile" name="loosethisskin/android_external_oprofile" revision="jb-linaro" />
+    <project path="hardware/ril" name="loosethisskin/android_hardware_ril" revision="jb-linaro" />
+    <project path="packages/apps/Camera" name="loosethisskin/android_packages_apps_Camera" revision="jb-linaro" />
+
+    <!-- google gcc4.7 toolchains -->
+    <project path="prebuilts/gcc/linux-x86/arm/arm-eabi-4.7" name="platform/prebuilts/gcc/linux-x86/arm/arm-eabi-4.7" remote="aosp" revision="master" />
+    <project path="prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.7" name="platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.7" remote="aosp" revision="master" />
+
+  <!-- TWRP  
+  <remove-project name="CyanogenMod/android_bootable_recovery" />
+  <project name="TeamWin/Team-Win-Recovery-Project" path="bootable/recovery" remote="github" revision="jb-wip" /> -->
+
+  </manifest>
+
