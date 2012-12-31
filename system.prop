@@ -10,23 +10,4 @@ af.resampler.quality=3
 ro.nf.profile=2                           
 ro.nf.level=512
 
-# Better Responsiveness & Speed
-persist.android.strictmode=0
-persist.sys.ui.hw=1
-
-# This defines the max event window manager can handle in 1s
-windowsmgr.max_events_per_sec=275
-
-# Improve screen responsiveness/scrolling
-ro.max.fling_velocity=12000
-ro.min.fling_velocity=8000
-
-# Raise JPG quality to 100%
-ro.media.enc.jpeg.quality=100
-
-# Disable debugging notify icon on statusbar
-persist.adb.notify=0
-
-# Fix some application issues
-ro.kernel.android.checkjni=0
 
