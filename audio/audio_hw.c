@@ -1166,11 +1166,11 @@ static void set_input_volumes(struct omap_audio_device *adev, int main_mic_on,
                 volume = DB_TO_ABE_GAIN(main_mic_on ? CAPTURE_MAIN_MIC_VOLUME :
                     (headset_mic_on ? CAPTURE_HEADSET_MIC_VOLUME :
                     (sub_mic_on ? CAPTURE_SUB_MIC_VOLUME : 0)));
-            }else if (adev->board_type == OMAP4_TABLET) {
+            } else if (adev->board_type == OMAP4_TABLET) {
                 volume = DB_TO_ABE_GAIN(main_mic_on ? CAPTURE_DIGITAL_MIC_VOLUME :
                     (headset_mic_on ? CAPTURE_HEADSET_MIC_VOLUME :
                     (sub_mic_on ? CAPTURE_SUB_MIC_VOLUME : 0)));
-            }else if (adev->board_type == OMAP4_ACCLAIM) {
+            } else if (adev->board_type == OMAP4_ACCLAIM) {
                 volume = DB_TO_ABE_GAIN(main_mic_on ? CAPTURE_DIGITAL_MIC_VOLUME :
                     (headset_mic_on ? CAPTURE_HEADSET_MIC_VOLUME :
                     (sub_mic_on ? CAPTURE_SUB_MIC_VOLUME : 0)));
@@ -1205,7 +1205,7 @@ static void set_input_volumes(struct omap_audio_device *adev, int main_mic_on,
         if ((adev->board_type == OMAP4_BLAZE) ||
            (adev->board_type == OMAP5_SEVM)) {
             mixer_ctl_set_value(adev->mixer_ctls.amic_ul_volume, channel, volume);
-        }else if ((adev->board_type == OMAP4_TABLET) ||
+        } else if ((adev->board_type == OMAP4_TABLET) ||
                  (adev->board_type == OMAP4_ACCLAIM)) {
             if (headset_mic_on)
                 mixer_ctl_set_value(adev->mixer_ctls.amic_ul_volume, channel, volume);
@@ -1502,7 +1502,7 @@ static void select_input_device(struct omap_audio_device *adev)
     int headset_on = 0;
     int main_mic_on = 0;
     int sub_mic_on = 0;
-    int bt_on = adev->in_device & AUDIO_DEVICE_IN_ALL_SCO;
+    int bt_on = 0;
     int fm_rx_on = 0;
 
     if (!bt_on) {
