@@ -4,6 +4,7 @@
 /dev/dmm                  0777   system     system
 /dev/ion                  0777   system     system
 
+#for SYSLINK
 /dev/rpmsg-omx0           0666   drmrpc    drmrpc
 /dev/rpmsg-omx1           0666   drmrpc    drmrpc
 /dev/rproc_user           0666   drmrpc    drmrpc
@@ -17,8 +18,6 @@
 
 # for Sensor HAL
 /dev/accelerometer        0666   system     system
-
-/dev/fwram                0666   system     system
 
 #for GCX (but not needed on 4430)
 /dev/gcioctl              0666   system     system
