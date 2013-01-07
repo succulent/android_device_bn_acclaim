@@ -18,7 +18,7 @@
 $(call inherit-product, device/bn/acclaim/full_acclaim.mk)
 
 # Inherit common product files.
-$(call inherit-product, vendor/aokp/configs/common_tablet_small.mk)
+$(call inherit-product, vendor/aokp/configs/common_tablet.mk)
 
 DEVICE_PACKAGE_OVERLAYS += device/bn/acclaim/overlay/aokp
 
