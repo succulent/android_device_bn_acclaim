@@ -20,8 +20,6 @@
 #
 # Everything in this directory will become public
 
-
-
 DEVICE_FOLDER := device/bn/acclaim
 
 ifeq ($(TARGET_PREBUILT_KERNEL),)
@@ -43,10 +41,6 @@ else
 endif
 
 DEVICE_PACKAGE_OVERLAYS := $(DEVICE_FOLDER)/overlay/aosp
-
-# Bootanimation
-TARGET_SCREEN_HEIGHT := 1024
-TARGET_SCREEN_WIDTH := 600
 
 PRODUCT_AAPT_CONFIG := normal mdpi
 PRODUCT_AAPT_PREF_CONFIG := mdpi
@@ -82,14 +76,26 @@ PRODUCT_COPY_FILES += \
 # Hardware HALs
 PRODUCT_PACKAGES += \
 	audio.a2dp.default \
-	audio.policy.default\
-	audio.primary.acclaim \
 	audio.usb.default \
 	audio.r_submix.default \
 	hwcomposer.acclaim \
 	lights.acclaim \
+	libtinyalsa \
+	libaudioutils \
+	libinvensense_mpl \
 	power.acclaim \
 	sensors.acclaim \
+	tinyplay \
+	tinymix \
+	tinycap \
+	audio.primary.acclaim \
+
+# Dolby DD+ Decoder + Surround AudioEffects
+ifdef OMAP_ENHANCEMENT
+PRODUCT_PACKAGES += \
+        libstagefright_soft_ddpdec \
+        libdseffect
+endif
 
 # Wifi
 PRODUCT_PACKAGES += \
@@ -98,6 +104,7 @@ PRODUCT_PACKAGES += \
 	dhcpcd.conf \
 	regulatory.bin \
 	TQS_D_1.7.ini \
+        TQS_D_1.7_127x.ini \
 	wpa_supplicant.conf \
 	lib_driver_cmd_wl12xx \
 
@@ -107,7 +114,7 @@ PRODUCT_PACKAGES += \
 	make_ext4fs \
 	setpropex \
 	setup_fs \
-        TFF \
+	TFF \
 
 PRODUCT_COPY_FILES += \
 	$(LOCAL_KERNEL):kernel \
@@ -120,6 +127,7 @@ PRODUCT_COPY_FILES += \
 # Permissions
 PRODUCT_COPY_FILES += \
 	frameworks/native/data/etc/tablet_core_hardware.xml:system/etc/permissions/tablet_core_hardware.xml \
+	frameworks/native/data/etc/android.hardware.audio.low_latency.xml:system/etc/permissions/android.hardware.audio.low_latency.xml \
 	frameworks/native/data/etc/android.hardware.camera.autofocus.xml:system/etc/permissions/android.hardware.camera.autofocus.xml \
 	frameworks/native/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
 	frameworks/native/data/etc/android.hardware.sensor.accelerometer.xml:system/etc/permissions/android.hardware.sensor.accelerometer.xml \
@@ -131,8 +139,7 @@ PRODUCT_COPY_FILES += \
 	frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
 	frameworks/native/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
 	frameworks/native/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml \
-	packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:system/etc/permissions/android.software.live_wallpaper.xml \
-	$(DEVICE_FOLDER)/prebuilt/bin/bbx:/system/bin/bbx \
+	$(call add-to-product-copy-files-if-exists,packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:system/etc/permissions/android.software.live_wallpaper.xml)
 
 # postrecoveryboot for recovery
 PRODUCT_COPY_FILES += \
@@ -155,13 +162,13 @@ PRODUCT_COPY_FILES += \
 
 # Prebuilts /system/etc
 PRODUCT_COPY_FILES += \
-	$(DEVICE_FOLDER)/prebuilt/etc/audio_policy.conf:system/etc/audio_policy.conf \
-	$(DEVICE_FOLDER)/prebuilt/etc/asound.conf:system/etc/asound.conf \
+	$(DEVICE_FOLDER)/audio/audio_policy.conf:system/etc/audio_policy.conf \
 	$(DEVICE_FOLDER)/prebuilt/etc/mixer_paths.xml:system/etc/mixer_paths.xml \
 	$(DEVICE_FOLDER)/prebuilt/etc/media_codecs.xml:system/etc/media_codecs.xml \
 	$(DEVICE_FOLDER)/prebuilt/etc/media_profiles.xml:system/etc/media_profiles.xml \
 	$(DEVICE_FOLDER)/prebuilt/etc/vold.acclaim.fstab:system/etc/vold.fstab \
 	$(DEVICE_FOLDER)/prebuilt/etc/wifi/TQS_S_2.6.ini:system/etc/wifi/TQS_S_2.6.ini \
+#	$(DEVICE_FOLDER)/prebuilt/audio.primary.acclaim.so:system/lib/hw/audio.primary.acclaim.so \
 
 # Prebuilt /system/usr
 PRODUCT_COPY_FILES += \
@@ -175,6 +182,15 @@ PRODUCT_PACKAGES += \
 	com.android.future.usb.accessory \
 	Superuser \
 	su \
+
+# SMC components for secure services like crypto, secure storage
+#PRODUCT_PACKAGES += \
+#         smc_pa.ift \
+#         smc_normal_world_android_cfg.ini \
+#         libsmapi.so \
+#         libtfsw_jce_provider.so \
+#         tfsw_jce_provider.jar \
+#         tfctrl \
 
 # OMX
 #PRODUCT_VENDOR_KERNEL_HEADERS := hardware/ti/omap4xxx/kernel-headers
@@ -199,16 +215,15 @@ PRODUCT_PACKAGES += \
 	libtf_crypto_sst \
 
 PRODUCT_PROPERTY_OVERRIDES := \
-        com.ti.omap_enhancement=true \
-	dalvik.vm.heapgrowthlimit=42m \
+	com.ti.omap_enhancement=true \
+	dalvik.vm.heapgrowthlimit=48m \
 	dalvik.vm.heapsize=128m \
 	dalvik.vm.heapstartsize=5m \
 	omap.enhancement=true \
-	persist.lab126.chargeprotect=1 \
 	persist.sys.root_access=3 \
 	persist.sys.usb.config=mtp,adb \
-	persist.sys.vold.switchexternal=1 \
-	ro.additionalmounts=/storage/sdcard1 \
+	persist.sys.vold.switchexternal=0 \
+	ro.additionalmounts=/storage/sdcard0;/storage/usbdisk0 \
 	ro.crypto.state=unencrypted \
 	ro.hwc.legacy_api=true \
 	ro.opengles.version=131072 \
@@ -216,7 +231,8 @@ PRODUCT_PROPERTY_OVERRIDES := \
 	ro.sf.lcd_density=160 \
 	ro.vold.switchablepair=/storage/sdcard0,/storage/sdcard1 \
 	wifi.interface=wlan0 \
-        softap.interface=wlan0 \
+	softap.interface=wlan0 \
+	video.accelerate.hw=1 \
 	wifi.supplicant_scan_interval=180 \
 
 PRODUCT_CHARACTERISTICS := tablet
@@ -231,6 +247,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_TAGS += dalvik.gc.type-precise
 
 $(call inherit-product, frameworks/native/build/tablet-dalvik-heap.mk)
+
+# Copy missing Terminal Emulator lib (until fixed otherwise)
+PRODUCT_COPY_FILES += \
+	vendor/cm/proprietary/lib/armeabi/libjackpal-androidterm4.so:system/lib/libjackpal-androidterm4.so
 
 #$(call inherit-product-if-exists, device/bn/acclaim/imgtec/sgx-imgtec-bins.mk)
 #$(call inherit-product-if-exists, hardware/ti/omap4xxx/omap4.mk)
