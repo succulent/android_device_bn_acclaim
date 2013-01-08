@@ -119,7 +119,7 @@
 #define MIXER_MMEXTL			    "MMExt Left"
 #define MIXER_450HZ_HIGH_PASS		    "450Hz High-pass"
 #define MIXER_0DB_HIGH_PASS		    "High-pass 0dB"
-#define MIXER_FLAT_RESPONSE		    "Flat response"
+#define MIXER_FLAT_RESPONSE		    "Flat Response"
 #define MIXER_4KHZ_LPF_0DB		    "4Khz LPF   0dB"
 #define MIXER_VX_RIGHT			    "VX Right"
 #define MIXER_VX_LEFT			    "VX Left"
@@ -198,7 +198,7 @@
 #define DB_TO_ABE_GAIN(x) ((x) + MIXER_ABE_GAIN_0DB)
 #define DB_TO_CAPTURE_PREAMPLIFIER_VOLUME(x) (((x) + 6) / 6)
 #define DB_TO_CAPTURE_VOLUME(x) (((x) - 6) / 6)
-#define DB_TO_HEADSET_VOLUME(x) (((x) + 30) / 2)
+#define DB_TO_HEADSET_VOLUME(x) (((x) + 15) / 2) // was 30
 #define DB_TO_SPEAKER_VOLUME(x) (((x) + 52) / 2)
 #define DB_TO_EARPIECE_VOLUME(x) (((x) + 24) / 2)
 
@@ -277,7 +277,7 @@ struct pcm_config pcm_config_mm_ul = {
 
 struct pcm_config pcm_config_vx = {
     .channels = 2,
-    .rate = VX_NB_SAMPLING_RATE,
+    .rate = VX_WB_SAMPLING_RATE,
     .period_size = 160,
     .period_count = 2,
     .format = PCM_FORMAT_S16_LE,
@@ -295,10 +295,6 @@ struct route_setting {
 struct route_setting defaults[] = {
     /* general */
     {
-        .ctl_name = MIXER_DL1_EQUALIZER,
-        .strval = MIXER_0DB_HIGH_PASS,
-    },
-    {
         .ctl_name = MIXER_DL2_LEFT_EQUALIZER,
         .strval = MIXER_0DB_HIGH_PASS,
     },
@@ -307,20 +303,24 @@ struct route_setting defaults[] = {
         .strval = MIXER_0DB_HIGH_PASS,
     },
     {
+        .ctl_name = MIXER_DL1_EQUALIZER,
+        .strval = MIXER_0DB_HIGH_PASS,
+    },
+    {
         .ctl_name = MIXER_DL1_MEDIA_PLAYBACK_VOLUME,
         .intval = MIXER_ABE_GAIN_0DB - 2,
     },
     {
         .ctl_name = MIXER_DL2_MEDIA_PLAYBACK_VOLUME,
-        .intval = MIXER_ABE_GAIN_0DB,
+        .intval = MIXER_ABE_GAIN_0DB - 2,
     },
     {
         .ctl_name = MIXER_DL1_VOICE_PLAYBACK_VOLUME,
-        .intval = 0,
+        .intval = MIXER_ABE_GAIN_0DB,
     },
     {
         .ctl_name = MIXER_DL2_VOICE_PLAYBACK_VOLUME,
-        .intval = 0,
+        .intval = MIXER_ABE_GAIN_0DB,
     },
     {
         .ctl_name = MIXER_SDT_DL_VOLUME,
@@ -331,12 +331,24 @@ struct route_setting defaults[] = {
         .intval = DB_TO_EARPIECE_VOLUME(6),
     },
     {
+        .ctl_name = MIXER_AUDUL_VOICE_UL_VOLUME,
+        .intval = MIXER_ABE_GAIN_0DB,
+    },
+    {
         .ctl_name = MIXER_CAPTURE_PREAMPLIFIER_VOLUME,
         .intval = DB_TO_CAPTURE_PREAMPLIFIER_VOLUME(0),
     },
     {
         .ctl_name = MIXER_CAPTURE_VOLUME,
         .intval = DB_TO_CAPTURE_VOLUME(30),
+    },
+    {
+        .ctl_name = MIXER_SDT_UL_VOLUME,
+        .intval = MIXER_ABE_GAIN_0DB - 19,
+    },
+    {
+        .ctl_name = MIXER_SIDETONE_MIXER_CAPTURE,
+        .intval = 0,
     },
 
     /* headset */
@@ -583,20 +595,6 @@ struct route_setting vx_rec_default[] = {
     },
 };
 
-struct route_setting vx_rec_dl[] = {
-    {
-        .ctl_name = MIXER_CAPTURE_MIXER_VOICE_PLAYBACK,
-        .intval = 1,
-    },
-    {
-        .ctl_name = MIXER_VXREC_VOICE_DL_VOLUME,
-        .intval = DB_TO_ABE_GAIN(VOICE_CALL_REC_DL_VOLUME),
-    },
-    {
-        .ctl_name = NULL,
-    },
-};
-
 struct route_setting vx_rec_ul[] = {
     {
         .ctl_name = MIXER_CAPTURE_MIXER_VOICE_CAPTURE,
@@ -605,6 +603,20 @@ struct route_setting vx_rec_ul[] = {
     {
         .ctl_name = MIXER_VXREC_VOICE_UL_VOLUME,
         .intval = DB_TO_ABE_GAIN(VOICE_CALL_REC_UL_VOLUME),
+    },
+    {
+        .ctl_name = NULL,
+    },
+};
+
+struct route_setting vx_rec_dl[] = {
+    {
+        .ctl_name = MIXER_CAPTURE_MIXER_VOICE_PLAYBACK,
+        .intval = 1,
+    },
+    {
+        .ctl_name = MIXER_VXREC_VOICE_DL_VOLUME,
+        .intval = DB_TO_ABE_GAIN(VOICE_CALL_REC_DL_VOLUME),
     },
     {
         .ctl_name = NULL,
@@ -692,10 +704,9 @@ struct omap_audio_device {
     pthread_mutex_t lock;       /* see note below on mutex acquisition order */
     struct mixer *mixer;
     struct mixer_ctls mixer_ctls;
-    audio_mode_t mode;
+    int mode;
     int out_device;
     int in_device;
-    int device;
     struct pcm *pcm_modem_dl;
     struct pcm *pcm_modem_ul;
     int in_call;
@@ -727,13 +738,13 @@ struct omap_stream_out {
     pthread_mutex_t lock;       /* see note below on mutex acquisition order */
     struct pcm_config config;
     struct pcm *pcm;
-    int device;
     struct resampler_itfe *resampler;
     char *buffer;
     int standby;
     struct echo_reference_itfe *echo_reference;
     int write_threshold;
     bool low_power;
+
     struct omap_audio_device *dev;
 };
 
@@ -1033,7 +1044,6 @@ static void set_incall_device(struct omap_audio_device *adev)
             device_type = SOUND_AUDIO_PATH_HANDSET;
             break;
         case AUDIO_DEVICE_OUT_SPEAKER:
-
             device_type = SOUND_AUDIO_PATH_SPEAKER;
             break;
         case AUDIO_DEVICE_OUT_WIRED_HEADSET:
@@ -1259,7 +1269,7 @@ static void select_output_device(struct omap_audio_device *adev)
     headphone_on = adev->out_device & AUDIO_DEVICE_OUT_WIRED_HEADPHONE;
     speaker_on = adev->out_device & AUDIO_DEVICE_OUT_SPEAKER;
     earpiece_on = adev->out_device & AUDIO_DEVICE_OUT_EARPIECE;
-    bt_on = adev->out_device & AUDIO_DEVICE_OUT_ALL_SCO;
+    bt_on = 0;
 
     /* force rx path according to TTY mode when in call */
     if (adev->mode == AUDIO_MODE_IN_CALL && !bt_on) {
@@ -1281,7 +1291,6 @@ static void select_output_device(struct omap_audio_device *adev)
                 break;
             case TTY_MODE_OFF:
             default:
-
                 break;
         }
     }
@@ -1304,8 +1313,7 @@ static void select_output_device(struct omap_audio_device *adev)
     /* select output stage */
     set_route_by_array(adev->mixer, hs_output, headset_on | headphone_on);
     set_route_by_array(adev->mixer, hf_output, speaker_on);
-    set_route_by_array(adev->mixer, codec_output_controls, headset_on | 
-			headphone_on | speaker_on);
+    set_route_by_array(adev->mixer, codec_output_controls, headset_on | headphone_on | speaker_on);
 
     /* Set mono mixer for headset, headphone, bluetooth and speaker during call */
     mixer_ctl_set_value(adev->mixer_ctls.dl1_mono, 0,
@@ -1755,7 +1763,7 @@ static int out_set_parameters(struct audio_stream *stream, const char *kvpairs)
         val = atoi(value);
         pthread_mutex_lock(&adev->lock);
         pthread_mutex_lock(&out->lock);
-        if (((adev->device & AUDIO_DEVICE_OUT_ALL) != val) && (val != 0)) {
+        if (((adev->out_device & AUDIO_DEVICE_OUT_ALL) != val) && (val != 0)) {
             if (out == adev->active_output) {
                 do_output_standby(out);
                 /* a change in output device may change the microphone selection */
@@ -1764,7 +1772,7 @@ static int out_set_parameters(struct audio_stream *stream, const char *kvpairs)
                     force_input_standby = true;
                 }
             }
-            adev->device = val;
+            adev->out_device = val;
             select_output_device(adev);
         }
 
@@ -1974,8 +1982,7 @@ static int start_input_stream(struct omap_stream_in *in)
     adev->active_input = in;
 
     if (adev->mode != AUDIO_MODE_IN_CALL) {
-        adev->in_device &= ~AUDIO_DEVICE_IN_ALL;
-        adev->in_device |= in->device & ~AUDIO_DEVICE_BIT_IN;;
+        adev->in_device = in->device;
         select_input_device(adev);
         adev->vx_rec_on = false;
     } else {
@@ -2145,7 +2152,7 @@ static int in_set_parameters(struct audio_stream *stream, const char *kvpairs)
     }
 
     if (do_standby)
-	do_input_standby(in);
+		do_input_standby(in);
 	
     pthread_mutex_unlock(&in->lock);
     pthread_mutex_unlock(&adev->lock);
@@ -2271,8 +2278,8 @@ static int set_preprocessor_echo_delay(effect_handle_t handle, int32_t delay_us)
 
     param->psize = sizeof(uint32_t);
     param->vsize = sizeof(uint32_t);
-    *(uint32_t *)param->data = AEC_PARAM_ECHO_DELAY;
-    *((int32_t *)param->data + 1) = delay_us;
+    uint32_t ed = AEC_PARAM_ECHO_DELAY ; memcpy(&param->data, &ed, sizeof(uint32_t));
+    memcpy((void*)(&param->data) + sizeof(int32_t), &delay_us, sizeof(int32_t));
 
     return set_preprocessor_param(handle, param);
 }
@@ -2635,9 +2642,9 @@ exit:
 }
 
 static int adev_open_output_stream(struct audio_hw_device *dev,
-                                   audio_io_handle_t handle, 
+                                   audio_io_handle_t handle,
                                    audio_devices_t devices,
-                                   audio_output_flags_t flags, 
+                                   audio_output_flags_t flags,
                                    struct audio_config *config,
                                    struct audio_stream_out **stream_out)
 {
@@ -2677,9 +2684,9 @@ static int adev_open_output_stream(struct audio_hw_device *dev,
     out->stream.set_volume = out_set_volume;
     out->stream.write = out_write;
     out->stream.get_render_position = out_get_render_position;
-	
+
     out->config = pcm_config_mm;
-	
+
     out->dev = ladev;
     out->standby = 1;
 
