@@ -92,7 +92,7 @@ OPTIONS.incremental_source = None
 OPTIONS.require_verbatim = set()
 OPTIONS.prohibit_verbatim = set(("system/build.prop",))
 OPTIONS.patch_threshold = 0.95
-OPTIONS.wipe_user_data = False
+OPTIONS.wipe_user_data = True
 OPTIONS.omit_prereq = False
 OPTIONS.extra_script = None
 OPTIONS.aslr_mode = True
@@ -412,17 +412,20 @@ def WriteFullOTAPackage(input_zip, output_zip):
   #  script.RunBackup("backup")
   #  script.Unmount("/system")
 
-  script.ShowProgress(0.7, 74)
-
   if OPTIONS.wipe_user_data:
     script.FormatPartition("/data")
 
   if "selinux_fc" in OPTIONS.info_dict:
     WritePolicyConfig(OPTIONS.info_dict["selinux_fc"], output_zip)
 
+  script.Print("Erasing cache...")
+  script.FormatPartition("/cache")
+  script.Print("Erasing system...")
   script.FormatPartition("/system")
   script.Mount("/system")
+  script.ShowProgress(0.7, 30)
   #script.UnpackPackageDir("recovery", "/system")
+  script.Print("Installing...")
   script.UnpackPackageDir("system", "/system")
 
   symlinks = CopySystemFiles(input_zip, output_zip)
@@ -436,6 +439,7 @@ def WriteFullOTAPackage(input_zip, output_zip):
 
   Item.GetMetadata(input_zip)
   Item.Get("system").SetPermissions(script)
+  script.ShowProgress(0.15, 5)
 
   common.CheckSize(boot_img.data, "boot.img", OPTIONS.info_dict)
   common.CheckSize(recovery_img.data, "recovery.img", OPTIONS.info_dict)
@@ -447,7 +451,6 @@ def WriteFullOTAPackage(input_zip, output_zip):
   #  script.ShowProgress(0.2, 10)
   #  script.RunBackup("restore")
 
-  script.ShowProgress(0.2, 10)
   script.WriteRawImage("/boot", "boot.img")
   script.WriteRawImage("/recovery", "recovery.img")
 
