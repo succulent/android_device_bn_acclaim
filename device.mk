@@ -29,7 +29,7 @@ else
 endif
 
 ifeq ($(TARGET_PREBUILT_CYANOBOOT),)
-    LOCAL_CYANOBOOT := $(DEVICE_FOLDER)/cyanoboot
+    LOCAL_CYANOBOOT := $(DEVICE_FOLDER)/flashing_boot_emmc.img
 else
     LOCAL_CYANOBOOT := $(TARGET_PREBUILT_CYANOBOOT)
 endif
@@ -76,19 +76,19 @@ PRODUCT_COPY_FILES += \
 # Hardware HALs
 PRODUCT_PACKAGES += \
 	audio.a2dp.default \
-	audio.usb.default \
+	audio.primary.acclaim \
 	audio.r_submix.default \
+	audio.usb.default \
 	hwcomposer.acclaim \
-	lights.acclaim \
-	libtinyalsa \
 	libaudioutils \
 	libinvensense_mpl \
+	libtinyalsa \
+	lights.acclaim \
 	power.acclaim \
 	sensors.acclaim \
-	tinyplay \
-	tinymix \
 	tinycap \
-	audio.primary.acclaim \
+	tinymix \
+	tinyplay \
 
 # Dolby DD+ Decoder + Surround AudioEffects
 ifdef OMAP_ENHANCEMENT
@@ -118,7 +118,7 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_COPY_FILES += \
 	$(LOCAL_KERNEL):kernel \
-	$(LOCAL_CYANOBOOT):cyanoboot \
+	$(LOCAL_CYANOBOOT):flashing_boot_emmc.img \
 	$(LOCAL_IRECOVERY):irecovery \
 	$(DEVICE_FOLDER)/root/init.acclaim.rc:root/init.acclaim.rc \
 	$(DEVICE_FOLDER)/root/init.acclaim.usb.rc:root/init.acclaim.usb.rc \
@@ -168,7 +168,6 @@ PRODUCT_COPY_FILES += \
 	$(DEVICE_FOLDER)/prebuilt/etc/media_profiles.xml:system/etc/media_profiles.xml \
 	$(DEVICE_FOLDER)/prebuilt/etc/vold.acclaim.fstab:system/etc/vold.fstab \
 	$(DEVICE_FOLDER)/prebuilt/etc/wifi/TQS_S_2.6.ini:system/etc/wifi/TQS_S_2.6.ini \
-#	$(DEVICE_FOLDER)/prebuilt/audio.primary.acclaim.so:system/lib/hw/audio.primary.acclaim.so \
 
 # Prebuilt /system/usr
 PRODUCT_COPY_FILES += \
