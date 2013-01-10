@@ -413,13 +413,15 @@ def WriteFullOTAPackage(input_zip, output_zip):
   #  script.Unmount("/system")
 
   if OPTIONS.wipe_user_data:
+    script.Print("Erasing user data...")
     script.FormatPartition("/data")
+    script.Print("Erasing cache...")
+    script.FormatPartition("/cache")
 
   if "selinux_fc" in OPTIONS.info_dict:
     WritePolicyConfig(OPTIONS.info_dict["selinux_fc"], output_zip)
 
-  script.Print("Erasing cache...")
-  script.FormatPartition("/cache")
+
   script.Print("Erasing system...")
   script.FormatPartition("/system")
   script.Mount("/system")
