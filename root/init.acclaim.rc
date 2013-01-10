@@ -7,15 +7,17 @@ on early-init
     mkdir /storage 0050 system sdcard_r
     mkdir /storage/sdcard0 0000 system system
     mkdir /storage/sdcard1 0000 system system
-    mkdir /storage/usbdisk0 0000 system system
 
     # for backwards compatibility
     symlink /storage/sdcard0 /emmc
     symlink /storage/sdcard0 /mnt/emmc
     symlink /storage/sdcard1 /sdcard
     symlink /storage/sdcard1 /mnt/sdcard
-    symlink /storage/usbdisk0 /usbdisk0
-    symlink /storage/usbdisk0 /mnt/usbdisk0	
+
+    # Will enable when OTG work
+    #mkdir /storage/usbdisk0 0000 system system
+    #symlink /storage/usbdisk0 /usbdisk0
+    #symlink /storage/usbdisk0 /mnt/usbdisk0	
 
     export EXTERNAL_STORAGE /storage/sdcard1
     export SECONDARY_STORAGE /storage/sdcard0
@@ -25,7 +27,7 @@ on init
 
     # power management
     # Enable off mode by default
-    #write /sys/kernel/debug/pm_debug/enable_off_mode 1
+    write /sys/kernel/debug/pm_debug/enable_off_mode 1
 
     # Enabling sleep in idle path
     #write /sys/kernel/debug/pm_debug/sleep_while_idle 1
@@ -88,6 +90,11 @@ on boot
     mkdir /data/audio 0770 media audio
     chmod 2770 /data/audio
 
+    # cpufreq interactive governor: timer 20ms, min sample 20ms, hispeed 800MHz
+    write /sys/devices/system/cpu/cpufreq/interactive/timer_rate 20000
+    write /sys/devices/system/cpu/cpufreq/interactive/min_sample_time 20000
+    write /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq 800000
+
     # cpu boost set at 1 secs to improve media setup time.
     chown media media /sys/devices/system/cpu/cpufreq/interactive/boostpulse
     chown media media /sys/devices/system/cpu/cpufreq/interactive/min_sample_time
@@ -96,11 +103,6 @@ on boot
     chmod 0664 /sys/devices/system/cpu/cpufreq/interactive/boostpulse
     chmod 0664 /sys/devices/system/cpu/cpufreq/interactive/min_sample_time
     chmod 0664 /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq
-
-    # cpufreq interactive governor: timer 20ms, min sample 20ms, hispeed 800MHz
-    write /sys/devices/system/cpu/cpufreq/interactive/timer_rate 20000
-    write /sys/devices/system/cpu/cpufreq/interactive/min_sample_time 20000
-    write /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq 800000
 
     # Fix wlan MAC addr
     exec /system/bin/fix-mac.sh
