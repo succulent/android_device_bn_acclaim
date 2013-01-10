@@ -324,9 +324,7 @@ void *RPC_CallbackThread(void *data)
                 {
 		    for(nFxnIdx = 0; nFxnIdx < RPC_OMX_MAX_FUNCTION_LIST; nFxnIdx++)
 		    {
-			//((struct omx_packet *) pBufferError)->result = OMX_ErrorHardware;
-			struct omx_packet *pOmxPacket = ((struct omx_packet *) pBufferError);
-			memcpy(&pOmxPacket->result, OMX_ErrorHardware, sizeof(OMX_S32));
+			((struct omx_packet *) pBufferError)->result = OMX_ErrorHardware;
 			TIMM_OSAL_WriteToPipe(pRPCCtx->pMsgPipe[nFxnIdx], &pBuff, RPC_MSG_SIZE_FOR_PIPE, TIMM_OSAL_SUSPEND);
 			if(eError != TIMM_OSAL_ERR_NONE)
 				DOMX_ERROR("Write to pipe failed");
@@ -371,10 +369,26 @@ void *RPC_CallbackThread(void *data)
 				pBuffer = NULL;
 				break;
 			default:
-				eError =
-				    TIMM_OSAL_WriteToPipe(pRPCCtx->
-				    pMsgPipe[nFxnIdx], &pBuffer,
-				    RPC_MSG_SIZE_FOR_PIPE, TIMM_OSAL_SUSPEND);
+				if (((struct omx_packet *) pBuffer)->result == OMX_ErrorHardware)
+				{
+					//On a true OMX_ErrorHardware error, send the global error packet
+					//and release the local allocated packet to avoid memory leaks since
+					//the listener will not free the packet on OMX_ErrorHardware errors.
+					RPC_freePacket(pBuffer);
+					pBuffer = NULL;
+					((struct omx_packet *) pBufferError)->result = OMX_ErrorHardware;
+					eError = TIMM_OSAL_WriteToPipe(pRPCCtx->pMsgPipe[nFxnIdx],
+													&pBuff,
+													RPC_MSG_SIZE_FOR_PIPE,
+													TIMM_OSAL_SUSPEND);
+				}
+				else
+				{
+					eError = TIMM_OSAL_WriteToPipe(pRPCCtx->pMsgPipe[nFxnIdx],
+													&pBuffer,
+													RPC_MSG_SIZE_FOR_PIPE,
+													TIMM_OSAL_SUSPEND);
+				}
 				RPC_assert(eError == TIMM_OSAL_ERR_NONE,
 				    RPC_OMX_ErrorUndefined,
 				    "Write to pipe failed");
@@ -410,4 +424,3 @@ EXIT:
 	}
         return (void*)0;
 }
-
