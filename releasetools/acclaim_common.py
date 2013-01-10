@@ -290,7 +290,7 @@ def BuildBootableImage(sourcedir, fs_config_file, info_dict=None):
 
   if gVar == 1:
       print "Prepending cyanoboot to data. Will create new boot.img in output.zip."
-      data = open('out/target/product/acclaim/cyanoboot', 'r').read() + img.read()
+      data = open('out/target/product/acclaim/flashing_boot_emmc.img', 'r').read() + img.read()
       gVar += 1
   else:
       print "Prepending irecovery to data. Will create new recovery.img in output.zip."
