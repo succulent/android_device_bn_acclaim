@@ -698,6 +698,11 @@ struct mixer_ctls
     struct mixer_ctl *speaker_volume;
 };
 
+struct audio_devices {
+    int out_devices;
+    int in_devices;
+};
+
 struct omap_audio_device {
     struct audio_hw_device hw_device;
 
@@ -705,8 +710,8 @@ struct omap_audio_device {
     struct mixer *mixer;
     struct mixer_ctls mixer_ctls;
     int mode;
-    int out_device;
-    int in_device;
+    struct audio_devices devices;
+    struct audio_devices cur_devices;
     struct pcm *pcm_modem_dl;
     struct pcm *pcm_modem_ul;
     int in_call;
@@ -987,7 +992,7 @@ static void set_eq_filter(struct omap_audio_device *adev)
     }
 
     /* DL1_EQ can't be used for bt */
-    int dl1_eq_applicable = adev->out_device & (AUDIO_DEVICE_OUT_WIRED_HEADSET |
+    int dl1_eq_applicable = adev->devices.out_devices & (AUDIO_DEVICE_OUT_WIRED_HEADSET |
                     AUDIO_DEVICE_OUT_WIRED_HEADPHONE | AUDIO_DEVICE_OUT_EARPIECE);
 
     /* 4Khz LPF is used only in NB-AMR voicecall */
@@ -1039,7 +1044,7 @@ static void set_incall_device(struct omap_audio_device *adev)
         return;
     }
 
-    switch (adev->out_device & AUDIO_DEVICE_OUT_ALL) {
+    switch (adev->devices.out_devices & AUDIO_DEVICE_OUT_ALL) {
         case AUDIO_DEVICE_OUT_EARPIECE:
             device_type = SOUND_AUDIO_PATH_HANDSET;
             break;
@@ -1156,11 +1161,10 @@ static void set_output_volumes(struct omap_audio_device *adev)
     unsigned int channel;
     int speaker_volume;
     int headset_volume;
-    int earpiece_volume;
 
     speaker_volume = adev->mode == AUDIO_MODE_IN_CALL ? VOICE_CALL_SPEAKER_VOLUME :
                                                         NORMAL_SPEAKER_VOLUME;
-    headset_volume = adev->out_device & AUDIO_DEVICE_OUT_WIRED_HEADSET ?
+    headset_volume = adev->devices.out_devices & AUDIO_DEVICE_OUT_WIRED_HEADSET ?
                                                         HEADSET_VOLUME :
                                                         HEADPHONE_VOLUME;
 
@@ -1207,11 +1211,11 @@ static void select_mode(struct omap_audio_device *adev)
             a call. This works because we're sure that the audio policy
             manager will update the output device after the audio mode
             change, even if the device selection did not change. */
-            if ((adev->out_device & AUDIO_DEVICE_OUT_ALL) == AUDIO_DEVICE_OUT_SPEAKER) {
-                adev->out_device = AUDIO_DEVICE_OUT_EARPIECE;
-                adev->in_device = AUDIO_DEVICE_IN_BUILTIN_MIC & ~AUDIO_DEVICE_BIT_IN;
+            if ((adev->devices.out_devices & AUDIO_DEVICE_OUT_ALL) == AUDIO_DEVICE_OUT_SPEAKER) {
+                adev->devices.out_devices = AUDIO_DEVICE_OUT_EARPIECE;
+                adev->devices.in_devices = AUDIO_DEVICE_IN_BUILTIN_MIC & ~AUDIO_DEVICE_BIT_IN;
             } else
-                adev->out_device &= ~AUDIO_DEVICE_OUT_SPEAKER;
+                adev->devices.out_devices &= ~AUDIO_DEVICE_OUT_SPEAKER;
 
             select_output_device(adev);
 
@@ -1240,12 +1244,12 @@ static void select_mode(struct omap_audio_device *adev)
 
 static void select_output_device(struct omap_audio_device *adev)
 {
-    int headset_on = 0;
-    int headphone_on = 0;
-    int speaker_on = 0;
-    int earpiece_on = 0;
-    int bt_on = 0;
-    int dl1_on = 0;
+    int headset_on;
+    int headphone_on;
+    int speaker_on;
+    int earpiece_on;
+    int bt_on;
+    int dl1_on;
     int sidetone_capture_on = 0;
     unsigned int channel, voice_ul_volume[2] = {0, 0};
 
@@ -1265,11 +1269,11 @@ static void select_output_device(struct omap_audio_device *adev)
             set_voice_volume(&adev->hw_device, 0);
     }
 
-    headset_on = adev->out_device & AUDIO_DEVICE_OUT_WIRED_HEADSET;
-    headphone_on = adev->out_device & AUDIO_DEVICE_OUT_WIRED_HEADPHONE;
-    speaker_on = adev->out_device & AUDIO_DEVICE_OUT_SPEAKER;
-    earpiece_on = adev->out_device & AUDIO_DEVICE_OUT_EARPIECE;
-    bt_on = 0;
+    headset_on |= adev->devices.out_devices & AUDIO_DEVICE_OUT_WIRED_HEADSET;
+    headphone_on |= adev->devices.out_devices & AUDIO_DEVICE_OUT_WIRED_HEADPHONE;
+    speaker_on |= adev->devices.out_devices & AUDIO_DEVICE_OUT_SPEAKER;
+    earpiece_on |= adev->devices.out_devices & AUDIO_DEVICE_OUT_EARPIECE;
+    bt_on |= adev->devices.out_devices & AUDIO_DEVICE_OUT_ALL_SCO;
 
     /* force rx path according to TTY mode when in call */
     if (adev->mode == AUDIO_MODE_IN_CALL && !bt_on) {
@@ -1295,12 +1299,9 @@ static void select_output_device(struct omap_audio_device *adev)
         }
     }
 
-    dl1_on = headset_on | headphone_on | earpiece_on | bt_on;
+    dl1_on = headset_on | headphone_on | earpiece_on| speaker_on;
 
     /* Select front end */
-    mixer_ctl_set_value(adev->mixer_ctls.mm_dl2, 0, speaker_on);
-    mixer_ctl_set_value(adev->mixer_ctls.vx_dl2, 0,
-                        speaker_on && (adev->mode == AUDIO_MODE_IN_CALL));
     mixer_ctl_set_value(adev->mixer_ctls.mm_dl1, 0, dl1_on);
     mixer_ctl_set_value(adev->mixer_ctls.vx_dl1, 0,
                         dl1_on && (adev->mode == AUDIO_MODE_IN_CALL));
@@ -1410,6 +1411,7 @@ static void select_output_device(struct omap_audio_device *adev)
     }
 
     mixer_ctl_set_value(adev->mixer_ctls.sidetone_capture, 0, sidetone_capture_on);
+    adev->cur_devices = adev->devices;
 }
 
 static void select_input_device(struct omap_audio_device *adev)
@@ -1423,12 +1425,12 @@ static void select_input_device(struct omap_audio_device *adev)
         if ((adev->mode != AUDIO_MODE_IN_CALL) && (adev->active_input != 0)) {
             /* sub mic is used for camcorder or VoIP on speaker phone */
             sub_mic_on = (adev->active_input->source == AUDIO_SOURCE_CAMCORDER) ||
-            	((adev->out_device & AUDIO_DEVICE_OUT_SPEAKER) &&
+            	((adev->devices.out_devices & AUDIO_DEVICE_OUT_SPEAKER) &&
             	(adev->active_input->source == AUDIO_SOURCE_VOICE_COMMUNICATION));
         }
         if (!sub_mic_on) {
-            headset_on = adev->in_device & AUDIO_DEVICE_IN_WIRED_HEADSET;
-            main_mic_on = adev->in_device & AUDIO_DEVICE_IN_BUILTIN_MIC;
+            headset_on = adev->devices.in_devices & AUDIO_DEVICE_IN_WIRED_HEADSET;
+            main_mic_on = adev->devices.in_devices & AUDIO_DEVICE_IN_BUILTIN_MIC;
         }
     }
 
@@ -1482,6 +1484,7 @@ static void select_input_device(struct omap_audio_device *adev)
     }
 
     set_input_volumes(adev, main_mic_on, headset_on, sub_mic_on);
+    adev->cur_devices = adev->devices;
 }
 
 /* must be called with hw device and output stream mutexes locked */
@@ -1503,8 +1506,8 @@ static int start_output_stream(struct omap_stream_out *out)
         select_output_device(adev);
     }
 
-    if ((adev->out_device & AUDIO_DEVICE_OUT_ANLG_DOCK_HEADSET) ||
-        (adev->out_device & AUDIO_DEVICE_OUT_DGTL_DOCK_HEADSET)) {
+    if ((adev->devices.out_devices & AUDIO_DEVICE_OUT_ANLG_DOCK_HEADSET) ||
+        (adev->devices.out_devices & AUDIO_DEVICE_OUT_DGTL_DOCK_HEADSET)) {
         card = CARD_OMAP_USB;
         port = PORT_MM;
     }
@@ -1570,7 +1573,7 @@ static size_t get_input_buffer_size(uint32_t sample_rate, int format, int channe
     /* take resampling into account and return the closest majoring
     multiple of 16 frames, as audioflinger expects audio buffers to
     be a multiple of 16 frames */
-    size = (pcm_config_mm_ul.period_size * sample_rate) / pcm_config_mm_ul.rate;
+    size = (pcm_config_mm.period_size * sample_rate) / pcm_config_mm.rate;
     size = ((size + 15) / 16) * 16;
 
     return size * channel_count * sizeof(short);
@@ -1763,7 +1766,7 @@ static int out_set_parameters(struct audio_stream *stream, const char *kvpairs)
         val = atoi(value);
         pthread_mutex_lock(&adev->lock);
         pthread_mutex_lock(&out->lock);
-        if (((adev->out_device & AUDIO_DEVICE_OUT_ALL) != val) && (val != 0)) {
+        if (((adev->devices.out_devices & AUDIO_DEVICE_OUT_ALL) != val) && (val != 0)) {
             if (out == adev->active_output) {
                 do_output_standby(out);
                 /* a change in output device may change the microphone selection */
@@ -1772,7 +1775,7 @@ static int out_set_parameters(struct audio_stream *stream, const char *kvpairs)
                     force_input_standby = true;
                 }
             }
-            adev->out_device = val;
+            adev->devices.out_devices = val;
             select_output_device(adev);
         }
 
@@ -1982,7 +1985,8 @@ static int start_input_stream(struct omap_stream_in *in)
     adev->active_input = in;
 
     if (adev->mode != AUDIO_MODE_IN_CALL) {
-        adev->in_device = in->device;
+        adev->devices.in_devices &= ~AUDIO_DEVICE_IN_ALL;
+        adev->devices.in_devices |= in->device & ~AUDIO_DEVICE_BIT_IN;
         select_input_device(adev);
         adev->vx_rec_on = false;
     } else {
@@ -2016,7 +2020,7 @@ static int start_input_stream(struct omap_stream_in *in)
         adev->active_input = NULL;
         return -ENOMEM;
     }
-	
+
     /* if no supported sample rate is available, use the resampler */
     if (in->resampler) {
         in->resampler->reset(in->resampler);
@@ -2078,7 +2082,7 @@ static int do_input_standby(struct omap_stream_in *in)
 
         adev->active_input = 0;
         if (adev->mode != AUDIO_MODE_IN_CALL) {
-            adev->in_device = AUDIO_DEVICE_NONE;
+            adev->devices.in_devices &= ~AUDIO_DEVICE_IN_ALL;
             select_input_device(adev);
         }
 
@@ -2152,8 +2156,8 @@ static int in_set_parameters(struct audio_stream *stream, const char *kvpairs)
     }
 
     if (do_standby)
-		do_input_standby(in);
-	
+        do_input_standby(in);
+
     pthread_mutex_unlock(&in->lock);
     pthread_mutex_unlock(&adev->lock);
 
@@ -2278,8 +2282,10 @@ static int set_preprocessor_echo_delay(effect_handle_t handle, int32_t delay_us)
 
     param->psize = sizeof(uint32_t);
     param->vsize = sizeof(uint32_t);
-    uint32_t ed = AEC_PARAM_ECHO_DELAY ; memcpy(&param->data, &ed, sizeof(uint32_t));
-    memcpy((void*)(&param->data) + sizeof(int32_t), &delay_us, sizeof(int32_t));
+//    uint32_t ed = AEC_PARAM_ECHO_DELAY ; memcpy(&param->data, &ed, sizeof(uint32_t));
+//    memcpy((void*)(&param->data) + sizeof(int32_t), &delay_us, sizeof(int32_t));
+    *(uint32_t *)param->data = AEC_PARAM_ECHO_DELAY;
+    *((int32_t *)param->data + 1) = delay_us;
 
     return set_preprocessor_param(handle, param);
 }
@@ -2813,7 +2819,7 @@ static int set_voice_volume(struct audio_hw_device *dev, float volume)
 
     /* in-call output devices are maintained in adev->devices */
     if (adev->mode == AUDIO_MODE_IN_CALL) {
-        switch (adev->out_device & AUDIO_DEVICE_OUT_ALL) {
+        switch (adev->devices.out_devices & AUDIO_DEVICE_OUT_ALL) {
             case AUDIO_DEVICE_OUT_EARPIECE:
             default:
                 sound_type = SOUND_TYPE_VOICE;
@@ -2960,7 +2966,7 @@ static int adev_open_input_stream(struct audio_hw_device *dev,
 
     in->requested_rate = config->sample_rate;
 
-    memcpy(&in->config, &pcm_config_mm_ul, sizeof(pcm_config_mm_ul));
+    memcpy(&in->config, &pcm_config_mm, sizeof(pcm_config_mm));
     in->config.channels = channel_count;
 
     in->buffer = malloc(2 * in->config.period_size * audio_stream_frame_size(&in->stream.common));
@@ -3191,8 +3197,8 @@ static int adev_open(const hw_module_t* module, const char* name,
         set_route_by_array(adev->mixer, hf_dl1, 1);
     }
     adev->mode = AUDIO_MODE_NORMAL;
-    adev->out_device = AUDIO_DEVICE_OUT_SPEAKER;
-    adev->in_device = AUDIO_DEVICE_IN_BUILTIN_MIC & ~AUDIO_DEVICE_BIT_IN;
+    adev->devices.out_devices = AUDIO_DEVICE_OUT_SPEAKER;
+    adev->devices.in_devices = AUDIO_DEVICE_IN_BUILTIN_MIC & ~AUDIO_DEVICE_BIT_IN;
     select_output_device(adev);
 
     adev->pcm_modem_dl = NULL;
