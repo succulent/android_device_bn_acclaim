@@ -38,6 +38,7 @@
          the blur effect where it isn't worth the performance hit.
          As of Honeycomb, blurring is not supported anymore. -->
     <bool name="config_sf_slowBlur">false</bool>
+
     <!-- XXXXX NOTE THE FOLLOWING RESOURCES USE THE WRONG NAMING CONVENTION.
          Please don't copy them, copy anything else. -->
 
@@ -94,6 +95,7 @@
         <!-- The Google Network Location Services location provider -->
         <item>com.google.android.location</item>
     </string-array>
+
     <!-- We don't have automatic brightness (yet). -->
     <bool name="config_automatic_brightness_available">false</bool>
 
@@ -106,6 +108,7 @@
 
     <!-- If this is true, the screen will come on when you unplug usb/power/whatever. -->
     <bool name="config_unplugTurnsOnScreen">true</bool>
+
     <!--  Maximum number of supported users -->
     <integer name="config_multiuserMaximumUsers">8</integer>
 
