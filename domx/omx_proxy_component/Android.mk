@@ -11,7 +11,7 @@ LOCAL_C_INCLUDES += \
 	$(LOCAL_PATH)/../mm_osal/inc \
 	$(LOCAL_PATH)/../domx \
 	$(LOCAL_PATH)/../domx/omx_rpc/inc \
-	$(HARDWARE_TI_OMAP4_BASE)/../../libhardware/include \
+	hardware/libhardware/include \
 	device/bn/acclaim/hwc/
 
 LOCAL_SHARED_LIBRARIES := \
@@ -181,7 +181,7 @@ LOCAL_C_INCLUDES += \
 	$(LOCAL_PATH)/../mm_osal/inc \
 	$(LOCAL_PATH)/../domx \
 	$(LOCAL_PATH)/../domx/omx_rpc/inc \
-	$(HARDWARE_TI_OMAP4_BASE)/../../libhardware/include \
+	hardware/libhardware/include \
 	device/bn/acclaim/hwc/
 
 LOCAL_SHARED_LIBRARIES := \
