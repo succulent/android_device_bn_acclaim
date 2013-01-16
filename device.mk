@@ -22,6 +22,9 @@
 
 DEVICE_FOLDER := device/bn/acclaim
 
+# Setup custom omap4xxx defines
+BOARD_USE_CUSTOM_LIBION := true
+
 ifeq ($(TARGET_PREBUILT_KERNEL),)
     LOCAL_KERNEL := $(DEVICE_FOLDER)/kernel
 else
@@ -40,6 +43,14 @@ else
     LOCAL_IRECOVERY := $(TARGET_PREBUILT_IRECOVERY)
 endif
 
+PRODUCT_COPY_FILES += \
+	$(LOCAL_KERNEL):kernel \
+	$(LOCAL_CYANOBOOT):flashing_boot_emmc.img \
+	$(LOCAL_IRECOVERY):irecovery \
+	$(DEVICE_FOLDER)/root/init.acclaim.rc:root/init.acclaim.rc \
+	$(DEVICE_FOLDER)/root/init.acclaim.usb.rc:root/init.acclaim.usb.rc \
+	$(DEVICE_FOLDER)/root/ueventd.acclaim.rc:root/ueventd.acclaim.rc \
+
 DEVICE_PACKAGE_OVERLAYS := $(DEVICE_FOLDER)/overlay/aosp
 
 PRODUCT_AAPT_CONFIG := normal mdpi
@@ -48,6 +59,17 @@ PRODUCT_AAPT_PREF_CONFIG := mdpi
 # Art
 PRODUCT_COPY_FILES += \
 	$(DEVICE_FOLDER)/prebuilt/poetry/poem.txt:root/sbin/poem.txt
+
+# Dolby DD+ Decoder + Surround AudioEffects
+ifdef OMAP_ENHANCEMENT
+PRODUCT_PACKAGES += \
+        libstagefright_soft_ddpdec \
+        libdseffect
+endif
+
+# DRM
+PRODUCT_PACKAGES += \
+	libwvm \
 
 # Ducati
 PRODUCT_COPY_FILES += \
@@ -76,6 +98,7 @@ PRODUCT_COPY_FILES += \
 # Hardware HALs
 PRODUCT_PACKAGES += \
 	audio.a2dp.default \
+	audio_policy.default \
 	audio.primary.acclaim \
 	audio.r_submix.default \
 	audio.usb.default \
@@ -84,29 +107,12 @@ PRODUCT_PACKAGES += \
 	libinvensense_mpl \
 	libtinyalsa \
 	lights.acclaim \
+	Music \
 	power.acclaim \
 	sensors.acclaim \
 	tinycap \
 	tinymix \
 	tinyplay \
-
-# Dolby DD+ Decoder + Surround AudioEffects
-ifdef OMAP_ENHANCEMENT
-PRODUCT_PACKAGES += \
-        libstagefright_soft_ddpdec \
-        libdseffect
-endif
-
-# Wifi
-PRODUCT_PACKAGES += \
-	calibrator \
-	crda \
-	dhcpcd.conf \
-	regulatory.bin \
-	TQS_D_1.7.ini \
-        TQS_D_1.7_127x.ini \
-	wpa_supplicant.conf \
-	lib_driver_cmd_wl12xx \
 
 # Misc
 PRODUCT_PACKAGES += \
@@ -114,15 +120,30 @@ PRODUCT_PACKAGES += \
 	make_ext4fs \
 	setpropex \
 	setup_fs \
+	sh \
+	strace \
 	TFF \
 
-PRODUCT_COPY_FILES += \
-	$(LOCAL_KERNEL):kernel \
-	$(LOCAL_CYANOBOOT):flashing_boot_emmc.img \
-	$(LOCAL_IRECOVERY):irecovery \
-	$(DEVICE_FOLDER)/root/init.acclaim.rc:root/init.acclaim.rc \
-	$(DEVICE_FOLDER)/root/init.acclaim.usb.rc:root/init.acclaim.usb.rc \
-	$(DEVICE_FOLDER)/root/ueventd.acclaim.rc:root/ueventd.acclaim.rc \
+# OMX
+PRODUCT_PACKAGES += \
+	libdomx \
+	libOMX_Core \
+	libOMX.TI.DUCATI1.VIDEO.H264E \
+	libOMX.TI.DUCATI1.VIDEO.MPEG4E \
+	libOMX.TI.DUCATI1.VIDEO.DECODER \
+	libOMX.TI.DUCATI1.VIDEO.DECODER.secure \
+	libOMX.TI.DUCATI1.VIDEO.CAMERA \
+	libOMX.TI.DUCATI1.MISC.SAMPLE \
+	libdrmdecrypt \
+	libstagefrighthw \
+	libI420colorconvert \
+	libtiutils \
+	libcamera \
+	libion_ti \
+	libomxcameraadapter \
+	smc_pa_ctrl \
+	tf_daemon \
+	libtf_crypto_sst \
 
 # Permissions
 PRODUCT_COPY_FILES += \
@@ -145,20 +166,12 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
 	$(DEVICE_FOLDER)/recovery/postrecoveryboot.sh:recovery/root/sbin/postrecoveryboot.sh \
 
-# TI-Connectivity
-PRODUCT_COPY_FILES += \
-	$(DEVICE_FOLDER)/firmware/ti-connectivity/wl127x-fw-4-mr.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-mr.bin \
-	$(DEVICE_FOLDER)/firmware/ti-connectivity/wl127x-fw-4-sr.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-sr.bin \
-	$(DEVICE_FOLDER)/firmware/ti-connectivity/wl127x-fw-4-plt.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-plt.bin \
-	$(DEVICE_FOLDER)/firmware/ti-connectivity/wl1271-nvs_127x.bin:system/etc/firmware/ti-connectivity/wl1271-nvs_127x.bin \
-
 # Prebuilts /system/bin
 PRODUCT_COPY_FILES += \
 	$(DEVICE_FOLDER)/clear_bootcnt.sh:system/bin/clear_bootcnt.sh \
 	$(DEVICE_FOLDER)/prebuilt/bin/fix-mac.sh:system/bin/fix-mac.sh \
 	$(DEVICE_FOLDER)/prebuilt/bin/fix-serial-no.sh:system/bin/fix-serial-no.sh \
 	$(DEVICE_FOLDER)/prebuilt/bin/log_battery_data.sh:system/bin/log_battery_data.sh \
-	$(DEVICE_FOLDER)/prebuilt/bin/strace:system/bin/strace \
 
 # Prebuilts /system/etc
 PRODUCT_COPY_FILES += \
@@ -191,29 +204,25 @@ PRODUCT_PACKAGES += \
 #         tfsw_jce_provider.jar \
 #         tfctrl \
 
-# OMX
-#PRODUCT_VENDOR_KERNEL_HEADERS := hardware/ti/omap4xxx/kernel-headers
-PRODUCT_PACKAGES += \
-	libdomx \
-	libOMX_Core \
-	libOMX.TI.DUCATI1.VIDEO.H264E \
-	libOMX.TI.DUCATI1.VIDEO.MPEG4E \
-	libOMX.TI.DUCATI1.VIDEO.DECODER \
-	libOMX.TI.DUCATI1.VIDEO.DECODER.secure \
-	libOMX.TI.DUCATI1.VIDEO.CAMERA \
-	libOMX.TI.DUCATI1.MISC.SAMPLE \
-	libdrmdecrypt \
-	libstagefrighthw \
-	libI420colorconvert \
-	libtiutils \
-	libcamera \
-	libion_ti \
-	libomxcameraadapter \
-	smc_pa_ctrl \
-	tf_daemon \
-	libtf_crypto_sst \
+# TI-Connectivity
+PRODUCT_COPY_FILES += \
+	$(DEVICE_FOLDER)/firmware/ti-connectivity/wl127x-fw-4-mr.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-mr.bin \
+	$(DEVICE_FOLDER)/firmware/ti-connectivity/wl127x-fw-4-sr.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-sr.bin \
+	$(DEVICE_FOLDER)/firmware/ti-connectivity/wl127x-fw-4-plt.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-plt.bin \
+	$(DEVICE_FOLDER)/firmware/ti-connectivity/wl1271-nvs_127x.bin:system/etc/firmware/ti-connectivity/wl1271-nvs_127x.bin \
 
-PRODUCT_PROPERTY_OVERRIDES := \
+# Wifi
+PRODUCT_PACKAGES += \
+	calibrator \
+	crda \
+	dhcpcd.conf \
+	regulatory.bin \
+	TQS_D_1.7.ini \
+        TQS_D_1.7_127x.ini \
+	wpa_supplicant.conf \
+	lib_driver_cmd_wl12xx \
+
+PRODUCT_PROPERTY_OVERRIDES += \
 	com.ti.omap_enhancement=true \
 	dalvik.vm.heapgrowthlimit=48m \
 	dalvik.vm.heapsize=128m \
