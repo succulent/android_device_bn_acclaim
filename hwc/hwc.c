@@ -34,6 +34,10 @@
 #include <system/graphics.h>
 #include <utils/Timers.h>
 #include <EGL/egl.h>
+#include <edid_parser.h>
+#ifdef OMAP_ENHANCEMENT_S3D
+#include <ui/S3DFormat.h>
+#endif
 
 #include <linux/fb.h>
 #include <linux/omapfb.h>
@@ -260,6 +264,17 @@ static bool is_valid_format(uint32_t format)
         return false;
     }
 }
+#ifdef OMAP_ENHANCEMENT_S3D
+static uint32_t get_s3d_layout_type(hwc_layer_1_t *layer)
+{
+    return (layer->flags & S3DLayoutTypeMask) >> S3DLayoutTypeShift;
+}
+
+static uint32_t get_s3d_layout_order(hwc_layer_1_t *layer)
+{
+    return (layer->flags & S3DLayoutOrderMask) >> S3DLayoutOrderShift;
+}
+#endif
 
 static bool scaled(hwc_layer_1_t *layer)
 {
@@ -270,6 +285,10 @@ static bool scaled(hwc_layer_1_t *layer)
         swap(w, h);
 
     bool res = WIDTH(layer->displayFrame) != w || HEIGHT(layer->displayFrame) != h;
+#ifdef OMAP_ENHANCEMENT_S3D
+    /* An S3D layer also needs scaling due to subsampling */
+    res = res || (get_s3d_layout_type(layer) != eMono);
+#endif
 
     return res;
 }
@@ -946,10 +965,30 @@ static void gather_layer_statistics(omap_hwc_device_t *hwc_dev, hwc_display_cont
     for (i = 0; list && i < list->numHwLayers; i++) {
         hwc_layer_1_t *layer = &list->hwLayers[i];
         IMG_native_handle_t *handle = (IMG_native_handle_t *)layer->handle;
+#ifdef OMAP_ENHANCEMENT_S3D
+        uint32_t s3d_layout_type = get_s3d_layout_type(layer);
+#endif
 
         layer->compositionType = HWC_FRAMEBUFFER;
 
         if (is_valid_layer(hwc_dev, layer, handle)) {
+#ifdef OMAP_ENHANCEMENT_S3D
+            if (s3d_layout_type != eMono) {
+                /* For now we can only handle 1 S3D layer, skip any additional ones */
+                if (num->s3d > 0 || !hwc_dev->ext.dock.enabled || !hwc_dev->ext.s3d_capable) {
+                    layer->flags |= HWC_SKIP_LAYER;
+                    continue;
+                } else if (num->s3d == 0) {
+                    /* For now, S3D layer is made a dockable layer to trigger docking logic. */
+                    if (!dockable(layer)) {
+                        num->dockable++;
+                    }
+                    num->s3d++;
+                    hwc_dev->s3d_input_type = s3d_layout_type;
+                    hwc_dev->s3d_input_order = get_s3d_layout_order(layer);
+                }
+            }
+#endif
             num->possible_overlay_layers++;
 
             /* NV12 layers can only be rendered on scaling overlays */
@@ -991,6 +1030,12 @@ static void decide_supported_cloning(omap_hwc_device_t *hwc_dev)
 
         /* reserve just a video pipeline for HDMI if docking */
         hwc_dev->ext_ovls = (num->dockable || ext->force_dock) ? 1 : 0;
+#ifdef OMAP_ENHANCEMENT_S3D
+        if (num->s3d && (hwc_dev->ext.s3d_type != hwc_dev->s3d_input_type)) {
+            /* S3D layers are dockable, and they need two overlays */
+            hwc_dev->ext_ovls += 1;
+        }
+#endif
         num->max_hw_overlays -= max(hwc_dev->ext_ovls, hwc_dev->last_ext_ovls);
 
         /* use mirroring transform if we are auto-switching to docking mode while mirroring*/
@@ -1168,6 +1213,148 @@ static int clone_external_layer(omap_hwc_device_t *hwc_dev, int ix) {
     return clone_layer(hwc_dev, ix);
 }
 
+#ifdef OMAP_ENHANCEMENT_S3D
+const char hdmiS3DTypePath[] = "/sys/devices/platform/omapdss/display1/s3d_type";
+const char hdmiS3DEnablePath[] = "/sys/devices/platform/omapdss/display1/s3d_enable";
+
+static void enable_s3d_hdmi(omap_hwc_device_t *hwc_dev, bool enable)
+{
+    size_t bytesWritten;
+    char data;
+    int fd;
+
+    if (hwc_dev->ext.s3d_enabled == enable) {
+        return;
+    }
+
+    if (enable) {
+        char type[2];
+
+        switch(hwc_dev->ext.s3d_type) {
+            case eSideBySide:
+                snprintf(type, sizeof(type), "%d", HDMI_SIDE_BY_SIDE_HALF);
+                break;
+            case eTopBottom:
+                snprintf(type, sizeof(type), "%d", HDMI_TOPBOTTOM);
+                break;
+            default:
+                return;
+        }
+
+        fd = open(hdmiS3DTypePath, O_WRONLY);
+        if (fd < 0) {
+            ALOGE("Failed to open sysfs %s", hdmiS3DTypePath);
+            return;
+        }
+        bytesWritten = write(fd, type, sizeof(type));
+        close(fd);
+
+        if (bytesWritten != sizeof(type)) {
+            ALOGE("Failed to write (%s) to sysfs %s", type, hdmiS3DTypePath);
+            return;
+        }
+    }
+    data = enable ? '1' : '0';
+
+    fd = open(hdmiS3DEnablePath, O_WRONLY);
+    if (fd < 0) {
+        ALOGE("Failed to open sysfs %s", hdmiS3DEnablePath);
+        return;
+    }
+    bytesWritten = write(fd, &data, 1);
+    close(fd);
+
+    if (bytesWritten != 1) {
+        ALOGE("Failed to write(%d) to sysfs %s", enable, hdmiS3DEnablePath);
+        return;
+    }
+
+    hwc_dev->ext.s3d_enabled = enable;
+}
+
+static void adjust_ext_s3d_layer(omap_hwc_device_t *hwc_dev,
+                                 struct dss2_ovl_info *ovl, bool left_view)
+{
+    struct dss2_ovl_cfg *oc = &ovl->cfg;
+    float x, y, w, h;
+
+    switch (hwc_dev->s3d_input_type) {
+        case eSideBySide:
+            oc->crop.w = oc->crop.w/2;
+            if ((left_view && hwc_dev->s3d_input_order == eRightViewFirst) ||
+                (!left_view && hwc_dev->s3d_input_order == eLeftViewFirst)) {
+                oc->crop.x = oc->crop.x + oc->crop.w;
+            }
+            break;
+        case eTopBottom:
+            oc->crop.h = oc->crop.h/2;
+            if ((left_view && hwc_dev->s3d_input_order == eRightViewFirst) ||
+                (!left_view && hwc_dev->s3d_input_order == eLeftViewFirst)) {
+                oc->crop.y = oc->crop.y + oc->crop.h;
+            }
+            break;
+        default:
+            /* Should never fall here! */
+            ALOGE("Unsupported S3D layer type!");
+            break;
+    }
+
+    switch (hwc_dev->ext.s3d_type) {
+        case eSideBySide:
+            oc->win.w = oc->win.w/2;
+            if ((left_view && hwc_dev->ext.s3d_order == eRightViewFirst) ||
+                (!left_view && hwc_dev->ext.s3d_order == eLeftViewFirst)) {
+                oc->win.x = oc->win.x/2 + hwc_dev->ext.xres/2;
+            } else {
+                oc->win.x = oc->win.x/2;
+            }
+            break;
+        case eTopBottom:
+            oc->win.h = oc->win.h/2;
+            if ((left_view && hwc_dev->ext.s3d_order == eRightViewFirst) ||
+                (!left_view && hwc_dev->ext.s3d_order == eLeftViewFirst)) {
+                oc->win.y = oc->win.y/2 + hwc_dev->ext.yres/2;
+            } else {
+                oc->win.y = oc->win.y/2;
+            }
+            break;
+        default:
+            /* Currently unhandled!!! */
+            ALOGE("Unsupported S3D display type!");
+            break;
+    }
+}
+
+static int clone_s3d_external_layer(omap_hwc_device_t *hwc_dev, int ix_s3d)
+{
+    struct dsscomp_setup_dispc_data *dsscomp = &hwc_dev->comp_data.dsscomp_data;
+    int r;
+
+    /* S3D layers are forced into docking layers. If the display layout and
+     * the layer layout don't match, we have to use 2 overlay pipelines */
+    r = clone_external_layer(hwc_dev, ix_s3d);
+    if (r) {
+        ALOGE("Failed to clone s3d layer (%d)", r);
+        return r;
+    }
+
+    r = clone_layer(hwc_dev, ix_s3d);
+    if (r) {
+        ALOGE("Failed to clone s3d layer (%d)", r);
+        return r;
+    }
+
+    if (dsscomp->num_ovls < 2) {
+        ALOGE("Number of overlays is inconsistent (%d)", dsscomp->num_ovls);
+        return -EINVAL;
+    }
+
+    adjust_ext_s3d_layer(hwc_dev, &dsscomp->ovls[dsscomp->num_ovls - 1], true);
+    adjust_ext_s3d_layer(hwc_dev, &dsscomp->ovls[dsscomp->num_ovls - 2], false);
+
+    return 0;
+}
+#endif
 static int setup_mirroring(omap_hwc_device_t *hwc_dev)
 {
     omap_hwc_ext_t *ext = &hwc_dev->ext;
@@ -1431,6 +1618,9 @@ static int hwc_prepare(struct hwc_composer_device_1 *dev, size_t numDisplays,
     int z = 0;
     int fb_z = -1;
     int ix_docking = -1;
+#ifdef OMAP_ENHANCEMENT_S3D
+    int ix_s3d = -1;
+#endif
     bool scaled_gfx = false;
     bool blit_all = false;
     blit_reset(hwc_dev);
@@ -1517,6 +1707,12 @@ static int hwc_prepare(struct hwc_composer_device_1 *dev, size_t numDisplays,
                 (ix_docking < 0 ||
                  display_area(&dsscomp->ovls[dsscomp->num_ovls]) > display_area(&dsscomp->ovls[ix_docking])))
                 ix_docking = dsscomp->num_ovls;
+#ifdef OMAP_ENHANCEMENT_S3D
+            /* remember the ix for s3d layer */
+            if (get_s3d_layout_type(layer) != eMono) {
+                ix_s3d = dsscomp->num_ovls;
+            }
+#endif
             dsscomp->num_ovls++;
             z++;
         } else if (hwc_dev->use_sgx) {
@@ -1584,7 +1780,29 @@ static int hwc_prepare(struct hwc_composer_device_1 *dev, size_t numDisplays,
     omap_hwc_ext_t *ext = &hwc_dev->ext;
     if (ext->current.enabled && ((!num->protected && hwc_dev->ext_ovls) ||
               (hwc_dev->ext_ovls_wanted && hwc_dev->ext_ovls >= hwc_dev->ext_ovls_wanted))) {
+#ifdef OMAP_ENHANCEMENT_S3D
+        if (ext->current.docking && ix_s3d >= 0) {
+            if (clone_s3d_external_layer(hwc_dev, ix_s3d) == 0) {
+                dsscomp->ovls[dsscomp->num_ovls - 2].cfg.zorder = z++;
+                dsscomp->ovls[dsscomp->num_ovls - 1].cfg.zorder = z++;
+                /* For now, show only the left view of an S3D layer
+                 * in the local display while we have hdmi attached */
+                switch (hwc_dev->s3d_input_type) {
+                    case eSideBySide:
+                        dsscomp->ovls[ix_s3d].cfg.crop.w = dsscomp->ovls[ix_s3d].cfg.crop.w/2;
+                        break;
+                    case eTopBottom:
+                       dsscomp->ovls[ix_s3d].cfg.crop.h = dsscomp->ovls[ix_s3d].cfg.crop.h/2;
+                        break;
+                    default:
+                        ALOGE("Unsupported S3D input type");
+                        break;
+                }
+            }
+        } else if (ext->current.docking && ix_docking >= 0) {
+#else
         if (ext->current.docking && ix_docking >= 0) {
+#endif
             if (clone_external_layer(hwc_dev, ix_docking) == 0)
                 dsscomp->ovls[dsscomp->num_ovls - 1].cfg.zorder = z++;
         } else if (ext->current.docking && ix_docking < 0 && ext->force_dock) {
@@ -1622,6 +1840,9 @@ static int hwc_prepare(struct hwc_composer_device_1 *dev, size_t numDisplays,
                 adjust_primary_display_layer(hwc_dev, &dsscomp->ovls[i]);
         }
 
+#ifdef OMAP_ENHANCEMENT_S3D
+    enable_s3d_hdmi(hwc_dev, ix_s3d >= 0);
+#endif
     ext->last = ext->current;
 
     if (z != dsscomp->num_ovls || dsscomp->num_ovls > MAX_HW_OVERLAYS)
@@ -1922,6 +2143,37 @@ static void set_primary_display_transform_matrix(omap_hwc_device_t *hwc_dev)
     m_translate(hwc_dev->primary_m, lcd_w >> 1, lcd_h >> 1);
 }
 
+#ifdef OMAP_ENHANCEMENT_S3D
+static void handle_s3d_hotplug(omap_hwc_ext_t *ext, bool state)
+{
+    struct edid_t *edid = NULL;
+    if (state) {
+        int fd = open("/sys/devices/platform/omapdss/display1/edid", O_RDONLY);
+        if (!fd)
+            return;
+        uint8_t edid_data[EDID_SIZE];
+        size_t bytes_read = read(fd, edid_data, EDID_SIZE);
+        close(fd);
+        if (bytes_read < EDID_SIZE)
+            return;
+        if (edid_parser_init(&edid, edid_data))
+            return;
+    }
+
+    ext->s3d_enabled = false;
+    ext->s3d_capable = false;
+    ext->s3d_type = eMono;
+    ext->s3d_order = eLeftViewFirst;
+
+    if (edid) {
+        ext->s3d_capable = edid_s3d_capable(edid);
+        /* For now assume Side-by-Side half support applies to all modes */
+        ext->s3d_type = eSideBySide;
+        ext->s3d_order = eLeftViewFirst;
+        edid_parser_deinit(edid);
+    }
+}
+#endif
 static void handle_hotplug(omap_hwc_device_t *hwc_dev)
 {
     omap_hwc_ext_t *ext = &hwc_dev->ext;
@@ -1951,6 +2203,9 @@ static void handle_hotplug(omap_hwc_device_t *hwc_dev)
     }
 
     pthread_mutex_lock(&hwc_dev->lock);
+#ifdef OMAP_ENHANCEMENT_S3D
+    handle_s3d_hotplug(ext, state);
+#endif
     ext->dock.enabled = ext->mirror.enabled = 0;
     if (state) {
         /* check whether we can clone and/or dock */

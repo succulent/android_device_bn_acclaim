@@ -13,15 +13,15 @@ LOCAL_STATIC_LIBRARIES := libpng
 
 LOCAL_MODULE_TAGS := optional
 
-LOCAL_MODULE := hwcomposer.acclaim
+LOCAL_MODULE := hwcomposer.$(TARGET_BOOTLOADER_BOARD_NAME)
 LOCAL_CFLAGS := -DLOG_TAG=\"ti_hwc\"
 LOCAL_C_INCLUDES += external/libpng external/zlib
 
 LOCAL_C_INCLUDES += \
+    $(LOCAL_PATH)/../edid/inc \
     $(LOCAL_PATH)/../include
+LOCAL_SHARED_LIBRARIES += libedid
 
 # LOG_NDEBUG=0 means verbose logging enabled
 # LOCAL_CFLAGS += -DLOG_NDEBUG=0
 include $(BUILD_SHARED_LIBRARY)
-
-
