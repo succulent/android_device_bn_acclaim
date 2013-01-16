@@ -19,25 +19,33 @@
 #
 # Product-specific compile-time definitions.
 #
+COMMON_FOLDER := device/bn/acclaim
 
-PRODUCT_VENDOR_KERNEL_HEADERS := device/bn/acclaim/kernel-headers
-TARGET_SPECIFIC_HEADER_PATH := device/bn/acclaim/src-headers
-TARGET_HAS_CUSTOM_LIBION := true
+PRODUCT_VENDOR_KERNEL_HEADERS := $(COMMON_FOLDER)/kernel-headers
+TARGET_SPECIFIC_HEADER_PATH := $(COMMON_FOLDER)/src-headers
+
+# Setup custom omap4xxx defines
+BOARD_USE_CUSTOM_LIBION := true
 
 BOARD_USES_GENERIC_AUDIO := false
 #BOARD_USES_AUDIO_LEGACY := true
 #TARGET_PROVIDES_LIBAUDIO := true
 
 BOARD_HAVE_BLUETOOTH := false
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/bn/acclaim/bluetooth
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(COMMON_FOLDER)/bluetooth
 
 TI_OMAP4_CAMERAHAL_VARIANT := false
 USE_CAMERA_STUB := true
 
+# TI Enhancement Settings (Part 1)
 OMAP_ENHANCEMENT := true
+#OMAP_ENHANCEMENT_BURST_CAPTURE := true
+#OMAP_ENHANCEMENT_S3D := true
+#OMAP_ENHANCEMENT_CPCAM := true
+#OMAP_ENHANCEMENT_VTC := true
 OMAP_ENHANCEMENT_MULTIGPU := true
-ENHANCED_DOMX := true
-BOARD_PROVIDES_CUSTOM_DOMX := true
+OMAP_ENHANCEMENT_MULTIGPU := true
+BOARD_USE_TI_ENHANCED_DOMX := true
 
 # inherit from the proprietary version
 -include vendor/bn/acclaim/BoardConfigVendor.mk
@@ -47,20 +55,19 @@ TARGET_CPU_ABI := armeabi-v7a
 TARGET_CPU_ABI2 := armeabi
 TARGET_CPU_SMP := true
 TARGET_ARCH := arm
+TARGET_BOARD_PLATFORM := omap4
 TARGET_ARCH_VARIANT := armv7-a-neon
 ARCH_ARM_HAVE_TLS_REGISTER := true
-ifneq (,$(filter true 1,$(TARGET_INCLUDE_EXTRA_CFLAGS)))
-TARGET_EXTRA_CFLAGS += $(call cc-option,-mtune=cortex-a9) $(call cc-option,-mcpu=cortex-a9)
-TARGET_EXTRA_CFLAGS += -mfpu=neon -mfloat-abi=softfp
-endif
+TARGET_GLOBAL_CFLAGS += -mtune=cortex-a9 -mfpu=neon -mfloat-abi=softfp
+TARGET_GLOBAL_CPPFLAGS += -mtune=cortex-a9 -mfpu=neon -mfloat-abi=softfp
 
-# Kernel/Boot
+# Kernel
 BOARD_KERNEL_BASE := 0x80080000
-BOARD_KERNEL_PAGESIZE := 4096
-BOARD_KERNEL_CMDLINE := androidboot.console=ttyO0 console=ttyO0,115200n8 def_disp=lcd2
 TARGET_NO_BOOTLOADER := true
 TARGET_NO_RADIOIMAGE := true
-TARGET_BOARD_PLATFORM := omap4
+BOARD_KERNEL_PAGESIZE := 4096
+BOARD_KERNEL_CMDLINE := console=/dev/null
+#BOARD_KERNEL_CMDLINE := androidboot.console=ttyO0 console=ttyO0,115200n8 def_disp=lcd2
 TARGET_BOOTLOADER_BOARD_NAME := acclaim
 TARGET_OTA_ASSERT_DEVICE := acclaim
 BOARD_HAS_SDCARD_INTERNAL := true
@@ -68,81 +75,37 @@ BOARD_SDCARD_DEVICE_PRIMARY := /dev/block/mmcblk1p1
 BOARD_SDCARD_DEVICE_SECONDARY := /dev/block/mmcblk0p10
 BOARD_SDCARD_DEVICE_INTERNAL := /dev/block/mmcblk0p10
 
-# Kernel Build
-TARGET_KERNEL_SOURCE := kernel/bn/acclaim
-TARGET_KERNEL_CONFIG := acclaim_defconfig
-TARGET_PREBUILT_KERNEL := device/bn/acclaim/kernel
-
-SGX_MODULES:
-	cp kernel/bn/acclaim/drivers/video/omap2/omapfb/omapfb.h $(KERNEL_OUT)/drivers/video/omap2/omapfb/omapfb.h
-	make -C kernel/bn/acclaim/external/sgx/src/eurasia_km/eurasiacon/build/linux2/omap4430_android KERNELDIR=$(KERNEL_OUT) ARCH=arm  CROSS_COMPILE=arm-eabi- TARGET_PRODUCT="blaze_tablet" BUILD=release TARGET_SGX=540 PLATFORM_VERSION=4.0  KERNEL_CROSS_COMPILE=arm-eabi- 
-	mv $(KERNEL_OUT)/../../target/kbuild/pvrsrvkm_sgx540_120.ko $(KERNEL_MODULES_OUT)
-
-WIFI_MODULES:
-	make -C kernel/bn/acclaim/external/wlan/mac80211/compat_wl12xx KERNEL_DIR=$(KERNEL_OUT) KLIB=$(KERNEL_OUT) KLIB_BUILD=$(KERNEL_OUT) ARCH=arm CROSS_COMPILE=arm-eabi-
-	mv kernel/bn/acclaim/external/wlan/mac80211/compat_wl12xx/compat/compat.ko $(KERNEL_MODULES_OUT)
-	mv kernel/bn/acclaim/external/wlan/mac80211/compat_wl12xx/net/mac80211/mac80211.ko $(KERNEL_MODULES_OUT)
-	mv kernel/bn/acclaim/external/wlan/mac80211/compat_wl12xx/net/wireless/cfg80211.ko $(KERNEL_MODULES_OUT)
-	mv kernel/bn/acclaim/external/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx.ko $(KERNEL_MODULES_OUT)
-	mv kernel/bn/acclaim/external/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx_spi.ko $(KERNEL_MODULES_OUT)
-	mv kernel/bn/acclaim/external/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx_sdio.ko $(KERNEL_MODULES_OUT)
-
-TARGET_KERNEL_MODULES := SGX_MODULES WIFI_MODULES
-
 # Filesystem
 TARGET_USERIMAGES_USE_EXT4 := true
+BOARD_VOLD_MAX_PARTITIONS := 32
+BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
 BOARD_BOOTIMAGE_PARTITION_SIZE := 16777216
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 15728640
 BOARD_SYSTEMIMAGE_PARTITION_SIZE := 641728512
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 12949893120
 BOARD_FLASH_BLOCK_SIZE := 131072
-BOARD_VOLD_MAX_PARTITIONS := 32
-BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
 TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/class/android_usb/f_mass_storage/lun%d/file"
-
-# Connectivity - Wi-Fi
-USES_TI_MAC80211 := true
-ifdef USES_TI_MAC80211
-WPA_SUPPLICANT_VERSION           := VER_0_8_X_TI
-BOARD_WPA_SUPPLICANT_DRIVER      := NL80211
-BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_wl12xx
-BOARD_HOSTAPD_DRIVER             := NL80211
-BOARD_HOSTAPD_PRIVATE_LIB        := lib_driver_cmd_wl12xx
-PRODUCT_WIRELESS_TOOLS           := true
-BOARD_WLAN_DEVICE                := wl12xx_mac80211
-BOARD_SOFTAP_DEVICE              := wl12xx_mac80211
-WIFI_DRIVER_MODULE_PATH          := "/system/lib/modules/wl12xx_sdio.ko"
-WIFI_DRIVER_MODULE_NAME          := "wl12xx_sdio"
-WIFI_FIRMWARE_LOADER             := ""
-COMMON_GLOBAL_CFLAGS += -DUSES_TI_MAC80211
-endif
 
 # adb has root
 ADDITIONAL_DEFAULT_PROPERTIES += ro.secure=0
 ADDITIONAL_DEFAULT_PROPERTIES += ro.allow.mock.location=1
 
 # Graphics
-BOARD_EGL_CFG := device/bn/acclaim/prebuilt/etc/egl.cfg
 USE_OPENGL_RENDERER := true
+# set if the target supports FBIO_WAITFORVSYNC
+TARGET_HAS_WAITFORVSYNC := true
+BOARD_EGL_CFG := $(COMMON_FOLDER)/prebuilt/etc/egl.cfg
 
 # OTA Packaging
+TARGET_CUSTOM_RELEASETOOL := ./$(COMMON_FOLDER)/releasetools/squisher
 TARGET_PROVIDES_RELEASETOOLS := true
-TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := ./device/bn/acclaim/releasetools/acclaim_ota_from_target_files
-TARGET_RELEASETOOL_IMG_FROM_TARGET_SCRIPT := ./device/bn/acclaim/releasetools/acclaim_img_from_target_files
-TARGET_CUSTOM_RELEASETOOL := ./device/bn/acclaim/releasetools/squisher
+TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := ./$(COMMON_FOLDER)/releasetools/acclaim_ota_from_target_files
+TARGET_RELEASETOOL_IMG_FROM_TARGET_SCRIPT := ./$(COMMON_FOLDER)/releasetools/acclaim_img_from_target_files
 
-# Recovery
-BOARD_ALWAYS_INSECURE := true
-BOARD_HAS_LARGE_FILESYSTEM := true
-BOARD_UMS_LUNFILE := "/sys/class/android_usb/f_mass_storage/lun%d/file"
-BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/bn/acclaim/recovery/recovery_ui.c
-TARGET_RECOVERY_INITRC := device/bn/acclaim/recovery/init.rc
-TARGET_RECOVERY_PRE_COMMAND := "echo 'recovery' > /bootdata/BCB; sync"
-TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
-
-ifdef ENHANCED_DOMX
-    COMMON_GLOBAL_CFLAGS += -DENHANCED_DOMX
-    DOMX_PATH := device/bn/acclaim/domx
+# TI Enhancement Settings (Part 2)
+ifdef BOARD_USE_TI_ENHANCED_DOMX
+    DOMX_PATH := $(DEVICE_FOLDER)/domx
+    ENHANCED_DOMX := true
 else
     DOMX_PATH := hardware/ti/omap4xxx/domx
 endif
@@ -180,6 +143,64 @@ endif
 BOARD_NEEDS_CUTILS_LOG := true
 BOARD_USES_SECURE_SERVICES := true
 
+# CodeAurora Optimizations: msm8960: Improve performance of memmove, bcopy, and memmove_words
+# added by twa_priv
+TARGET_USE_KRAIT_BIONIC_OPTIMIZATION := true
+TARGET_USE_KRAIT_PLD_SET := true
+TARGET_KRAIT_BIONIC_PLDOFFS := 10
+TARGET_KRAIT_BIONIC_PLDTHRESH := 10
+TARGET_KRAIT_BIONIC_BBTHRESH := 64
+TARGET_KRAIT_BIONIC_PLDSIZE := 64
+
+TARGET_BOOTANIMATION_PRELOAD := true
+
+# Kernel Build
+TARGET_KERNEL_SOURCE := kernel/bn/acclaim
+TARGET_KERNEL_CONFIG := acclaim_defconfig
+TARGET_PREBUILT_KERNEL := $(COMMON_FOLDER)/kernel
+
+SGX_MODULES:
+	cp kernel/bn/acclaim/drivers/video/omap2/omapfb/omapfb.h $(KERNEL_OUT)/drivers/video/omap2/omapfb/omapfb.h
+	make -C kernel/bn/acclaim/external/sgx/src/eurasia_km/eurasiacon/build/linux2/omap4430_android KERNELDIR=$(KERNEL_OUT) ARCH=arm  CROSS_COMPILE=arm-eabi- TARGET_PRODUCT="blaze_tablet" BUILD=release TARGET_SGX=540 PLATFORM_VERSION=4.0  KERNEL_CROSS_COMPILE=arm-eabi- 
+	mv $(KERNEL_OUT)/../../target/kbuild/pvrsrvkm_sgx540_120.ko $(KERNEL_MODULES_OUT)
+
+WIFI_MODULES:
+	make -C kernel/bn/acclaim/external/wlan/mac80211/compat_wl12xx KERNEL_DIR=$(KERNEL_OUT) KLIB=$(KERNEL_OUT) KLIB_BUILD=$(KERNEL_OUT) ARCH=arm CROSS_COMPILE=arm-eabi-
+	mv kernel/bn/acclaim/external/wlan/mac80211/compat_wl12xx/compat/compat.ko $(KERNEL_MODULES_OUT)
+	mv kernel/bn/acclaim/external/wlan/mac80211/compat_wl12xx/net/mac80211/mac80211.ko $(KERNEL_MODULES_OUT)
+	mv kernel/bn/acclaim/external/wlan/mac80211/compat_wl12xx/net/wireless/cfg80211.ko $(KERNEL_MODULES_OUT)
+	mv kernel/bn/acclaim/external/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx.ko $(KERNEL_MODULES_OUT)
+	mv kernel/bn/acclaim/external/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx_spi.ko $(KERNEL_MODULES_OUT)
+	mv kernel/bn/acclaim/external/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx_sdio.ko $(KERNEL_MODULES_OUT)
+
+TARGET_KERNEL_MODULES := SGX_MODULES WIFI_MODULES
+
+# Connectivity - Wi-Fi
+USES_TI_MAC80211 := true
+ifdef USES_TI_MAC80211
+WPA_SUPPLICANT_VERSION           := VER_0_8_X_TI
+BOARD_WPA_SUPPLICANT_DRIVER      := NL80211
+BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_wl12xx
+BOARD_HOSTAPD_DRIVER             := NL80211
+BOARD_HOSTAPD_PRIVATE_LIB        := lib_driver_cmd_wl12xx
+PRODUCT_WIRELESS_TOOLS           := true
+BOARD_WLAN_DEVICE                := wl12xx_mac80211
+BOARD_SOFTAP_DEVICE              := wl12xx_mac80211
+WIFI_DRIVER_MODULE_PATH          := "/system/lib/modules/wl12xx_sdio.ko"
+WIFI_DRIVER_MODULE_NAME          := "wl12xx_sdio"
+WIFI_FIRMWARE_LOADER             := ""
+COMMON_GLOBAL_CFLAGS += -DUSES_TI_MAC80211
+endif
+
+# Recovery
+BOARD_ALWAYS_INSECURE := true
+BOARD_HAS_LARGE_FILESYSTEM := true
+BOARD_UMS_LUNFILE := "/sys/class/android_usb/f_mass_storage/lun%d/file"
+BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../$(COMMON_FOLDER)/recovery/recovery_ui.c
+TARGET_RECOVERY_INITRC := $(COMMON_FOLDER)/recovery/init.rc
+TARGET_RECOVERY_PRE_COMMAND := "echo 'recovery' > /bootdata/BCB; sync"
+TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
+
 # Config for building TWRP
 DEVICE_RESOLUTION := 1024x600
 RECOVERY_TOUCHSCREEN_SWAP_XY := true
@@ -191,17 +212,3 @@ TW_INTERNAL_STORAGE_MOUNT_POINT := "emmc"
 TW_EXTERNAL_STORAGE_PATH := "/sdcard"
 TW_EXTERNAL_STORAGE_MOUNT_POINT := "sdcard"
 TW_DEFAULT_EXTERNAL_STORAGE := true
-
-# CodeAurora Optimizations: msm8960: Improve performance of memmove, bcopy, and memmove_words
-# added by twa_priv
-TARGET_USE_KRAIT_BIONIC_OPTIMIZATION := true
-TARGET_USE_KRAIT_PLD_SET := true
-TARGET_KRAIT_BIONIC_PLDOFFS := 10
-TARGET_KRAIT_BIONIC_PLDTHRESH := 10
-TARGET_KRAIT_BIONIC_BBTHRESH := 64
-TARGET_KRAIT_BIONIC_PLDSIZE := 64
-
-# Use linaro optimized string routines
-#TARGET_USE_LINARO_STRING_ROUTINES := true
-
-TARGET_BOOTANIMATION_PRELOAD := true
