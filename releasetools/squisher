@@ -69,7 +69,7 @@ cd $REPACK/ota
 rm -rf $REPACK/parallel
 )
 
-rm $REPACK/ota/system/app/DSPManager.apk
+#rm $REPACK/ota/system/app/DSPManager.apk
 rm $REPACK/ota/system/app/VoiceDialer.apk
 rm $REPACK/ota/system/app/MagicSmokeWallpapers.apk
 rm $REPACK/ota/system/app/CMWallpapers.apk
@@ -96,12 +96,6 @@ rm -rf $REPACK/ota/recovery
 # Strip modules
 [ -d $REPACK/ota/system/lib/modules ] && \
 	find $REPACK/ota/system/lib/modules -name "*.ko" -print0 | xargs -0 arm-eabi-strip --strip-unneeded
-
-# Remove wl1271-nvs.bin so that wl1271-nvs_127x.bin can re-write it
-#rm $REPACK/ota/system/etc/firmware/ti-connectivity/wl1271-nvs.bin
-
-# Remove camera.omap4.so -- it hangs media server
-#rm $REPACK/ota/system/lib/hw/camera.omap4.so
 
 # Determine what to name the new signed package
 REALDATE=`date -u +%Y%m%d`
