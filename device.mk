@@ -224,9 +224,6 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_PROPERTY_OVERRIDES += \
 	com.ti.omap_enhancement=true \
-	dalvik.vm.heapgrowthlimit=48m \
-	dalvik.vm.heapsize=128m \
-	dalvik.vm.heapstartsize=5m \
 	omap.enhancement=true \
 	persist.sys.root_access=3 \
 	persist.sys.usb.config=mtp,adb \
@@ -242,6 +239,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	softap.interface=wlan0 \
 	video.accelerate.hw=1 \
 	wifi.supplicant_scan_interval=180 \
+	ro.ril.disable.power.collapse=0 \
+	pm.sleep_mode=1 \
+	debug.performance.tuning = 1 \
+	debug.sf.hw = 1 \
 
 PRODUCT_CHARACTERISTICS := tablet
 
@@ -255,11 +256,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_TAGS += dalvik.gc.type-precise
 
 $(call inherit-product, frameworks/native/build/tablet-dalvik-heap.mk)
-
-# Copy missing Terminal Emulator lib (until fixed otherwise)
-PRODUCT_COPY_FILES += \
-	vendor/cm/proprietary/lib/armeabi/libjackpal-androidterm4.so:system/lib/libjackpal-androidterm4.so
-
+#$(call inherit-product, frameworks/native/build/phone-hdpi-512-dalvik-heap.mk)
 #$(call inherit-product-if-exists, device/bn/acclaim/imgtec/sgx-imgtec-bins.mk)
 #$(call inherit-product-if-exists, hardware/ti/omap4xxx/omap4.mk)
 #$(call inherit-product, $(DEVICE_FOLDER)/wl12xx/ti-wl12xx-vendor.mk)
