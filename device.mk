@@ -239,10 +239,13 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	softap.interface=wlan0 \
 	video.accelerate.hw=1 \
 	wifi.supplicant_scan_interval=180 \
-	ro.ril.disable.power.collapse=0 \
-	pm.sleep_mode=1 \
 	debug.performance.tuning = 1 \
 	debug.sf.hw = 1 \
+	ro.media.dec.jpeg.memcap=8000000 \
+	ro.media.enc.hprof.vid.bps=8000000 \
+	ro.media.enc.jpeg.quality=100 \
+	persist.sys.shutdown.mode=hibernate \
+	ro.config.hw_quickpoweron=true \
 
 PRODUCT_CHARACTERISTICS := tablet
 
