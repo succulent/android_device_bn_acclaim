@@ -94,7 +94,7 @@ ADDITIONAL_DEFAULT_PROPERTIES += ro.allow.mock.location=1
 USE_OPENGL_RENDERER := true
 # set if the target supports FBIO_WAITFORVSYNC
 TARGET_HAS_WAITFORVSYNC := true
-BOARD_EGL_CFG := $(COMMON_FOLDER)/prebuilt/etc/egl.cfg
+BOARD_EGL_CFG := $(COMMON_FOLDER)/egl.cfg
 
 # OTA Packaging
 TARGET_CUSTOM_RELEASETOOL := ./$(COMMON_FOLDER)/releasetools/squisher
@@ -104,6 +104,8 @@ TARGET_RELEASETOOL_IMG_FROM_TARGET_SCRIPT := ./$(COMMON_FOLDER)/releasetools/acc
 
 # TI Enhancement Settings (Part 2)
 ifdef BOARD_USE_TI_ENHANCED_DOMX
+    COMMON_GLOBAL_CFLAGS += -DENHANCED_DOMX
+    TI_CUSTOM_DOMX_PATH := $(DEVICE_FOLDER)/domx
     DOMX_PATH := $(DEVICE_FOLDER)/domx
     ENHANCED_DOMX := true
 else
