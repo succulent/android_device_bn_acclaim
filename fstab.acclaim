@@ -1,0 +1,14 @@
+# Android fstab file.
+#<src>		<mnt_point>	<type>		<mnt_flags and options>		<fs_mgr_flags>
+# The filesystem that contains the filesystem checker binary (typically /system) cannot
+# specify MF_CHECK, and must come before any filesystems that do specify MF_CHECK
+
+# mount partitions
+#/dev/block/mmcblk1p2 /system		ext4	ro								wait
+#/dev/block/mmcblk1p3 /data		ext4	noatime,nosuid,nodev,errors=continue,discard			wait,check
+
+/dev/block/platform/omap/omap_hsmmc.1/by-name/system	/system		ext4	ro								wait
+/dev/block/platform/omap/omap_hsmmc.1/by-name/userdata	/data		ext4	noatime,nosuid,nodev,errors=continue,discard			wait,check
+/dev/block/platform/omap/omap_hsmmc.1/by-name/cache	/cache		ext4	noatime,nosuid,nodev,errors=continue,discard			wait,check
+/dev/block/platform/omap/omap_hsmmc.1/by-name/rom	/rom		vfat	noatime,nodiratime,uid=1000,gid=1000,fmask=227,dmask=007	wait,check
+/dev/block/platform/omap/omap_hsmmc.1/by-name/bootdata	/bootdata	vfat	noatime,nodiratime,uid=1000,gid=1000,fmask=117,dmask=007	wait,check
