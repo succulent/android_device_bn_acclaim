@@ -425,7 +425,7 @@ def WriteFullOTAPackage(input_zip, output_zip):
   script.Print("Erasing system...")
   script.FormatPartition("/system")
   script.Mount("/system")
-  script.ShowProgress(0.7, 30)
+  script.ShowProgress(0.9, 40)
   #script.UnpackPackageDir("recovery", "/system")
   script.Print("Installing...")
   script.UnpackPackageDir("system", "/system")
@@ -441,13 +441,11 @@ def WriteFullOTAPackage(input_zip, output_zip):
 
   Item.GetMetadata(input_zip)
   Item.Get("system").SetPermissions(script)
-  script.ShowProgress(0.15, 5)
 
   common.CheckSize(boot_img.data, "boot.img", OPTIONS.info_dict)
   common.CheckSize(recovery_img.data, "recovery.img", OPTIONS.info_dict)
   common.ZipWriteStr(output_zip, "boot.img", boot_img.data)
   common.ZipWriteStr(output_zip, "recovery.img", recovery_img.data)
-  script.ShowProgress(0.2, 0)
 
   #if OPTIONS.backuptool:
   #  script.ShowProgress(0.2, 10)
@@ -456,7 +454,6 @@ def WriteFullOTAPackage(input_zip, output_zip):
   script.WriteRawImage("/boot", "boot.img")
   script.WriteRawImage("/recovery", "recovery.img")
 
-  script.ShowProgress(0.1, 0)
   device_specific.FullOTA_InstallEnd()
 
   if OPTIONS.extra_script is not None:
@@ -600,7 +597,6 @@ def WriteIncrementalOTAPackage(target_zip, source_zip, output_zip):
 
   device_specific.IncrementalOTA_VerifyBegin()
 
-  script.ShowProgress(0.1, 0)
   total_verify_size = float(sum([i[2].size for i in patch_list]) + 1)
   if updating_boot:
     total_verify_size += source_boot.size
@@ -647,7 +643,6 @@ def WriteIncrementalOTAPackage(target_zip, source_zip, output_zip):
                             if i not in target_data] +
                      ["/system/recovery.img"])
 
-  script.ShowProgress(0.8, 0)
   total_patch_size = float(sum([i[1].size for i in patch_list]) + 1)
   if updating_boot:
     total_patch_size += target_boot.size

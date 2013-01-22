@@ -26,19 +26,19 @@ DEVICE_FOLDER := device/bn/acclaim
 BOARD_USE_CUSTOM_LIBION := true
 
 ifeq ($(TARGET_PREBUILT_KERNEL),)
-    LOCAL_KERNEL := $(DEVICE_FOLDER)/kernel
+    LOCAL_KERNEL := $(DEVICE_FOLDER)/boot/zImage
 else
     LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
 endif
 
 ifeq ($(TARGET_PREBUILT_CYANOBOOT),)
-    LOCAL_CYANOBOOT := $(DEVICE_FOLDER)/flashing_boot_emmc.img
+    LOCAL_CYANOBOOT := $(DEVICE_FOLDER)/boot/flashing_boot_emmc.img
 else
     LOCAL_CYANOBOOT := $(TARGET_PREBUILT_CYANOBOOT)
 endif
 
 ifeq ($(TARGET_PREBUILT_IRECOVERY),)
-    LOCAL_IRECOVERY := $(DEVICE_FOLDER)/irecovery
+    LOCAL_IRECOVERY := $(DEVICE_FOLDER)/boot/irecovery
 else
     LOCAL_IRECOVERY := $(TARGET_PREBUILT_IRECOVERY)
 endif
@@ -47,9 +47,10 @@ PRODUCT_COPY_FILES += \
 	$(LOCAL_KERNEL):kernel \
 	$(LOCAL_CYANOBOOT):flashing_boot_emmc.img \
 	$(LOCAL_IRECOVERY):irecovery \
-	$(DEVICE_FOLDER)/root/init.acclaim.rc:root/init.acclaim.rc \
-	$(DEVICE_FOLDER)/root/init.acclaim.usb.rc:root/init.acclaim.usb.rc \
-	$(DEVICE_FOLDER)/root/ueventd.acclaim.rc:root/ueventd.acclaim.rc \
+	$(DEVICE_FOLDER)/init.acclaim.rc:root/init.acclaim.rc \
+	$(DEVICE_FOLDER)/init.acclaim.usb.rc:root/init.acclaim.usb.rc \
+	$(DEVICE_FOLDER)/ueventd.acclaim.rc:root/ueventd.acclaim.rc \
+	$(DEVICE_FOLDER)/fstab.acclaim:root/fstab.acclaim \
 
 DEVICE_PACKAGE_OVERLAYS := $(DEVICE_FOLDER)/overlay/aosp
 
@@ -122,6 +123,7 @@ PRODUCT_PACKAGES += \
 	setup_fs \
 	sh \
 	strace \
+	libtimemmgr \
 	TFF \
 
 # OMX
@@ -177,10 +179,10 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
 	$(DEVICE_FOLDER)/audio/audio_policy.conf:system/etc/audio_policy.conf \
 	$(DEVICE_FOLDER)/prebuilt/etc/mixer_paths.xml:system/etc/mixer_paths.xml \
-	$(DEVICE_FOLDER)/prebuilt/etc/media_codecs.xml:system/etc/media_codecs.xml \
-	$(DEVICE_FOLDER)/prebuilt/etc/media_profiles.xml:system/etc/media_profiles.xml \
-	$(DEVICE_FOLDER)/prebuilt/etc/vold.acclaim.fstab:system/etc/vold.fstab \
 	$(DEVICE_FOLDER)/prebuilt/etc/wifi/TQS_S_2.6.ini:system/etc/wifi/TQS_S_2.6.ini \
+	$(DEVICE_FOLDER)/vold.fstab:system/etc/vold.fstab \
+	$(DEVICE_FOLDER)/media_codecs.xml:system/etc/media_codecs.xml \
+	$(DEVICE_FOLDER)/media_profiles.xml:system/etc/media_profiles.xml \
 
 # Prebuilt /system/usr
 PRODUCT_COPY_FILES += \
@@ -239,13 +241,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	softap.interface=wlan0 \
 	video.accelerate.hw=1 \
 	wifi.supplicant_scan_interval=180 \
-	debug.performance.tuning = 1 \
-	debug.sf.hw = 1 \
-	ro.media.dec.jpeg.memcap=8000000 \
-	ro.media.enc.hprof.vid.bps=8000000 \
 	ro.media.enc.jpeg.quality=100 \
-	persist.sys.shutdown.mode=hibernate \
-	ro.config.hw_quickpoweron=true \
 
 PRODUCT_CHARACTERISTICS := tablet
 
