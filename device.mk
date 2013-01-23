@@ -178,11 +178,11 @@ PRODUCT_COPY_FILES += \
 # Prebuilts /system/etc
 PRODUCT_COPY_FILES += \
 	$(DEVICE_FOLDER)/audio/audio_policy.conf:system/etc/audio_policy.conf \
-	$(DEVICE_FOLDER)/prebuilt/etc/mixer_paths.xml:system/etc/mixer_paths.xml \
-	$(DEVICE_FOLDER)/prebuilt/etc/wifi/TQS_S_2.6.ini:system/etc/wifi/TQS_S_2.6.ini \
-	$(DEVICE_FOLDER)/vold.fstab:system/etc/vold.fstab \
 	$(DEVICE_FOLDER)/media_codecs.xml:system/etc/media_codecs.xml \
 	$(DEVICE_FOLDER)/media_profiles.xml:system/etc/media_profiles.xml \
+	$(DEVICE_FOLDER)/mixer_paths.xml:system/etc/mixer_paths.xml \
+	$(DEVICE_FOLDER)/prebuilt/etc/wifi/TQS_S_2.6.ini:system/etc/wifi/TQS_S_2.6.ini \
+	$(DEVICE_FOLDER)/vold.fstab:system/etc/vold.fstab \
 
 # Prebuilt /system/usr
 PRODUCT_COPY_FILES += \

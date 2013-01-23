@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
   <manifest>
 
+  <remote name="omapzoom" fetch="git://git.omapzoom.org/" />
+
   <!-- CM removals -->
   <remove-project name="CyanogenMod/android_frameworks_base" />
   <remove-project name="CyanogenMod/android_packages_apps_Settings" />
@@ -8,19 +10,28 @@
   <remove-project name="CyanogenMod/android_hardware_ti_omap4xxx" />
   <remove-project name="CyanogenMod/android_frameworks_av" />
   <remove-project name="CyanogenMod/android_vendor_cm" /> 
+  <remove-project name="CyanogenMod/android_packages_apps_Browser" />
 
   <!-- modified CM projects -->
-  <project path="frameworks/base" name="loosethisskin/android_frameworks_base" revision="cm-10.1-sgt7" />
-  <project path="packages/apps/Settings" name="loosethisskin/android_packages_apps_Settings" revision="cm-10.1-sgt7" />
-  <project path="packages/apps/Trebuchet" name="sgt7/android_packages_apps_Trebuchet" revision="cm-10.1" />
-  <project path="hardware/ti/omap4xxx" name="loosethisskin/android_hardware_ti_omap4xxx" revision="cm-10.1-otter" />
-  <project path="frameworks/av" name="loosethisskin/android_frameworks_av" revision="cm-10.1-otter" />
-  <project path="vendor/cm" name="loosethisskin/android_vendor_cm" revision="cm-10.1" /> 
+  <project path="frameworks/base" name="succulent/android_frameworks_base" revision="CM10.1" />
+  <project path="packages/apps/Settings" name="succulent/android_packages_apps_Settings" revision="CM10.1" />
+  <project path="packages/apps/Trebuchet" name="succulent/android_packages_apps_Trebuchet" revision="CM10.1" />
+  <project path="hardware/ti/omap4xxx" name="succulent/android_hardware_ti_omap4xxx" revision="CM10.1" />
+  <project path="frameworks/av" name="succulent/android_frameworks_av" revision="CM10.1" />
+  <project path="vendor/cm" name="succulent/android_vendor_cm" revision="CM10.1" /> 
+  <project path="packages/apps/Browser" name="succulent/android_packages_apps_Browser" revision="CM10.1" />
 
-  <!-- local projects -->
+<!--   local projects
   <project path="kernel/bn/acclaim" name="succulent/kernel3NookTablet" revision="jb"/>
-  <!-- <project path="kernel/bn/acclaim" name="succulent/android_kernel_bn_hummingbird_ovation" revision="master"/> -->
+  <project path="kernel/bn/acclaim" name="succulent/android_kernel_bn_hummingbird_ovation" revision="master"/> 
+-->
+  <project path="device/bn/acclaim" name="succulent/android_device_bn_acclaim" revision="CM10.1" />
+  <project path="kernel/bn/acclaim" name="succulent/kernel3NookTablet" revision="p-android-omap-3.0"/>
  
+  <project path="external/wpa_supplicant_8_ti" name="platform/external/wpa_supplicant_8_ti" remote="omapzoom"  revision="p-jb-mr1-release">
+     <annotation name="vendor" value="ti" />
+  </project>
+
   <!-- TWRP 
   <remove-project name="CyanogenMod/android_bootable_recovery" />
   <project name="TeamWin/Team-Win-Recovery-Project" path="bootable/recovery" remote="github" revision="jb-wip" /> -->
