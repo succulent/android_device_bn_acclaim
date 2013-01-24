@@ -14,10 +14,7 @@ on early-init
     symlink /storage/sdcard1 /sdcard
     symlink /storage/sdcard1 /mnt/sdcard
 
-    # Will enable when OTG work
-    #mkdir /storage/usbdisk0 0000 system system
-    #symlink /storage/usbdisk0 /usbdisk0
-    #symlink /storage/usbdisk0 /mnt/usbdisk0
+    mkdir /mnt/usbdisk 0755 system system
 
     export EXTERNAL_STORAGE /storage/sdcard1
     export SECONDARY_STORAGE /storage/sdcard0
