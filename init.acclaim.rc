@@ -73,6 +73,10 @@ on boot
     insmod /system/lib/modules/mac80211.ko
     insmod /system/lib/modules/wl12xx.ko
 
+    # Node for USB service
+    mkdir /dev/bus 0755 root root
+    mkdir /dev/bus/usb 0755 root root
+
     # Create directory used by audio subsystem
     mkdir /data/misc/audio 0770 audio audio
     mkdir /data/audio 0770 media audio
