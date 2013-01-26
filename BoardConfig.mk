@@ -19,10 +19,9 @@
 #
 # Product-specific compile-time definitions.
 #
-COMMON_FOLDER := device/bn/acclaim
 
-PRODUCT_VENDOR_KERNEL_HEADERS := $(COMMON_FOLDER)/kernel-headers
-TARGET_SPECIFIC_HEADER_PATH := $(COMMON_FOLDER)/src-headers
+PRODUCT_VENDOR_KERNEL_HEADERS := $(DEVICE_FOLDER)/kernel-headers
+TARGET_SPECIFIC_HEADER_PATH := $(DEVICE_FOLDER)/include
 
 # Setup custom omap4xxx defines
 BOARD_USE_CUSTOM_LIBION := true
@@ -32,7 +31,7 @@ BOARD_USES_GENERIC_AUDIO := false
 #TARGET_PROVIDES_LIBAUDIO := true
 
 BOARD_HAVE_BLUETOOTH := false
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(COMMON_FOLDER)/bluetooth
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(DEVICE_FOLDER)/bluetooth
 
 TI_OMAP4_CAMERAHAL_VARIANT := false
 USE_CAMERA_STUB := true
@@ -94,13 +93,13 @@ ADDITIONAL_DEFAULT_PROPERTIES += ro.allow.mock.location=1
 USE_OPENGL_RENDERER := true
 # set if the target supports FBIO_WAITFORVSYNC
 TARGET_HAS_WAITFORVSYNC := true
-BOARD_EGL_CFG := $(COMMON_FOLDER)/egl.cfg
+BOARD_EGL_CFG := $(DEVICE_FOLDER)/egl.cfg
 
 # OTA Packaging
-TARGET_CUSTOM_RELEASETOOL := ./$(COMMON_FOLDER)/releasetools/squisher
+TARGET_CUSTOM_RELEASETOOL := ./$(DEVICE_FOLDER)/releasetools/squisher
 TARGET_PROVIDES_RELEASETOOLS := true
-TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := ./$(COMMON_FOLDER)/releasetools/acclaim_ota_from_target_files
-TARGET_RELEASETOOL_IMG_FROM_TARGET_SCRIPT := ./$(COMMON_FOLDER)/releasetools/acclaim_img_from_target_files
+TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := ./$(DEVICE_FOLDER)/releasetools/acclaim_ota_from_target_files
+TARGET_RELEASETOOL_IMG_FROM_TARGET_SCRIPT := ./$(DEVICE_FOLDER)/releasetools/acclaim_img_from_target_files
 
 # TI Enhancement Settings (Part 2)
 ifdef BOARD_USE_TI_ENHANCED_DOMX
@@ -159,7 +158,7 @@ TARGET_BOOTANIMATION_PRELOAD := true
 # Kernel Build
 TARGET_KERNEL_SOURCE := kernel/bn/acclaim
 TARGET_KERNEL_CONFIG := acclaim_defconfig
-TARGET_PREBUILT_KERNEL := $(COMMON_FOLDER)/kernel
+TARGET_PREBUILT_KERNEL := $(DEVICE_FOLDER)/kernel
 
 SGX_MODULES:
 	cp kernel/bn/acclaim/drivers/video/omap2/omapfb/omapfb.h $(KERNEL_OUT)/drivers/video/omap2/omapfb/omapfb.h
@@ -198,8 +197,8 @@ endif
 BOARD_ALWAYS_INSECURE := true
 BOARD_HAS_LARGE_FILESYSTEM := true
 BOARD_UMS_LUNFILE := "/sys/devices/platform/omap/musb-omap2430/musb-hdrc/gadget/lun%d/file"
-BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../$(COMMON_FOLDER)/recovery/recovery_ui.c
-TARGET_RECOVERY_INITRC := $(COMMON_FOLDER)/recovery/init.rc
+BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../$(DEVICE_FOLDER)/recovery/recovery_ui.c
+TARGET_RECOVERY_INITRC := $(DEVICE_FOLDER)/recovery/init.rc
 TARGET_RECOVERY_PRE_COMMAND := "echo 'recovery' > /bootdata/BCB; sync"
 TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
 
