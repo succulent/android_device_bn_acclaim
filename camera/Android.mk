@@ -51,11 +51,11 @@ endif
 
 LOCAL_C_INCLUDES += \
     $(LOCAL_PATH)/inc/ \
-    $(COMMON_FOLDER)/hwc \
-    $(COMMON_FOLDER)/include \
+    $(DEVICE_FOLDER)/hwc \
+    $(DEVICE_FOLDER)/include \
     $(LOCAL_PATH)/inc/OMXCameraAdapter \
     hardware/ti/omap4xxx/libtiutils \
-    $(COMMON_FOLDER)/libion_ti \
+    $(DEVICE_FOLDER)/libion_ti \
     $(DOMX_PATH)/omx_core/inc \
     $(DOMX_PATH)/mm_osal/inc \
     frameworks/base/include/media/stagefright \
