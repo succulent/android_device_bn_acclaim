@@ -217,6 +217,7 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
 	calibrator \
 	crda \
+	hostapd.conf \
 	dhcpcd.conf \
 	regulatory.bin \
 	TQS_D_1.7.ini \
