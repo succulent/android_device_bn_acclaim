@@ -83,7 +83,7 @@ BOARD_RECOVERYIMAGE_PARTITION_SIZE := 15728640
 BOARD_SYSTEMIMAGE_PARTITION_SIZE := 641728512
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 12949893120
 BOARD_FLASH_BLOCK_SIZE := 131072
-TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/platform/omap/musb-omap2430/musb-hdrc/gadget/lun%d/file"
+TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/virtual/android_usb/android0/f_mass_storage/lun%d/file"
 
 # adb has root
 ADDITIONAL_DEFAULT_PROPERTIES += ro.secure=0
@@ -196,7 +196,7 @@ endif
 # Recovery
 BOARD_ALWAYS_INSECURE := true
 BOARD_HAS_LARGE_FILESYSTEM := true
-BOARD_UMS_LUNFILE := "/sys/devices/platform/omap/musb-omap2430/musb-hdrc/gadget/lun%d/file"
+BOARD_UMS_LUNFILE := "/sys/devices/virtual/android_usb/android0/f_mass_storage/lun%d/file"
 BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../$(DEVICE_FOLDER)/recovery/recovery_ui.c
 TARGET_RECOVERY_INITRC := $(DEVICE_FOLDER)/recovery/init.rc
 TARGET_RECOVERY_PRE_COMMAND := "echo 'recovery' > /bootdata/BCB; sync"
