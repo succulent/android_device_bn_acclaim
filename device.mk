@@ -183,7 +183,7 @@ PRODUCT_COPY_FILES += \
 	$(DEVICE_FOLDER)/mixer_paths.xml:system/etc/mixer_paths.xml \
 	$(DEVICE_FOLDER)/prebuilt/etc/wifi/TQS_S_2.6.ini:system/etc/wifi/TQS_S_2.6.ini \
 	$(DEVICE_FOLDER)/vold.fstab:system/etc/vold.fstab \
-	$(DEVICE_FOLDER)/mountd.conf:/system/etc/mountd.conf \
+#	$(DEVICE_FOLDER)/mountd.conf:/system/etc/mountd.conf \
 
 # Prebuilt /system/usr
 PRODUCT_COPY_FILES += \
