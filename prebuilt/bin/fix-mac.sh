@@ -6,7 +6,7 @@ NVS_BIN=/system/etc/firmware/ti-connectivity/wl1271-nvs.bin
 
 busybox mount -o remount,rw /system
 
-if [ ! -f "$NVS_BIN" ]; then
+if busybox [ ! -f "$NVS_BIN" ]; then
     cp ${ORIG_NVS_BIN} ${NVS_BIN}  
 fi
 
