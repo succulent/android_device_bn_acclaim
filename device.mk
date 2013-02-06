@@ -117,6 +117,7 @@ PRODUCT_PACKAGES += \
 
 # Misc
 PRODUCT_PACKAGES += \
+	e2fsck \
 	libjni_pinyinime \
 	make_ext4fs \
 	setpropex \
