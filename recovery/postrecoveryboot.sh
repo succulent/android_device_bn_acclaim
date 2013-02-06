@@ -2,8 +2,7 @@
 
 # Resets the boot counter and the BCB instructions
 mkdir /bootdata
-mount /dev/block/mmcblk0p6 /bootdata
-mount -o rw,remount /bootdata
+mount -o rw,remount -t vfat /dev/block/mmcblk0p6 /bootdata
 
 # Zero out the boot counter
 dd if=/dev/zero of=/bootdata/BootCnt bs=1 count=4
