@@ -93,12 +93,6 @@ on boot
     write /sys/devices/system/cpu/cpufreq/interactive/boost_timeout 30000000
     write /sys/devices/system/cpu/cpu0/cpufreq/boost_cpufreq 1
 
-    # Fix wlan MAC addr
-    exec /system/bin/fix-mac.sh
-
-    # Fix serial number
-    exec /system/bin/fix-serial-no.sh
-
     # Load SGX Modules
     insmod /system/lib/modules/pvrsrvkm_sgx540_120.ko
 
@@ -209,6 +203,7 @@ on boot
 
 on property:dev.bootcomplete=1
     start bootcnt
+    start fixmacsn
 
 # Initialize the SGX driver
 service pvrsrvinit /vendor/bin/pvrsrvinit
@@ -217,7 +212,16 @@ service pvrsrvinit /vendor/bin/pvrsrvinit
     group root
     oneshot
 
+# Clear boot count
 service bootcnt /system/bin/clear_bootcnt.sh
+    class core
+    user root
+    group root
+    disabled
+    oneshot
+
+# Fix wlan MAC address and serial number in status
+service fixmacsn /system/bin/fix-mac-and-sn.sh
     class core
     user root
     group root

@@ -144,6 +144,10 @@ endif
 BOARD_NEEDS_CUTILS_LOG := true
 BOARD_USES_SECURE_SERVICES := true
 
+#TARGET_GCC_VERSION := 4.7
+#TARGET_USE_O3 := true
+TARGET_USE_LINARO_STRING_ROUTINES := true
+
 # CodeAurora Optimizations: msm8960: Improve performance of memmove, bcopy, and memmove_words
 # added by twa_priv
 TARGET_USE_KRAIT_BIONIC_OPTIMIZATION := true
@@ -198,7 +202,7 @@ BOARD_ALWAYS_INSECURE := true
 BOARD_HAS_LARGE_FILESYSTEM := true
 BOARD_UMS_LUNFILE := "/sys/devices/virtual/android_usb/android0/f_mass_storage/lun%d/file"
 BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../$(DEVICE_FOLDER)/recovery/recovery_ui.c
-TARGET_RECOVERY_INITRC := $(DEVICE_FOLDER)/recovery/init.rc
+TARGET_RECOVERY_INITRC := $(DEVICE_FOLDER)/recovery/init.recovery.rc
 TARGET_RECOVERY_PRE_COMMAND := "echo 'recovery' > /bootdata/BCB; sync"
 TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
 

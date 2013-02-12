@@ -172,8 +172,7 @@ PRODUCT_COPY_FILES += \
 # Prebuilts /system/bin
 PRODUCT_COPY_FILES += \
 	$(DEVICE_FOLDER)/clear_bootcnt.sh:system/bin/clear_bootcnt.sh \
-	$(DEVICE_FOLDER)/prebuilt/bin/fix-mac.sh:system/bin/fix-mac.sh \
-	$(DEVICE_FOLDER)/prebuilt/bin/fix-serial-no.sh:system/bin/fix-serial-no.sh \
+	$(DEVICE_FOLDER)/prebuilt/bin/fix-mac-and-sn.sh:system/bin/fix-mac-and-sn.sh \
 	$(DEVICE_FOLDER)/prebuilt/bin/log_battery_data.sh:system/bin/log_battery_data.sh \
 
 # Prebuilts /system/etc
@@ -185,6 +184,10 @@ PRODUCT_COPY_FILES += \
 	$(DEVICE_FOLDER)/prebuilt/etc/wifi/TQS_S_2.6.ini:system/etc/wifi/TQS_S_2.6.ini \
 	$(DEVICE_FOLDER)/vold.fstab:system/etc/vold.fstab \
 #	$(DEVICE_FOLDER)/mountd.conf:/system/etc/mountd.conf \
+
+# frandom
+PRODUCT_COPY_FILES += \
+	$(DEVICE_FOLDER)/prebuilt/etc/init.d/00random:system/etc/init.d/00random \
 
 # Prebuilt /system/usr
 PRODUCT_COPY_FILES += \
@@ -213,7 +216,7 @@ PRODUCT_COPY_FILES += \
 	$(DEVICE_FOLDER)/firmware/ti-connectivity/wl127x-fw-4-mr.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-mr.bin \
 	$(DEVICE_FOLDER)/firmware/ti-connectivity/wl127x-fw-4-sr.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-sr.bin \
 	$(DEVICE_FOLDER)/firmware/ti-connectivity/wl127x-fw-4-plt.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-plt.bin \
-	$(DEVICE_FOLDER)/firmware/ti-connectivity/wl1271-nvs_127x.bin:system/etc/firmware/ti-connectivity/wl1271-nvs_127x.bin \
+	$(DEVICE_FOLDER)/firmware/ti-connectivity/wl1271-nvs_127x.bin:system/etc/firmware/ti-connectivity/wl1271-nvs.bin \
 
 # Wifi
 PRODUCT_PACKAGES += \
@@ -233,7 +236,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	persist.sys.root_access=3 \
 	persist.sys.usb.config=mtp,adb \
 	persist.sys.vold.switchexternal=0 \
-	ro.additionalmounts=/storage/sdcard0;/storage/usbdisk0 \
+	ro.additionalmounts=/storage/sdcard0;/storage/usbdisk \
 	ro.crypto.state=unencrypted \
 	ro.hwc.legacy_api=true \
 	ro.opengles.version=131072 \
