@@ -69,16 +69,13 @@ cd $REPACK/ota
 rm -rf $REPACK/parallel
 )
 
-#rm $REPACK/ota/system/app/DSPManager.apk
+rm $REPACK/ota/system/app/DSPManager.apk
 rm $REPACK/ota/system/app/VoiceDialer.apk
 rm $REPACK/ota/system/app/MagicSmokeWallpapers.apk
 rm $REPACK/ota/system/app/CMWallpapers.apk
 
 #mv $REPACK/ota/system/app/Phone.apk $REPACK/ota/system/app/Phone.apk.bak
 #mv $REPACK/ota/system/app/TelephonyProvider.apk $REPACK/ota/system/app/TelephonyProvider.apk.bak
-
-#create wl1271-nvs.bin in the case fix-mac.sh doesn't create it when reflashing rom
-cp $REPACK/ota/system/etc/firmware/ti-connectivity/wl1271-nvs_127x.bin $REPACK/ota/system/etc/firmware/ti-connectivity/wl1271-nvs.bin
 
 # Fix build.prop
 $SED -i \

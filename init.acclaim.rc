@@ -14,9 +14,9 @@ on early-init
     symlink /storage/sdcard1 /sdcard
     symlink /storage/sdcard1 /mnt/sdcard
 
-    mkdir /storage/usbdisk 0666 system system
-    symlink /storage/usbdisk /mnt/usbdisk
-    symlink /mnt/usbdisk /usbdisk
+    mkdir /storage/usbdisk0 0000 system system
+    symlink /storage/usbdisk0 /mnt/usbdisk0
+    symlink /mnt/usbdisk0 /usbdisk0
 
     export EXTERNAL_STORAGE /storage/sdcard1
     export SECONDARY_STORAGE /storage/sdcard0
@@ -84,14 +84,8 @@ on boot
     mkdir /data/audio 0770 media audio
     chmod 2770 /data/audio
 
-    # cpufreq interactive governor: timer 20ms, min sample 20ms, hispeed 800MHz
-    write /sys/devices/system/cpu/cpufreq/interactive/timer_rate 20000
-    write /sys/devices/system/cpu/cpufreq/interactive/min_sample_time 20000
-    write /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq 800000
-
-    # Boost the CPU for 30 secs during boot
-    write /sys/devices/system/cpu/cpufreq/interactive/boost_timeout 30000000
-    write /sys/devices/system/cpu/cpu0/cpufreq/boost_cpufreq 1
+    # Fix serial number
+    exec /system/bin/fix-serial-no.sh
 
     # Load SGX Modules
     insmod /system/lib/modules/pvrsrvkm_sgx540_120.ko
@@ -203,7 +197,7 @@ on boot
 
 on property:dev.bootcomplete=1
     start bootcnt
-    start fixmacsn
+    start fixmac
 
 # Initialize the SGX driver
 service pvrsrvinit /vendor/bin/pvrsrvinit
@@ -220,8 +214,8 @@ service bootcnt /system/bin/clear_bootcnt.sh
     disabled
     oneshot
 
-# Fix wlan MAC address and serial number in status
-service fixmacsn /system/bin/fix-mac-and-sn.sh
+# Fix wlan MAC address
+service fixmac /system/bin/fix-mac.sh
     class core
     user root
     group root
