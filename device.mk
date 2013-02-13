@@ -1,6 +1,6 @@
 #
-# Copyright (C) 2012 The Android Open-Source Project
-# Copyright (C) 2012 The CyanogenMod Project
+# Copyright (C) 2013 The Android Open-Source Project
+# Copyright (C) 2013 The CyanogenMod Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -172,7 +172,8 @@ PRODUCT_COPY_FILES += \
 # Prebuilts /system/bin
 PRODUCT_COPY_FILES += \
 	$(DEVICE_FOLDER)/clear_bootcnt.sh:system/bin/clear_bootcnt.sh \
-	$(DEVICE_FOLDER)/prebuilt/bin/fix-mac-and-sn.sh:system/bin/fix-mac-and-sn.sh \
+	$(DEVICE_FOLDER)/prebuilt/bin/fix-mac.sh:system/bin/fix-mac.sh \
+	$(DEVICE_FOLDER)/prebuilt/bin/fix-serial-no.sh:system/bin/fix-serial-no.sh \
 	$(DEVICE_FOLDER)/prebuilt/bin/log_battery_data.sh:system/bin/log_battery_data.sh \
 
 # Prebuilts /system/etc
@@ -183,7 +184,6 @@ PRODUCT_COPY_FILES += \
 	$(DEVICE_FOLDER)/mixer_paths.xml:system/etc/mixer_paths.xml \
 	$(DEVICE_FOLDER)/prebuilt/etc/wifi/TQS_S_2.6.ini:system/etc/wifi/TQS_S_2.6.ini \
 	$(DEVICE_FOLDER)/vold.fstab:system/etc/vold.fstab \
-#	$(DEVICE_FOLDER)/mountd.conf:/system/etc/mountd.conf \
 
 # frandom
 PRODUCT_COPY_FILES += \
@@ -236,7 +236,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	persist.sys.root_access=3 \
 	persist.sys.usb.config=mtp,adb \
 	persist.sys.vold.switchexternal=0 \
-	ro.additionalmounts=/storage/sdcard0;/storage/usbdisk \
+	ro.additionalmounts=/storage/sdcard0;/storage/usbdisk0 \
 	ro.crypto.state=unencrypted \
 	ro.hwc.legacy_api=true \
 	ro.opengles.version=131072 \

@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2012, 
+# Copyright (c) 2013, 
 # Texas Instruments, Inc. and Vivante Corporation. 
 #
 # All rights reserved.

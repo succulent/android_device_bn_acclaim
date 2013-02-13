@@ -1,6 +1,6 @@
 #
-# Copyright (C) 2012 The Android Open Source Project
-# Copyright (C) 2012 The CyanogenMod Project
+# Copyright (C) 2013 The Android Open Source Project
+# Copyright (C) 2013 The CyanogenMod Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -70,9 +70,6 @@ BOARD_KERNEL_CMDLINE := console=/dev/null
 TARGET_BOOTLOADER_BOARD_NAME := acclaim
 TARGET_OTA_ASSERT_DEVICE := acclaim
 BOARD_HAS_SDCARD_INTERNAL := true
-BOARD_SDCARD_DEVICE_PRIMARY := /dev/block/mmcblk1p1
-BOARD_SDCARD_DEVICE_SECONDARY := /dev/block/mmcblk0p10
-BOARD_SDCARD_DEVICE_INTERNAL := /dev/block/mmcblk0p10
 
 # Filesystem
 TARGET_USERIMAGES_USE_EXT4 := true
