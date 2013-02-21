@@ -69,6 +69,7 @@ cd $REPACK/ota
 rm -rf $REPACK/parallel
 )
 
+rm $REPACK/ota/system/app/Bluetooth.apk
 rm $REPACK/ota/system/app/DSPManager.apk
 rm $REPACK/ota/system/app/VoiceDialer.apk
 rm $REPACK/ota/system/app/MagicSmokeWallpapers.apk
@@ -100,7 +101,7 @@ REALDATE=`date -u +%Y%m%d`
 if [ -f $ANDROID_BUILD_TOP/vendor/cm/LICENSE ];
 then
 MODVERSION=`sed -n -e'/ro\.cm\.version/s/^.*=//p' $REPACK/ota/system/build.prop`
-OUTFILE=$OUT/cm-$MODVERSION.zip
+OUTFILE=$OUT/cm_$MODVERSION.zip
 echo -e $CL_CYN"MODVERSION: $MODVERSION"$CL_RST
 elif [ -f $ANDROID_BUILD_TOP/vendor/aokp/vendorsetup.sh ];
 then
