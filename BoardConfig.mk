@@ -57,8 +57,7 @@ TARGET_ARCH := arm
 TARGET_BOARD_PLATFORM := omap4
 TARGET_ARCH_VARIANT := armv7-a-neon
 ARCH_ARM_HAVE_TLS_REGISTER := true
-TARGET_GLOBAL_CFLAGS += -mtune=cortex-a9 -mfpu=neon -mfloat-abi=softfp
-TARGET_GLOBAL_CPPFLAGS += -mtune=cortex-a9 -mfpu=neon -mfloat-abi=softfp
+TARGET_EXTRA_CFLAGS := -mtune=cortex-a9 -mcpu=cortex-a9
 
 # Kernel
 BOARD_KERNEL_BASE := 0x80080000
@@ -93,6 +92,7 @@ TARGET_HAS_WAITFORVSYNC := true
 BOARD_EGL_CFG := $(DEVICE_FOLDER)/egl.cfg
 
 # OTA Packaging
+TARGET_RELEASETOOLS_EXTENSIONS := device/bn/acclaim
 TARGET_CUSTOM_RELEASETOOL := ./$(DEVICE_FOLDER)/releasetools/squisher
 TARGET_PROVIDES_RELEASETOOLS := true
 TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := ./$(DEVICE_FOLDER)/releasetools/acclaim_ota_from_target_files
@@ -141,8 +141,8 @@ endif
 BOARD_NEEDS_CUTILS_LOG := true
 BOARD_USES_SECURE_SERVICES := true
 
-#TARGET_GCC_VERSION := 4.7
-#TARGET_USE_O3 := true
+TARGET_GCC_VERSION := 4.7
+TARGET_USE_O3 := true
 TARGET_USE_LINARO_STRING_ROUTINES := true
 
 # CodeAurora Optimizations: msm8960: Improve performance of memmove, bcopy, and memmove_words
