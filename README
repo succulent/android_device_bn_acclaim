@@ -41,12 +41,12 @@ Members :
     sbradymobile Scott Brady
 
 Short Tutorial:
-~$ repo init -u git://github.com/ParanoidAndroid/manifest.git -b jellybean
-~$ git clone https://github.com/succulent/android_device_bn_acclaim -b PA device/bn/acclaim
+~$ repo init -u git://github.com/XYAOSP/platform_manifest.git -b jb4.2
+~$ git clone https://github.com/succulent/android_device_bn_acclaim -b XY device/bn/acclaim
 ~$ cp device/bn/acclaim/local_manifests .repo/local_manifests
 ~$ ./vendor/cm/get-prebuilts
 ~$ repo sync -d
-~$ ./rom-build.sh acclaim
+~$ ./build-xy.sh acclaim
 
 Edited by Succulent - HD
 iamafanof.wordpress.com
