@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+<!-- -->
+  <remote fetch="git://git.omapzoom.org/" name="omapzoom" />
+
+  <remove-project name="platform/hardware/ti/omap4xxx" />
+  <remove-project name="platform/system/vold" />
+  <remove-project name="platform/external/yaffs2" />
+  <remove-project name="platform/bootable/recovery" />
+  <remove-project name="platform/packages/apps/SoundRecorder" />
+  <remove-project name="platform/external/zlib" />
+  <remove-project name="platform/hardware/ti/wlan" />
+
+<!--  -->
+  <project name="succulent/android_device_bn_acclaim" path="device/bn/acclaim" remote="github" revision="CM10.1" />
+  <project name="succulent/kernel3NookTablet" path="kernel/bn/acclaim" remote="github" revision="p-android-omap-3.0" />
+  <project name="sgt7/android_packages_apps_Trebuchet" path="packages/apps/Trebuchet" remote="github" revision="cm-10.1" />
+
+  <project name="CyanogenMod/android_hardware_ti_omap4xxx" path="hardware/ti/omap4xxx" remote="github" revision="mr1.1-staging" />
+  <project name="CyanogenMod/android_system_vold" path="system/vold" remote="github" revision="mr1.1-staging" />
+  <project name="CyanogenMod/android_external_yaffs2" path="external/yaffs2" remote="github" revision="mr1.1-staging" />
+  <project name="CyanogenMod/android_bootable_recovery" path="bootable/recovery" remote="github" revision="mr1.1-staging" />
+  <project name="CyanogenMod/android_packages_apps_SoundRecorder" path="packages/apps/SoundRecorder" remote="github" revision="mr1.1-staging" />
+  <project name="CyanogenMod/android_external_zlib" path="external/zlib" remote="github" revision="mr1.1-staging" />
+  <project name="CyanogenMod/android_hardware_ti_wlan" path="hardware/ti/wlan" remote="github" revision="mr1.1-staging" />
+
+  <project name="CyanogenMod/android_vendor_cm" path="vendor/cm" remote="github" revision="mr1.1-staging" />
+  <project name="CyanogenMod/android_external_bash" path="external/bash" remote="github" revision="mr1.1-staging" />
+  <project name="CyanogenMod/android_external_htop" path="external/htop" remote="github" revision="mr1.1-staging" />
+  <project name="CyanogenMod/android_external_libncurses" path="external/libncurses" remote="github" revision="mr1.1-staging" />
+  <project name="CyanogenMod/android_external_lsof" path="external/lsof" remote="github" revision="mr1.1-staging" />
+  <project name="CyanogenMod/android_external_lzo" path="external/lzo" remote="github" revision="mr1.1-staging" />
+  <project name="CyanogenMod/android_external_nano" path="external/nano" remote="github" revision="mr1.1-staging" />
+  <project name="CyanogenMod/android_external_openvpn" path="external/openvpn" remote="github" revision="mr1.1-staging" />
+  <project name="CyanogenMod/android_external_powertop" path="external/powertop" remote="github" revision="mr1.1-staging" />
+  <project name="CyanogenMod/android_external_rsync" path="external/rsync" remote="github" revision="mr1.1-staging" />
+  <project name="CyanogenMod/android_external_vim" path="external/vim" remote="github" revision="mr1.1-staging" />
+  <project name="CyanogenMod/android_packages_apps_CMFileManager" path="packages/apps/CMFileManager" remote="github" revision="mr1.1-staging" />
+  <project name="platform/external/wpa_supplicant_8_ti" path="external/wpa_supplicant_8_ti" remote="omapzoom" revision="p-jb-mr1-release" />
+</manifest>

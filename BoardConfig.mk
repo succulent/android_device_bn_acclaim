@@ -144,6 +144,7 @@ BOARD_USES_SECURE_SERVICES := true
 TARGET_GCC_VERSION := 4.7
 TARGET_USE_O3 := true
 TARGET_USE_LINARO_STRING_ROUTINES := true
+ARCH_ARM_HAVE_32_BYTE_CACHE_LINES := true
 
 # CodeAurora Optimizations: msm8960: Improve performance of memmove, bcopy, and memmove_words
 # added by twa_priv
