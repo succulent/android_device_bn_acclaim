@@ -57,7 +57,9 @@ TARGET_ARCH := arm
 TARGET_BOARD_PLATFORM := omap4
 TARGET_ARCH_VARIANT := armv7-a-neon
 ARCH_ARM_HAVE_TLS_REGISTER := true
-TARGET_EXTRA_CFLAGS := -mtune=cortex-a9 -mcpu=cortex-a9
+ifneq (,$(filter true 1,$(TARGET_INCLUDE_EXTRA_CFLAGS)))
+TARGET_EXTRA_CFLAGS := $(call cc-option,-march=armv7-a) $(call cc-option,-mtune=cortex-a9) $(call cc-option,-mcpu=cortex-a9) $(call cc-option,-mfpu=neon)
+endif
 
 # Kernel
 BOARD_KERNEL_BASE := 0x80080000
@@ -141,8 +143,11 @@ endif
 BOARD_NEEDS_CUTILS_LOG := true
 BOARD_USES_SECURE_SERVICES := true
 
-TARGET_GCC_VERSION := 4.7
-TARGET_USE_O3 := true
+#GOOGLE_47_BUILD := true
+#LINARO_47_BUILD := true
+
+#TARGET_GCC_VERSION := 4.7
+#TARGET_USE_O3 := true
 TARGET_USE_LINARO_STRING_ROUTINES := true
 ARCH_ARM_HAVE_32_BYTE_CACHE_LINES := true
 
