@@ -52,7 +52,7 @@ PRODUCT_COPY_FILES += \
 	$(DEVICE_FOLDER)/ueventd.acclaim.rc:root/ueventd.acclaim.rc \
 	$(DEVICE_FOLDER)/fstab.acclaim:root/fstab.acclaim \
 
-DEVICE_PACKAGE_OVERLAYS := $(DEVICE_FOLDER)/overlay/aosp
+DEVICE_PACKAGE_OVERLAYS := $(DEVICE_FOLDER)/overlay
 
 PRODUCT_AAPT_CONFIG := normal mdpi
 PRODUCT_AAPT_PREF_CONFIG := mdpi

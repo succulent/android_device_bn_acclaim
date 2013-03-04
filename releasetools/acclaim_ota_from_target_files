@@ -448,7 +448,7 @@ def WriteFullOTAPackage(input_zip, output_zip):
   script.Print("Erasing system...")
   script.FormatPartition("/system")
   script.Mount("/system")
-  script.ShowProgress(0.60, 30)
+  script.ShowProgress(0.60, 40)
   #script.UnpackPackageDir("recovery", "/system")
   script.Print("Installing...")
   script.UnpackPackageDir("system", "/system")
