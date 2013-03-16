@@ -427,7 +427,6 @@ def WriteFullOTAPackage(input_zip, output_zip):
   script.Print("***************************************")
   script.Print("**      -=FLASHING & CLEANING=-      **")
   script.Print("***************************************")
-  script.Print("**        Installing : v2.1.1        **")
   script.Print("**                                   **")
   script.Print("** Please feel free to support us at **")
   script.Print("**   // @ XDA // @ G+ Community //   **")

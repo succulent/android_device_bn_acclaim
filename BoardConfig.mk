@@ -150,6 +150,7 @@ TARGET_GCC_VERSION := 4.7
 TARGET_USE_O3 := true
 TARGET_USE_LINARO_STRING_ROUTINES := true
 ARCH_ARM_HAVE_32_BYTE_CACHE_LINES := true
+COMMON_GLOBAL_CFLAGS += -D__ARM_USE_PLD -D__ARM_CACHE_LINE_SIZE=32
 
 # CodeAurora Optimizations: msm8960: Improve performance of memmove, bcopy, and memmove_words
 # added by twa_priv
