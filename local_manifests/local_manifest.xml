@@ -2,21 +2,13 @@
   <manifest>
 
 <!-- CM removals -->
-  <remove-project name="CyanogenMod/android_build" /> 
-  <remove-project name="CyanogenMod/android_vendor_cm" /> 
-  <remove-project name="CyanogenMod/android_frameworks_base" />
-  <remove-project name="CyanogenMod/android_packages_apps_Settings" />
   <remove-project name="CyanogenMod/android_packages_apps_Trebuchet" />
 
 <!-- modified CM projects -->
-  <project path="build" name="succulent/android_build" revision="CM10.1" /> 
-  <project path="vendor/cm" name="succulent/android_vendor_cm" revision="CM10.1" /> 
-  <project path="frameworks/base" name="succulent/android_frameworks_base" revision="CM10.1" />
-  <project path="packages/apps/Settings" name="succulent/android_packages_apps_Settings" revision="CM10.1" />
   <project path="packages/apps/Trebuchet" name="succulent/android_packages_apps_Trebuchet" revision="CM10.1" />
 
 <!-- local projects -->
-  <project path="device/bn/acclaim" name="succulent/android_device_bn_acclaim" revision="CM10.1" />
+  <project path="device/bn/acclaim" name="succulent/android_device_bn_acclaim" revision="PAC" />
   <project path="kernel/bn/acclaim" name="succulent/kernel3NookTablet" revision="p-android-omap-3.0.x"/>
 
 <!-- TWRP 
@@ -25,7 +17,7 @@
  -->
 
     <project path="prebuilts/gcc/linux-x86/arm/arm-eabi-4.7" name="platform/prebuilts/gcc/linux-x86/arm/arm-eabi-4.7" remote="aosp" revision="master" />
-    <project path="prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.7" name="platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.7" remote="aosp" revision="master" />
+    <project path="prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.7" name="plssssssssssssssssatform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.7" remote="aosp" revision="master" />
 
   </manifest>
 

@@ -41,12 +41,11 @@ Members :
     sbradymobile Scott Brady
 
 Short Tutorial:
-~$ repo init -u git://github.com/CyanogenMod/android.git -b cm-10.1
-~$ git clone https://github.com/succulent/android_device_bn_acclaim -b CM10.1 device/bn/acclaim
+~$ repo init -u git://github.com/PAC-man/android.git -b cm-10.1
+~$ git clone https://github.com/succulent/android_device_bn_acclaim -b PAC device/bn/acclaim
 ~$ cp device/bn/acclaim/local_manifests .repo/local_manifests
-~$ ./vendor/cm/get-prebuilts
 ~$ repo sync -d
-~$  . build/envsetup.sh && brunch acclaim
+~$ ./build-pac.sh acclaim
 
 Edited by Succulent - HD
 iamafanof.wordpress.com
