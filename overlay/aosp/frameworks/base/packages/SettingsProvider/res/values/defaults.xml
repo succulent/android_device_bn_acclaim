@@ -28,10 +28,4 @@
 
     <integer name="def_screen_brightness">77</integer>
 
-    <bool name="def_haptic_feedback">false</bool>
-
-    <bool name="def_netstats_enabled">false</bool>
-
-    <bool name="def_vibrate_in_silent">false</bool>
-
 </resources>

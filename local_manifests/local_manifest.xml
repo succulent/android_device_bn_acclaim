@@ -1,53 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<manifest>
-<!-- 
-  <remove-project name="hardware_ti_omap4xxx" />
-  <remove-project name="frameworks_av" />
-  <project name="CyanogenMod/android_packages_apps_CMFileManager" path="packages/apps/CMFileManager" remote="pub" revision="mr1.1-staging" />
-  <remove-project name="android_external_yaffs2" />
-  <project name="CyanogenMod/android_external_yaffs2" path="external/yaffs2" remote="pub" revision="mr1.1-staging" />
-  <remove-project name="android_bootable_recovery" />
+  <manifest>
 
-  <remove-project name="android_external_zlib" />
-  <remove-project name="hardware_libhardware" />
-  <remove-project name="android_hardware_libhardware_legacy" /> 
-  <remove-project name="system_vold" />
--->
+<!-- CM removals -->
+  <remove-project name="CyanogenMod/android_build" /> 
+  <remove-project name="CyanogenMod/android_vendor_cm" /> 
+  <remove-project name="CyanogenMod/android_frameworks_base" />
+  <remove-project name="CyanogenMod/android_packages_apps_Settings" />
+  <remove-project name="CyanogenMod/android_packages_apps_Trebuchet" />
 
-  <remote fetch="git://git.omapzoom.org/" name="omapzoom" />
+<!-- modified CM projects -->
+  <project path="build" name="succulent/android_build" revision="CM10.1" /> 
+  <project path="vendor/cm" name="succulent/android_vendor_cm" revision="CM10.1" /> 
+  <project path="frameworks/base" name="succulent/android_frameworks_base" revision="CM10.1" />
+  <project path="packages/apps/Settings" name="succulent/android_packages_apps_Settings" revision="CM10.1" />
+  <project path="packages/apps/Trebuchet" name="succulent/android_packages_apps_Trebuchet" revision="CM10.1" />
 
-  <remove-project name="platform/hardware/ti/wlan" />
-  <remove-project name="packages_apps_SoundRecorder" />
+<!-- local projects -->
+  <project path="device/bn/acclaim" name="succulent/android_device_bn_acclaim" revision="CM10.1" />
+  <project path="kernel/bn/acclaim" name="succulent/kernel3NookTablet" revision="p-android-omap-3.0.x"/>
 
-<!--  
-  <project name="CyanogenMod/android_hardware_ti_omap4xxx" path="hardware/ti/omap4xxx" remote="pub" revision="mr1.1-staging" />
-  <project name="CyanogenMod/android_frameworks_av" path="frameworks/av" remote="pub" revision="mr1.1-staging" />
-  <project name="CyanogenMod/android_bootable_recovery" path="bootable/recovery" remote="pub" revision="mr1.1-staging" />
-  <project name="CyanogenMod/android_external_zlib" path="external/zlib" remote="pub" revision="mr1.1-staging" />
-  <project name="CyanogenMod/android_hardware_libhardware" path="hardware/libhardware" remote="pub" revision="mr1.1-staging" />
-  <project name="CyanogenMod/android_hardware_libhardware_legacy" path="hardware/libhardware_legacy" remote="pub" revision="mr1.1-staging" />
-  <project name="CyanogenMod/android_system_vold" path="system/vold" remote="pub" revision="mr1.1-staging" />
--->
+<!-- TWRP 
+  <remove-project name="CyanogenMod/android_bootable_recovery" />
+  <project name="TeamWin/Team-Win-Recovery-Project" path="bootable/recovery" revision="twrp2.4" />
+ -->
 
-  <project name="succulent/android_device_bn_acclaim" path="device/bn/acclaim" remote="pub" revision="XY" />
-  <project name="succulent/kernel3NookTablet" path="kernel/bn/acclaim" remote="pub" revision="p-android-omap-3.0" />
+    <project path="prebuilts/gcc/linux-x86/arm/arm-eabi-4.7" name="platform/prebuilts/gcc/linux-x86/arm/arm-eabi-4.7" remote="aosp" revision="master" />
+    <project path="prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.7" name="platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.7" remote="aosp" revision="master" />
 
-  <project name="sgt7/android_packages_apps_Trebuchet" path="packages/apps/Trebuchet" remote="pub" revision="cm-10.1" />
-  <project name="CyanogenMod/android_packages_apps_SoundRecorder" path="packages/apps/SoundRecorder" remote="pub" revision="mr1.1-staging" />
+  </manifest>
 
-  <project name="CyanogenMod/android_hardware_ti_wlan" path="hardware/ti/wlan" remote="pub" revision="mr1.1-staging" />
-
-  <project name="CyanogenMod/android_vendor_cm" path="vendor/cm" remote="pub" revision="mr1.1-staging" />
-  <project name="CyanogenMod/android_external_bash" path="external/bash" remote="pub" revision="mr1.1-staging" />
-  <project name="CyanogenMod/android_external_htop" path="external/htop" remote="pub" revision="mr1.1-staging" />
-  <project name="CyanogenMod/android_external_libncurses" path="external/libncurses" remote="pub" revision="mr1.1-staging" />
-  <project name="CyanogenMod/android_external_lsof" path="external/lsof" remote="pub" revision="mr1.1-staging" />
-  <project name="CyanogenMod/android_external_lzo" path="external/lzo" remote="pub" revision="mr1.1-staging" />
-  <project name="CyanogenMod/android_external_nano" path="external/nano" remote="pub" revision="mr1.1-staging" />
-  <project name="CyanogenMod/android_external_openvpn" path="external/openvpn" remote="pub" revision="mr1.1-staging" />
-  <project name="CyanogenMod/android_external_powertop" path="external/powertop" remote="pub" revision="mr1.1-staging" />
-  <project name="CyanogenMod/android_external_rsync" path="external/rsync" remote="pub" revision="mr1.1-staging" />
-  <project name="CyanogenMod/android_external_vim" path="external/vim" remote="pub" revision="mr1.1-staging" />
-
-  <project name="platform/external/wpa_supplicant_8_ti" path="external/wpa_supplicant_8_ti" remote="omapzoom" revision="p-jb-mr1-release" />
-</manifest>

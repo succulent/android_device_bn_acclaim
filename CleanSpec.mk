@@ -47,14 +47,8 @@
 # ************************************************
 # NEWER CLEAN STEPS MUST BE AT THE END OF THE LIST
 # ************************************************
-$(call add-clean-step, rm -rf $(OUT_DIR)/target/product/acclaim/*)
-$(call add-clean-step, rm -rf $(OUT_DIR)/target/product/acclaim/data/*)
-$(call add-clean-step, rm -rf $(OUT_DIR)/target/product/acclaim/obj/APPS/*)
-$(call add-clean-step, rm -rf $(OUT_DIR)/target/product/acclaim/obj/NOTICE_FILES/*)
-$(call add-clean-step, rm -rf $(OUT_DIR)/target/product/acclaim/obj/PACKAGING/*)
-$(call add-clean-step, rm -rf $(OUT_DIR)/target/product/acclaim/recovery/*)
-$(call add-clean-step, rm -rf $(OUT_DIR)/target/product/acclaim/root/*)
-$(call add-clean-step, rm -rf $(OUT_DIR)/target/product/acclaim/system/*)
-$(call add-clean-step, rm -rf $(OUT_DIR)/target/product/acclaim/dex_bootjars/*)
-$(call add-clean-step, rm -rf $(OUT_DIR)/target/product/acclaim/obj/JAVA_LIBRARIES/*)
-$(call add-clean-step, rm -rf $(OUT_DIR)/target/product/acclaim/obj/FAKE/*)
+$(call add-clean-step, find $(OUT_DIR) -name "*.prop" -print0 | xargs -0 rm -f)
+$(call add-clean-step, find $(OUT_DIR) -name "*.md5sum" -print0 | xargs -0 rm -f)
+$(call add-clean-step, find $(OUT_DIR) -name "*.cpio" -print0 | xargs -0 rm -f)
+$(call add-clean-step, find $(OUT_DIR) -name "*.img" -print0 | xargs -0 rm -f)
+$(call add-clean-step, find $(OUT_DIR) -name "*.zip" -print0 | xargs -0 rm -f)

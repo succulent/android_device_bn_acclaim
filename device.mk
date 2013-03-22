@@ -54,8 +54,8 @@ PRODUCT_COPY_FILES += \
 
 DEVICE_PACKAGE_OVERLAYS := $(DEVICE_FOLDER)/overlay/aosp
 
-PRODUCT_AAPT_CONFIG := normal mdpi
-PRODUCT_AAPT_PREF_CONFIG := mdpi
+PRODUCT_AAPT_CONFIG := xlarge hdpi xhdpi
+PRODUCT_AAPT_PREF_CONFIG := hdpi
 
 # Art
 PRODUCT_COPY_FILES += \
@@ -119,7 +119,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	e2fsck \
 	libjni_pinyinime \
-	make_ext4fs \
 	setpropex \
 	setup_fs \
 	sh \
@@ -157,7 +156,7 @@ PRODUCT_COPY_FILES += \
 	frameworks/native/data/etc/android.hardware.sensor.accelerometer.xml:system/etc/permissions/android.hardware.sensor.accelerometer.xml \
 	frameworks/native/data/etc/android.hardware.sensor.light.xml:system/etc/permissions/android.hardware.sensor.light.xml \
 	frameworks/native/data/etc/android.hardware.sensor.proximity.xml:system/etc/permissions/android.hardware.sensor.proximity.xml \
-	frameworks/native/data/etc/android.hardware.touchscreen.multitouch.distinct.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.distinct.xml \
+	frameworks/native/data/etc/android.hardware.touchscreen.multitouch.jazzhand.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml \
 	frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
 	frameworks/native/data/etc/android.hardware.wifi.direct.xml:system/etc/permissions/android.hardware.wifi.direct.xml \
 	frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
@@ -165,9 +164,16 @@ PRODUCT_COPY_FILES += \
 	frameworks/native/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml \
 	$(call add-to-product-copy-files-if-exists,packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:system/etc/permissions/android.software.live_wallpaper.xml)
 
-# postrecoveryboot for recovery
+# recovery stuffs
 PRODUCT_COPY_FILES += \
 	$(DEVICE_FOLDER)/recovery/postrecoveryboot.sh:recovery/root/sbin/postrecoveryboot.sh \
+	$(DEVICE_FOLDER)/recovery/sbin/gdisk:root/sbin/gdisk \
+	$(DEVICE_FOLDER)/recovery/sbin/genptable:root/sbin/genptable \
+	$(DEVICE_FOLDER)/recovery/sbin/make_ext4fs:root/sbin/make_ext4fs \
+	$(DEVICE_FOLDER)/recovery/sbin/mkdosfs:root/sbin/mkdosfs \
+	$(DEVICE_FOLDER)/recovery/sbin/parted:root/sbin/parted \
+	$(DEVICE_FOLDER)/recovery/sbin/ptable:root/sbin/ptable \
+	$(DEVICE_FOLDER)/recovery/sbin/sgdisk:root/sbin/sgdisk
 
 # Prebuilts /system/bin
 PRODUCT_COPY_FILES += \
@@ -248,6 +254,15 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	video.accelerate.hw=1 \
 	wifi.supplicant_scan_interval=180 \
 	ro.media.enc.jpeg.quality=100 \
+
+# Google DNS Tweak -- fastest dns
+PRODUCT_PROPERTY_OVERRIDES += \
+	net.rmnet0.dns1=8.8.8.8 \
+	net.rmnet0.dns2=8.8.4.4 \
+	net.ppp0.dns1=8.8.8.8 \
+	net.ppp0.dns2=8.8.4.4 \
+	net.dns1=8.8.8.8 \
+	net.dns2=8.8.4.4
 
 PRODUCT_CHARACTERISTICS := tablet
 

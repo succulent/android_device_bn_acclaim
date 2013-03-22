@@ -41,12 +41,12 @@ Members :
     sbradymobile Scott Brady
 
 Short Tutorial:
-~$ repo init -u git://github.com/XYAOSP/platform_manifest.git -b jb4.2
-~$ git clone https://github.com/succulent/android_device_bn_acclaim -b XY device/bn/acclaim
+~$ repo init -u git://github.com/CyanogenMod/android.git -b cm-10.1
+~$ git clone https://github.com/succulent/android_device_bn_acclaim -b CM10.1 device/bn/acclaim
 ~$ cp device/bn/acclaim/local_manifests .repo/local_manifests
 ~$ ./vendor/cm/get-prebuilts
 ~$ repo sync -d
-~$ ./build-xy.sh acclaim
+~$  . build/envsetup.sh && brunch acclaim
 
 Edited by Succulent - HD
 iamafanof.wordpress.com
