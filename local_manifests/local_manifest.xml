@@ -16,8 +16,5 @@
   <project name="TeamWin/Team-Win-Recovery-Project" path="bootable/recovery" revision="twrp2.4" />
  -->
 
-    <project path="prebuilts/gcc/linux-x86/arm/arm-eabi-4.7" name="platform/prebuilts/gcc/linux-x86/arm/arm-eabi-4.7" remote="aosp" revision="master" />
-    <project path="prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.7" name="plssssssssssssssssatform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.7" remote="aosp" revision="master" />
-
   </manifest>
 
