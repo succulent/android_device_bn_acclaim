@@ -415,21 +415,21 @@ def WriteFullOTAPackage(input_zip, output_zip):
   script.ShowProgress(0.1, 10)
 
   if OPTIONS.wipe_user_data:
-    script.Print("Erasing user data...")
+    script.Print("> Erasing user data...")
     script.FormatPartition("/data")
-    script.Print("Erasing cache...")
+    script.Print("> Erasing cache...")
     script.FormatPartition("/cache")
 
   if "selinux_fc" in OPTIONS.info_dict:
     WritePolicyConfig(OPTIONS.info_dict["selinux_fc"], output_zip)
 
 
-  script.Print("Erasing system...")
+  script.Print("> Erasing system...")
   script.FormatPartition("/system")
   script.Mount("/system")
   script.ShowProgress(0.60, 40)
   #script.UnpackPackageDir("recovery", "/system")
-  script.Print("Installing...")
+  script.Print("> Installing...")
   script.UnpackPackageDir("system", "/system")
 
   symlinks = CopySystemFiles(input_zip, output_zip)
@@ -597,7 +597,7 @@ def WriteIncrementalOTAPackage(target_zip, source_zip, output_zip):
   AppendAssertions(script, OPTIONS.target_info_dict)
   device_specific.IncrementalOTA_Assertions()
 
-  script.Print("Verifying current system...")
+  script.Print("> Verifying current system...")
 
   device_specific.IncrementalOTA_VerifyBegin()
 
@@ -639,10 +639,10 @@ def WriteIncrementalOTAPackage(target_zip, source_zip, output_zip):
   device_specific.IncrementalOTA_InstallBegin()
 
   if OPTIONS.wipe_user_data:
-    script.Print("Erasing user data...")
+    script.Print("> Erasing user data...")
     script.FormatPartition("/data")
 
-  script.Print("Removing unneeded files...")
+  script.Print("> Removing unneeded files...")
   script.DeleteFiles(["/"+i[0] for i in verbatim_targets] +
                      ["/"+i for i in sorted(source_data)
                             if i not in target_data] +
@@ -654,7 +654,7 @@ def WriteIncrementalOTAPackage(target_zip, source_zip, output_zip):
     total_patch_size += target_boot.size
   so_far = 0
 
-  script.Print("Patching system files...")
+  script.Print("> Patching system files...")
   deferred_patch_list = []
   for item in patch_list:
     fn, tf, sf, size, _ = item
@@ -669,7 +669,7 @@ def WriteIncrementalOTAPackage(target_zip, source_zip, output_zip):
     # Produce the boot image by applying a patch to the current
     # contents of the boot partition, and write it back to the
     # partition.
-    script.Print("Patching boot image...")
+    script.Print("> Patching boot image...")
     script.ApplyPatch("%s:%s:%d:%s:%d:%s"
                       % (boot_type, boot_device,
                          source_boot.size, source_boot.sha1,
@@ -725,14 +725,14 @@ def WriteIncrementalOTAPackage(target_zip, source_zip, output_zip):
   script.DeleteFiles(to_delete)
 
   if verbatim_targets:
-    script.Print("Unpacking new files...")
+    script.Print("> Unpacking new files...")
     script.UnpackPackageDir("system", "/system")
 
   if updating_recovery:
-    script.Print("Unpacking new recovery...")
+    script.Print("> Unpacking new recovery...")
     script.UnpackPackageDir("recovery", "/system")
 
-  script.Print("Symlinks and permissions...")
+  script.Print("> Symlinks and permissions...")
 
   # Create all the symlinks that don't already exist, or point to
   # somewhere different than what we want.  Delete each symlink before
@@ -760,7 +760,7 @@ def WriteIncrementalOTAPackage(target_zip, source_zip, output_zip):
   # Patch the build.prop file last, so if something fails but the
   # device can still come up, it appears to be the old build and will
   # get set the OTA package again to retry.
-  script.Print("Patching remaining system files...")
+  script.Print("> Patching remaining system files...")
   for item in deferred_patch_list:
     fn, tf, sf, size, _ = item
     script.ApplyPatch("/"+fn, "-", tf.size, tf.sha1, sf.sha1, "patch/"+fn+".p")
