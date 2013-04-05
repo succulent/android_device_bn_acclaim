@@ -11,4 +11,3 @@ if [ -e /dev/frandom ]; then
   mv /dev/random /dev/random.bak
   ln /dev/frandom /dev/random
 fi
-

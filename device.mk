@@ -55,7 +55,7 @@ PRODUCT_COPY_FILES += \
 DEVICE_PACKAGE_OVERLAYS := $(DEVICE_FOLDER)/overlay/aosp
 
 PRODUCT_AAPT_CONFIG := xlarge hdpi xhdpi
-PRODUCT_AAPT_PREF_CONFIG := hdpi
+PRODUCT_AAPT_PREF_CONFIG := xhdpi
 
 # Art
 PRODUCT_COPY_FILES += \
@@ -246,7 +246,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	ro.crypto.state=unencrypted \
 	ro.hwc.legacy_api=true \
 	ro.opengles.version=131072 \
-	ro.sf.hwrotation=270 \
 	ro.sf.lcd_density=160 \
 	ro.vold.switchablepair=/storage/sdcard0,/storage/sdcard1 \
 	wifi.interface=wlan0 \
@@ -254,6 +253,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	video.accelerate.hw=1 \
 	wifi.supplicant_scan_interval=180 \
 	ro.media.enc.jpeg.quality=100 \
+	sys.mem.max_hidden_apps=10
 
 # Google DNS Tweak -- fastest dns
 PRODUCT_PROPERTY_OVERRIDES += \

@@ -56,10 +56,9 @@ TARGET_CPU_SMP := true
 TARGET_ARCH := arm
 TARGET_BOARD_PLATFORM := omap4
 TARGET_ARCH_VARIANT := armv7-a-neon
-ARCH_ARM_HAVE_TLS_REGISTER := true
-ifneq (,$(filter true 1,$(TARGET_INCLUDE_EXTRA_CFLAGS)))
-TARGET_EXTRA_CFLAGS := $(call cc-option,-march=armv7-a) $(call cc-option,-mtune=cortex-a9) $(call cc-option,-mcpu=cortex-a9) $(call cc-option,-mfpu=neon)
-endif
+TARGET_ARCH_VARIANT_CPU := cortex-a9 
+TARGET_GLOBAL_CFLAGS += -mtune=cortex-a9 -mcpu=cortex-a9 -mfpu=neon -mfloat-abi=softfp
+TARGET_GLOBAL_CPPFLAGS += -mtune=cortex-a9 -mcpu=cortex-a9 -mfpu=neon -mfloat-abi=softfp
 
 # Kernel
 BOARD_KERNEL_BASE := 0x80080000
@@ -162,6 +161,8 @@ TARGET_KRAIT_BIONIC_BBTHRESH := 64
 TARGET_KRAIT_BIONIC_PLDSIZE := 64
 
 TARGET_BOOTANIMATION_PRELOAD := true
+TARGET_BOOTANIMATION_TEXTURE_CACHE := true
+TARGET_BOOTANIMATION_USE_RGB565 := true
 
 # Kernel Build
 TARGET_KERNEL_SOURCE := kernel/bn/acclaim

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2009 The Android Open Source Project
+<!-- Copyright (C) 2013 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -87,6 +87,10 @@
     <CheckBoxPreference android:key="ui_drawer_dismiss_on_tap"
         android:title="@string/preferences_interface_drawer_dismiss_on_tap_title"
         android:summary="@string/preferences_interface_drawer_dismiss_on_tap_summary"
+        android:defaultValue="false" />
+    <CheckBoxPreference android:key="ui_drawer_fade"
+        android:title="@string/preferences_interface_drawer_fade_title"
+        android:summary="@string/preferences_interface_drawer_fade_summary"
         android:defaultValue="false" />
     <PreferenceCategory android:title="@string/preferences_interface_drawer_widgets_category">
         <CheckBoxPreference android:key="ui_drawer_widgets_join_apps"
