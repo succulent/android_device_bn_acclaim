@@ -24,16 +24,6 @@ on early-init
 on init
     symlink /system/vendor /vendor
 
-    # power management
-    # Enable off mode by default
-    #write /sys/kernel/debug/pm_debug/enable_off_mode 1
-
-    # Enabling sleep in idle path
-    #write /sys/kernel/debug/pm_debug/sleep_while_idle 1
-
-    # Enabling Voltage OFF in idle path
-    #write /sys/kernel/debug/pm_debug/voltage_off_while_idle 1
-
 on fs
     mkdir /bootdata 0775 system system
     mkdir /rom 0775 system system
@@ -44,7 +34,7 @@ on fs
 
 on post-fs-data
     # we will remap this as /mnt/sdcard with the sdcard fuse tool
-    mkdir /data/media 0775 media_rw media_rw
+    mkdir /data/media 0770 media_rw media_rw
     chown media_rw media_rw /data/media
     setprop vold.post_fs_data_done 1
 
@@ -74,6 +64,10 @@ on boot
     insmod /system/lib/modules/cfg80211.ko
     insmod /system/lib/modules/mac80211.ko
     insmod /system/lib/modules/wl12xx.ko
+
+    #Set read_ahead buffers
+    write /sys/block/mmcblk0/bdi/read_ahead_kb 2048
+    write /sys/block/mmcblk1/bdi/read_ahead_kb 2048
 
     # Node for USB service
     mkdir /dev/bus 0755 root root
@@ -248,7 +242,7 @@ service wpa_supplicant /system/bin/wpa_supplicant \
     disabled
     oneshot
 
-service dhcpcd_wlan0 /system/bin/dhcpcd -ABDKL
+service dhcpcd_wlan0 /system/bin/dhcpcd -aABDKL
     class main
     disabled
     oneshot
