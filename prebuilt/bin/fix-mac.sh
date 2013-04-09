@@ -7,4 +7,3 @@ mount -o remount rw /system
 MAC=`cat /rom/devconf/MACAddress | sed 's/\(..\)\(..\)\(..\)\(..\)\(..\)/\1:\2:\3:\4:\5:/'`
 calibrator set nvs_mac $NVS_BIN $MAC
 mount -o remount ro /system
-

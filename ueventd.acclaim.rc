@@ -2,21 +2,21 @@
 /dev/pvrsrvkm             0666   system     system
 
 #for DSSCOMP
-/dev/dsscomp              0660   system     system
+/dev/dsscomp              0666   system     system
 /dev/tiler                0666   system     system
 
 #for SYSLINK
-/dev/rpmsg-omx0           0660   drmrpc    drmrpc
-/dev/rpmsg-omx1           0660   drmrpc    drmrpc
-/dev/rproc_user           0660   drmrpc    drmrpc
-/dev/tf_driver            0660   drmrpc    drmrpc
-/dev/tf_ctrl              0660   drmrpc    drmrpc
+/dev/rpmsg-omx0           0666   system    system
+/dev/rpmsg-omx1           0666   system    system
+/dev/rproc_user           0666   system    system
+/dev/tf_driver            0666   system    system
+/dev/tf_ctrl              0666   system    system
 
 #for GCX
 /dev/gcioctl              0666   system     system
 
-/dev/dmm                  0664   system     system
-/dev/ion                  0664   system     system
+/dev/dmm                  0666   system     system
+/dev/ion                  0666   system     system
 
 /dev/video0               0666   system     camera
 /dev/video1               0666   system     camera
@@ -26,9 +26,9 @@
 /dev/accelerometer        0666   system     system
 
 # USB peripheral
-/dev/bus/usb/*            0660  root         usb
-/dev/mtp_usb              0660  root         mtp
-/dev/usb_accessory        0660  root         usb
+/dev/bus/usb/*            0666  root         usb
+/dev/mtp_usb              0666  root         mtp
+/dev/usb_accessory        0666  root         usb
 
 # wifi
-/dev/rfkill		  0660  root 	     wifi
+/dev/rfkill		  0666  root 	     wifi
